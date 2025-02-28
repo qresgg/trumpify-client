@@ -1,0 +1,50 @@
+.song{
+    height: 54px;
+    color: white;
+    display: flex;
+    gap: 16px;
+    border-radius: 5px;
+
+    &__id{
+        margin: auto 0;
+        padding-left: 15px;
+    }
+    &__title{
+        margin: auto 0;
+        width: 100%;
+        &__name{
+            font-size: 16px;
+        }
+        &__artist{
+            font-size: 14px;
+            display: flex;
+            opacity: 0.7;
+            p{
+                span{
+                    font-size: 12px;
+                    padding: 0 5px;
+                    font-weight: bold;
+                    border-radius: 2px;
+                    background-color: #B3B3B3;
+                    color: #121212;
+                    margin-right: 5px;
+                }
+
+                margin: 0;
+                padding: 0;
+                white-space: nowrap;
+            }
+        }
+    }
+    &__duration{
+        margin: auto 0;
+        padding-right: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: end;
+    }
+
+    &:hover{
+        background-color: #555;
+    }
+}

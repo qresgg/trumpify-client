@@ -1,0 +1,198 @@
+$header__primaryColor: black;
+$header__secondColor: #1F1F1F;
+
+.main{
+    
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+    padding: 0 8px;
+    box-sizing: border-box;
+
+    .library{
+        background-color: #121212;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 64px - 72px);
+        min-width: 340px;
+        
+        &__tags{
+            height: 108px;
+        }
+        &__playlists{
+            overflow-y: scroll;
+            padding: 0 8px;
+            
+            &::-webkit-scrollbar {
+                width: 12px;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+              }
+            
+              &::-webkit-scrollbar-track {
+                background: #121212;
+                border-radius: 10px;
+              }
+            
+              &::-webkit-scrollbar-thumb {
+                background: #555;
+                border-radius: 0px;
+                width: 20px;
+              }
+            
+              &:hover::-webkit-scrollbar {
+                opacity: 1;
+              }
+        }
+    }
+    .resizer {
+        width: 20px;
+        cursor: grab;
+        transition: background 0.3s ease;
+        transition: border-right 0.3s ease-in-out; 
+        
+        &:hover{
+            border-right: white solid 1px;
+        }
+    }
+    .foryou{
+        border-radius: 5px;
+        background-color: #1F1F1F;
+        width: 3200px;
+        min-width: 200px;
+        max-height: 100vh;
+
+        overflow-y: scroll;
+            
+        &::-webkit-scrollbar {
+            width: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: #121212;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 0px;
+            width: 20px;
+        }
+        
+        &:hover::-webkit-scrollbar {
+            opacity: 1;
+        }
+        .playlist{
+            height: 100%;
+            background-color: #121212;
+            &__title{
+                display: flex;
+                gap: 25px;
+                color: white;
+                align-items: start;
+
+                border-radius: 5px; 
+                height: 450px;
+                width: 100%;
+                margin: auto 0;
+                padding: 0 25px;
+                padding-top: 25px;
+                padding-bottom: 50px;
+                box-sizing: border-box;
+
+                &__container{
+                    margin-top: 50px;
+
+                    display: flex;
+                    gap: 25px;
+                    .image{
+
+                        background-position: 100%;
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        width: 200px;
+                        height: 200px;
+                        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                    }
+    
+                    .info{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: end;
+                        p{
+                            margin: 0;
+                        }
+                        &__albumName{
+                            font-size: 35px;
+                            font-weight: bold;
+                        }
+    
+                        &__otherInfo{
+                            display: flex;
+                            gap: 5px;
+
+                            .artist{
+                                
+                            }
+                            .year{
+                                color: white;
+                                opacity: 0.8;
+                            }
+                        }
+                    }
+                }
+            }
+            &__tracks{
+                position: relative;
+                top: -150px;
+                background: #1212124b;
+                backdrop-filter: blur(40px);
+                max-height: 300px;
+        
+                    .nav{
+                        height: 100px;
+                        padding: 0 25px;
+                    }
+                    .tracks{
+                        padding: 0 25px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                        
+                        .tabulation{
+                            color: white;
+                            display: flex;
+                            box-sizing: border-box;
+                            padding: 0 15px;
+                            padding-bottom: 15px;
+                            width: 100%;
+                            border-bottom: #555 1px solid;
+
+                            &__start{
+                                display: flex;
+                                gap: 16px;
+                            }
+                            &__end{
+                                width: 100%;
+                                display: flex;
+                                justify-content: end;
+                            }
+                        }
+                        
+                        &__trackplate{
+
+                        
+                        }
+                    }
+                }
+            }
+    }
+    .trackInfo{
+        width: 100%;
+        background-color: #121212;
+    }
+}

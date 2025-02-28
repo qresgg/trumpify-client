@@ -1,0 +1,89 @@
+$header__primaryColor: black;
+$header__secondColor: #1F1F1F;
+
+.header{
+    $header__height: 64px;
+    $header__width: 100%;
+
+    width: $header__width;
+    height: $header__height;
+    padding: 8px;
+    box-sizing: border-box;
+
+    background-color: black;
+    display: flex;
+
+    %container{
+        background-color: $header__secondColor;
+        border-radius: 50%;
+        $measure: 48px;
+
+        width: $measure;
+        height: $measure;
+    }
+    .navBar{
+
+        width: 100%;
+        display: flex;
+        gap: 15px;
+        overflow: hidden;
+
+        &__logo{
+        }
+
+        &__home{
+            cursor: pointer;
+            
+            &:hover{
+                background-color: #2b2b2b;
+            }
+
+            @extend %container;
+        }
+
+        &__search{
+            cursor: pointer;
+            flex: 1;
+
+            background-color: $header__secondColor;
+            border: none;
+            border-radius: 500px;
+            box-sizing: border-box;
+            max-width: 474px;
+            width: 100%;
+            flex-grow: 1;
+            height: 100%;
+
+            padding: 12px 64px 12px 48px;
+        }
+    }
+    .userBar{
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        gap: 10px;
+
+        &__subscription{
+            padding: 4px 16px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+
+            height: 32px;
+            margin: auto 0;
+            width: 100%;
+            max-width: fit-content;
+            font-size: 13px;
+            font-weight: bold;
+            background-color: white;
+            border-radius: 500px;
+        }
+        &__notification{
+            @extend %container;
+            background-color: black;
+        }
+        &__profile{
+            @extend %container;
+        }
+    }
+}
