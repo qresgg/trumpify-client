@@ -1,0 +1,133 @@
+.song{
+    width: 100%;
+    max-width: 400px !important;
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+
+    &__albumTitle{
+        height: 64px;
+        width: 100%;
+        padding: 16px 16px; 
+        box-sizing: border-box;
+        color: white;
+        font-weight: bold;
+    }
+    &__container{
+        overflow-y: scroll;
+        color: white;
+
+        padding: 0 16px;
+        padding-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        &::-webkit-scrollbar {
+            width: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+    
+        &::-webkit-scrollbar-track {
+        background: #121212;
+        border-radius: 10px;
+        }
+    
+        &::-webkit-scrollbar-thumb {
+        background: #555;
+        border-radius: 0px;
+        width: 20px;
+        }
+    
+        &:hover::-webkit-scrollbar {
+        opacity: 1;
+        }
+
+        .artistPreview{
+            width: 100%;
+
+            border-radius: 5px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            aspect-ratio: 1/1;
+        }
+        .title{
+    
+            &__songName{
+                font-size: 20px;
+                font-weight: bold;
+
+                a{
+                    color: white;
+                    text-decoration: none;
+
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+            &__artists{
+                font-size: 16px;
+                font-weight: bold;
+                opacity: 0.7;
+                display: flex;
+                display: inline;
+
+                span{
+                    display: inline;
+                    
+                    a{
+                        color: white;
+                        text-decoration: none;
+                        
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+        .artistAccount{
+            box-sizing: border-box;
+            border-bottom: 5px;
+            width: 100%;
+            height: fit-content;
+
+            .artist{
+                background-color: #1F1F1F;
+                border-radius: 10px;
+
+                &__preview{
+                    height: 260px;
+                    width: 100%;
+                    background: yellow;
+                }
+                &__details{
+                    padding: 16px;
+
+                    // &__name{
+
+                    // }
+                    // &__listeners{
+
+                    // }
+                    // &__description{
+
+                    // }
+                }
+            }
+        }
+    }
+}
+
+.resizer {
+    width: 20px;
+    cursor: grab;
+    transition: background 0.3s ease;
+    transition: border-right 0.3s ease-in-out; 
+    
+    &:hover{
+        border-right: white solid 1px;
+    }
+}

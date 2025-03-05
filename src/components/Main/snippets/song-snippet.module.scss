@@ -1,13 +1,21 @@
 .song{
+    user-select: none;
     height: 54px;
     color: white;
     display: flex;
-    gap: 16px;
+    gap: 8px;
     border-radius: 5px;
 
     &__id{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         margin: auto 0;
-        padding-left: 15px;
+        min-width: 40px;
+        &:hover{
+            cursor: pointer;
+        }
     }
     &__title{
         margin: auto 0;
@@ -45,6 +53,6 @@
     }
 
     &:hover{
-        background-color: #555;
+        background-color: #363636;
     }
 }

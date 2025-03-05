@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { setResizing } from "../../store";
+import { setResizing } from "../lib/resizer";
 
 export function useResizable(initialWidth) {
     const [width, setWidth] = useState(initialWidth);

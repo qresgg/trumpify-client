@@ -1,0 +1,47 @@
+.library{
+    background-color: #121212;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100%);
+    min-width: 340px;
+    
+    &__tags{
+        height: 108px;
+    }
+    &__playlists{
+      overflow-y: scroll;
+      padding: 0 8px;
+      
+      &::-webkit-scrollbar {
+          width: 12px;
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out;
+        }
+      
+        &::-webkit-scrollbar-track {
+          background: #121212;
+          border-radius: 10px;
+        }
+      
+        &::-webkit-scrollbar-thumb {
+          background: #555;
+          border-radius: 0px;
+          width: 20px;
+        }
+      
+        &:hover::-webkit-scrollbar {
+          opacity: 1;
+        }
+    }
+}
+.resizer {
+    width: 20px;
+    cursor: grab;
+    transition: background 0.3s ease;
+    transition: border-right 0.3s ease-in-out; 
+    
+    &:hover{
+        border-right: white solid 1px;
+    }
+}

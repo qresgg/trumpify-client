@@ -1,9 +1,9 @@
-import styles from '../main.module.scss';
-import { useState, useEffect } from "react";
+import styles from './library.module.scss';
+import { useState } from 'react';
+
 import { Playlist } from '../snippets/playlist-snippet';
 
-export function Library({ width, onResize, playlists, onSelectPlaylist}) {
-
+export function Library({ width, onResize, playlists, onSelectPlaylist, albumCover}) {
     return (
         <>
         <div className={styles.library} style={{ width: `${width}px`}}>
@@ -11,7 +11,7 @@ export function Library({ width, onResize, playlists, onSelectPlaylist}) {
                 <div className={styles.title}>
                     <div className={styles.mediatek}>
                         <div className={styles.mediatek__icon}></div>
-                        <div className={styles.mediatek__title}></div>
+                        <div className={styles.mediatek__title}>My mediatek</div>
                     </div>
                     <div className={styles.new__playlist}></div>
                     <div className={styles.max__resize}></div>
@@ -20,8 +20,13 @@ export function Library({ width, onResize, playlists, onSelectPlaylist}) {
             </div>
             <div className={styles.library__playlists}>
                 {playlists.map((playlist, index) => (
-                    <div onClick={() => onSelectPlaylist(playlist)}>
-                        <Playlist playlist={playlist} key={index} libWidth={width} />
+                    <div onClick={() => onSelectPlaylist(playlist, playlist._id)} key={index}>
+                        <Playlist 
+                            playlist={playlist} 
+                            key={index} 
+                            libWidth={width} 
+                            albumCover={albumCover} 
+                            ID={playlist._id}/>
                     </div>
                 ))}
             </div>

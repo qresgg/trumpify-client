@@ -1,7 +1,9 @@
-//import styles from './footer.module.scss';
+import styles from './footer.module.scss';
 
 export function Footer () {
     return (
-        <div></div>
+        <div className={styles.footer}>
+            1231
+        </div>
     )
 }

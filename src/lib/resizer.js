@@ -18,4 +18,4 @@ const resizingReducer = (state = initialState, action) => {
   }
 };
 
-export const store = createStore(resizingReducer);
+export default resizingReducer;
