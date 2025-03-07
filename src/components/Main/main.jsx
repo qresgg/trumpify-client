@@ -30,7 +30,7 @@ export function Main() {
         setActivePlaylist(playlist);
     }
     useEffect(() => {
-        fetch('http://localhost:4000/data') 
+        fetch('http://localhost:8080/auth/data') 
           .then(response => response.json())
           .then(data => setPlaylists(data))
           .catch(error => console.error('Error fetching data:', error));

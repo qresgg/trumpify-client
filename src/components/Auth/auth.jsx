@@ -2,7 +2,11 @@ import { Registration } from "./components/registration";
 import { Login } from "./components/login";
 import { useState } from "react";
 
-export function Auth () {
+export function Auth ({
+    onLogout,
+    handleData
+}
+) {
     const [isLogin, setIsLogin] = useState(true);
     
     const handleClick = () => {
@@ -11,7 +15,9 @@ export function Auth () {
 
     return (
         <>
-        {isLogin && (<Login />)}
+        {isLogin && (<Login 
+            handleData={handleData}
+            onLogout={onLogout}/>)}
         {!isLogin && (<Registration />)}
         
         <button onClick={handleClick}>1231</button>

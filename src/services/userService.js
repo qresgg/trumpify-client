@@ -1,19 +1,31 @@
 import axios from 'axios';
 import { getAccessToken } from './tokenService';
 
-export const fetchUserData = async () => {
+const { SERVER_API_URL } = process.env;
+
+const fetchUserData = async () => {
   const token = getAccessToken();
   try {
-    const response = await axios.get('http://localhost:4000/api/user', {
+    const response = await axios.get(`http://localhost:8080/api/user`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });
 
-    console.log('Server response:', response.data);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to fetch user data132');
+    throw new Error('Failed to fetch user data');
   }
 };
+
+const getUserData = async () => {
+  try {
+    const data = await fetchUserData();
+  return data;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+export { getUserData }

@@ -2,7 +2,7 @@ import styles from './registration.module.scss'
 import axios from 'axios';
 import { useState } from 'react';
 
-const API_URL = 'http://localhost:4000';
+const SERVER_API_URL = 'http://localhost:8080';
 
 export function Registration () {
     const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ export function Registration () {
 
         try {
             const response = await axios.post(
-              `${API_URL}/auth/register`,
+              `${SERVER_API_URL}/auth/register`,
               { userName, email, password },
               { withCredentials: true } 
             );
