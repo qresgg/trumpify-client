@@ -5,7 +5,9 @@ const initialState = {
     activePlaylistIndex: null,
     activePlaylist: null,
     activeTrackIndex: null,
-    activeTrack: null
+    activeTrack: null,
+    selectedPlaylist: null,
+    selectedSong: null
 };
 
 const musicSlice = createSlice({
@@ -26,6 +28,12 @@ const musicSlice = createSlice({
             state.activeTrackIndex = action.payload.index;
             state.activeTrack = action.payload.song;
             state.activePlaylistIndex = action.payload.id;
+        },
+        setSelectedSong: (state, action ) => {
+            state.selectedSong = action.payload.song;
+        },
+        setSelectedPlaylist: (state, action ) => {
+            state.selectedPlaylist = action.payload.playlist;
         },
         playPlaylist: (state, action) => {
             if (state.activePlaylist && state.activePlaylistIndex !== action.payload) {
@@ -59,5 +67,5 @@ const musicSlice = createSlice({
     },
 });
 
-export const { playPlaylist, pauseMusic, setActivePlaylist, setActiveTrack, playTrack, pauseTrack, stopMusic } = musicSlice.actions;
+export const { playPlaylist, pauseMusic, setActivePlaylist, setActiveTrack, playTrack, pauseTrack, stopMusic, setSelectedSong, setSelectedPlaylist } = musicSlice.actions;
 export default musicSlice.reducer;

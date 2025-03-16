@@ -2,18 +2,19 @@ import styles from './song-snippet.module.scss'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
-import { playPlaylist, pauseMusic, isMusicPlaying, setActiveTrack, activePlaylistIndex} from "../../../lib/musicState";
+import { playPlaylist, pauseMusic, isMusicPlaying, setActiveTrack, activePlaylistIndex, setSelectedSong} from "../../../lib/musicState";
 
 export function Song({
     song,
     index,
     playlist,
-    id
+    id,
+    onSelectSong
 }) {
     const dispatch = useDispatch();
     const [isHoovering, setIsHovering] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    const { isMusicPlaying, activeTrackIndex, activePlaylistIndex} = useSelector((state) => state.music);
+    const { isMusicPlaying, activeTrackIndex, activePlaylistIndex, selectedSong} = useSelector((state) => state.music);
 
     useEffect(() => {
         if(isMusicPlaying){

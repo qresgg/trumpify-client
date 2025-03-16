@@ -5,12 +5,14 @@ const { SERVER_API_URL } = process.env;
 
 const fetchUserData = async () => {
   const token = getAccessToken();
+  
   try {
-    const response = await axios.get(`http://localhost:8080/api/user`, {
+    const response = await axios.get(`http://localhost:8080/api/getUser`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
-      }
+      },
+      withCredentials: true
     });
 
     return response.data;
@@ -22,10 +24,18 @@ const fetchUserData = async () => {
 const getUserData = async () => {
   try {
     const data = await fetchUserData();
+    
   return data;
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
 };
+
+// const registerArtistProfile = async () => {
+//   try {
+
+//   }
+// }
+
 
 export { getUserData }

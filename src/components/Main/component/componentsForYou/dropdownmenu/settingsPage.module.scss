@@ -1,0 +1,42 @@
+.settingsPage{
+    display: flex;
+    gap: 5px;
+    background-color: #121212;
+    width: 100%;
+    border-radius: 5px;
+    padding: 16px;
+    box-sizing: border-box;
+
+    .sideBar{
+        width: 10%;
+        min-width: 140px;
+        height: max-content;
+        margin: auto 0;
+
+        &__item{
+            border-radius: 5px;
+            color: white;
+            font-size: 22px;
+            height: 50px;
+            width: 100%;
+            display: flex;
+            text-align: center;
+            background-color: #121212;
+            padding: 8px;
+            box-sizing: border-box;
+
+            &:hover{
+                filter: brightness(1.4) !important;
+                cursor: pointer;
+            }
+        }
+    }
+    .fence{
+        width: 3px;
+        background-color: #1F1F1F;
+    }
+
+    // .configPanel{
+
+    // }
+}

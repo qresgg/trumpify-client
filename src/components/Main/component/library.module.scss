@@ -7,7 +7,23 @@
     min-width: 340px;
     
     &__tags{
-        height: 108px;
+      height: 108px;
+
+      .title{
+
+        .mediatek{
+          box-sizing: border-box;
+          padding: 16px;
+
+          // &__icon{
+            
+          // }
+          &__title{
+            color: #B3B3B3;
+            font-weight: bold;
+          }
+        }
+      }
     }
     &__playlists{
       overflow-y: scroll;
@@ -36,12 +52,12 @@
     }
 }
 .resizer {
-    width: 20px;
-    cursor: grab;
-    transition: background 0.3s ease;
-    transition: border-right 0.3s ease-in-out; 
-    
-    &:hover{
-        border-right: white solid 1px;
-    }
+  width: 10px;
+  cursor: grab;
+  transition: background 0.3s ease;
+  transition: border-right 0.3s ease-in-out; 
+  
+  &:hover{
+      border-right: white solid 1px;
+  }
 }

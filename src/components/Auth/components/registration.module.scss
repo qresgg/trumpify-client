@@ -42,3 +42,15 @@ input{
     height: 48px;
     color: white;
 }
+
+.passwordChecker{
+    height: fit-content;
+    padding: 8px;
+    width: 100%;
+    font-size: 13px;
+
+    p{
+        margin: 0;
+        padding: 0;
+    }
+}

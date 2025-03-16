@@ -18,7 +18,8 @@ export function Auth ({
         {isLogin && (<Login 
             handleData={handleData}
             onLogout={onLogout}/>)}
-        {!isLogin && (<Registration />)}
+        {!isLogin && (<Registration 
+            handleClick={handleClick}/>)}
         
         <button onClick={handleClick}>1231</button>
         </>

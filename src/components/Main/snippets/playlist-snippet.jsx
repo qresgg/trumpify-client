@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { playPlaylist, pauseMusic, setActivePlaylist, playTrack } from "../../../lib/musicState";
 import { Pause, Play} from 'lucide-react';
+import { setView } from '../../../lib/viewSlice';
 export function Playlist({
     playlist,
     libWidth,
@@ -23,7 +24,7 @@ export function Playlist({
     } : {};
 
     const dynamicPlaylistWidth = {
-        display: libWidth < 950 ? 'none' : 'block'
+        display: libWidth < 350 ? 'none' : 'block'
     }
     useEffect(() => {
         if(isMusicPlaying){
@@ -71,6 +72,7 @@ export function Playlist({
             <div className={style.playlist__info}>
                 <div className={style.playlist_Name} style={{color: isPlaying ? '#3BE477': 'white'}}>{playlist.title}</div>
                 <div className={style.playlist_AdditionalInfo}><p style={dynamicPlaylistWidth}>{playlist.type}</p>&nbsp; • &nbsp;<p>{playlist.artist}</p></div>
+                {isPlaying && <div className={style.playlist_AudioVisualizer}></div>}
             </div>
         </div>
     )

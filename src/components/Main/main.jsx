@@ -6,9 +6,10 @@ import { Info } from './component/info';
 import { ForYou } from './component/foryou';
 import { useResizable } from '../../hooks/useResizable';
 
-export function Main() {
-    const library = useResizable(1000);
-    const info = useResizable(1000);
+export function Main(user) {
+    const dispatch = useDispatch();
+    const library = useResizable(370);
+    const info = useResizable(370);
 
     const isResizing = useSelector((state) => state.isResizing);
     const [playlists, setPlaylists] = useState([]);
@@ -16,8 +17,8 @@ export function Main() {
     const [selectedSong, setSelectedSong] = useState(null);
     const [albumCover, setAlbumCover] = useState(null);
     const [index, setIndex] = useState(null);
-    const [selectedActivePlaylist, setActivePlaylist] = useState(null);
-    
+    //const [selectedActivePlaylist, setActivePlaylist] = useState(null);
+
     const handleSelectPlaylist = (playlist, index = null) => {
         setSelectedPlaylist(playlist);
         setIndex(index);
@@ -26,9 +27,9 @@ export function Main() {
         setSelectedSong(song);
         setAlbumCover(albumCover);
     }
-    const handleSelectActivePlaylist = (playlist) => {
-        setActivePlaylist(playlist);
-    }
+    // const handleSelectActivePlaylist = (playlist) => {
+    //     setActivePlaylist(playlist);
+    // }
     useEffect(() => {
         fetch('http://localhost:8080/auth/data') 
           .then(response => response.json())

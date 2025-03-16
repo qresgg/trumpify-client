@@ -2,12 +2,13 @@ $header__primaryColor: black;
 $header__secondColor: #1F1F1F;
 
 .header{
+    position: relative;
     $header__height: 64px;
     $header__width: 100%;
 
     width: $header__width;
     height: $header__height;
-    padding: 8px;
+    padding: 8px 16px;
     box-sizing: border-box;
 
     background-color: black;
@@ -17,9 +18,16 @@ $header__secondColor: #1F1F1F;
         background-color: $header__secondColor;
         border-radius: 50%;
         $measure: 48px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        min-width: $measure;
+        cursor: pointer;
 
         width: $measure;
         height: $measure;
+        &:hover{
+            filter: brightness(1.5);
+        }
     }
     .navBar{
 
@@ -29,10 +37,13 @@ $header__secondColor: #1F1F1F;
         overflow: hidden;
 
         &__logo{
+            background-image: url('../../../public/logo.png');
+
+            @extend %container;
         }
 
         &__home{
-            cursor: pointer;
+
             
             &:hover{
                 background-color: #2b2b2b;
@@ -62,6 +73,7 @@ $header__secondColor: #1F1F1F;
         display: flex;
         justify-content: end;
         gap: 10px;
+        padding-right: 10%;
 
         &__subscription{
             padding: 4px 16px;
@@ -78,12 +90,20 @@ $header__secondColor: #1F1F1F;
             background-color: white;
             border-radius: 500px;
         }
-        &__notification{
+        &__settings{
             @extend %container;
-            background-color: black;
+            color: white;
         }
         &__profile{
+            background-image: url('../../../public/profile-user.png');
+
             @extend %container;
+            &:hover{
+                filter: none;
+            }
+        }
+        .pp_dropdown{
+            position: relative;
         }
     }
 }

@@ -1,0 +1,14 @@
+.artistCreate{
+    width: 100%;
+    color: white;
+
+    &__container{
+        width: 500px;
+        margin: 0 auto;
+
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

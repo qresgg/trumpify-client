@@ -47,6 +47,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+
         .playlist_Name{
             text-overflow: ellipsis;
         }
@@ -58,6 +59,15 @@
                 margin: 0;
                 padding: 0;
             }
+        }
+        .playlist_AudioVisualizer{
+            position: absolute;
+            background-image: url('../../../../public/staff/whenaudioplays.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            right: 16px;
+            width: 18px;
+            height: 18px;
         }
     }
 }
