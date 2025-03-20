@@ -2,16 +2,15 @@ import style from './playlist-snippet.module.scss';
 import { REGEXP_IMAGEURL } from '../../../lib/regexp';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { playPlaylist, pauseMusic, setActivePlaylist, playTrack } from "../../../lib/musicState";
+import { setActivePlaylist, togglePlaylistPlayback, togglePlayback, setActiveSong } from '../../../lib/musicState';
 import { Pause, Play} from 'lucide-react';
 import { setView } from '../../../lib/viewSlice';
 export function Playlist({
     playlist,
-    libWidth,
-    ID
+    libWidth
 }) {
     const dispatch = useDispatch();
-    const { isMusicPlaying, activePlaylistIndex, activeTrack, activeTrackIndex} = useSelector((state) => state.music);
+    const { isMusicPlaying, activePlaylist, selectedPlaylist, activeSongId} = useSelector((state) => state.music);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHoovering, setIsHovering] = useState(false);
 
@@ -27,35 +26,24 @@ export function Playlist({
         display: libWidth < 350 ? 'none' : 'block'
     }
     useEffect(() => {
-        if(isMusicPlaying){
-            if(activePlaylistIndex == ID){
-                setIsPlaying(true) 
-            } else{
-                setIsPlaying(false)
-            }
+        if (activePlaylist == playlist && isMusicPlaying) {
+            setIsPlaying(true);
         } else {
             setIsPlaying(false)
         }
-    }, [activePlaylistIndex, ID, isMusicPlaying]);
+    }, [activePlaylist, isMusicPlaying, playlist]);
     
-
-    const togglePlay = () => {
-        if (isPlaying) {
-            dispatch(pauseMusic());
+    const togglePlay = async () => {
+        if (activePlaylist === playlist) {
+            console.log('trueS')
+            dispatch(togglePlayback());
         } else {
-            dispatch(playPlaylist(ID));
-            if (activePlaylistIndex !== ID) {
-                dispatch(playTrack({ song: playlist.tracks[0], index: 1 }));
-            } else if (activeTrackIndex !== null) {
-                dispatch(playTrack({ song: activeTrack, index: activeTrackIndex }));
-            }
+            await dispatch(setActivePlaylist(playlist));
+            await dispatch(setActiveSong({ song: playlist.songs[0], index: 0 })); 
         }
     };
-    // console.log(activeTrack)
-    // console.log(activeTrackIndex)
 
     const handlePlaylistClick = () => {
-        dispatch(setActivePlaylist({playlist, ID}));
         togglePlay();
     };
     return (
@@ -71,7 +59,7 @@ export function Playlist({
             <div className={style.playlist__art} style={albumCover}></div>
             <div className={style.playlist__info}>
                 <div className={style.playlist_Name} style={{color: isPlaying ? '#3BE477': 'white'}}>{playlist.title}</div>
-                <div className={style.playlist_AdditionalInfo}><p style={dynamicPlaylistWidth}>{playlist.type}</p>&nbsp; • &nbsp;<p>{playlist.artist}</p></div>
+                <div className={style.playlist_AdditionalInfo}><p style={dynamicPlaylistWidth}>{playlist.type}</p>&nbsp; • &nbsp;<p>{playlist.artist_name}</p></div>
                 {isPlaying && <div className={style.playlist_AudioVisualizer}></div>}
             </div>
         </div>

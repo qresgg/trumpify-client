@@ -1,0 +1,51 @@
+.likedSongs{
+    position: relative;
+    height: 64px;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+
+    &:hover{
+        background-color: #1F1F1F;
+        cursor: pointer;
+    }
+
+    &__state{
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+        opacity: 0.6;
+    }
+    
+    &__art{
+        background-image: url('../../../../public/likedsongs.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 48px;
+        height: 100%;
+        border-radius: 5px;
+    }
+    &__info{
+        display: flex;
+        flex-direction: column;
+        color: white;
+        // .title{
+
+        // }
+        .additionalInfo{
+            font-size: 13px;
+            opacity: 0.7;
+            
+            p{
+                display: inline;
+                margin: 0;
+            }
+        }
+    }
+}

@@ -95,7 +95,6 @@ $header__secondColor: #1F1F1F;
             color: white;
         }
         &__profile{
-            background-image: url('../../../public/profile-user.png');
 
             @extend %container;
             &:hover{

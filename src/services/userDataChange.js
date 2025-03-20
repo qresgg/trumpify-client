@@ -1,59 +1,41 @@
 import axios from 'axios';
 import { getAccessToken } from './tokenService';
 
-const changePassword = async (password) => {
+const updateSetting = async (url, data) => {
   const token = getAccessToken();
   
   try {
-    const response = await axios.put(`http://localhost:8080/settings/change-password`, { password }, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
+    const response = await axios.put(`http://localhost:8080/settings/${url}`, data, {
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       withCredentials: true
     });
-
     return response.data;
-  } catch (error) { 
-    console.error('Error fetching user data:', error); 
+  } catch (error) {
+    console.error('Error updating setting:', error);
   }
 };
-const changeEmail = async (email, newEmail) => {
+
+const updatePassword = async (password) => updateSetting('change-password', { password });
+const updateEmail = async (email, newEmail) => updateSetting('change-email', { email, newEmail });
+const updateUserName = async (userName) => updateSetting('change-userName', { userName });
+
+const uploadAvatar = async (avatarFile) => {
   const token = getAccessToken();
-  
+  const formData = new FormData();
+  formData.append("avatar", avatarFile);
+
   try {
-    const response = await axios.put(`http://localhost:8080/settings/change-email`, { email, newEmail }, {
+    const response = await axios.put('http://localhost:8080/settings/change-avatar', formData, {
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
       },
-      withCredentials: true
+      withCredentials: true,
     });
-
     return response.data;
-  } catch (error) { 
-    console.error('Error fetching user data:', error); 
-  }
-}
-
-const updatePassword = async (password) => {
-  try {
-    const data = await changePassword(password);
-    
-    return data;
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error uploading avatar:', error);
   }
 };
 
-const updateEmail = async (email, newEmail) => {
-  try {
-    const data = await changeEmail(email, newEmail);
-    
-    return data;
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-  }
-};
 
-export { updatePassword, updateEmail }
+export { updatePassword, updateEmail, updateUserName, uploadAvatar };

@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux';
 import styles from './info.module.scss';
 import { useState, useEffect } from 'react';
 
-export function Info({ width, onResize, selectedSong, selectedPlaylist, albumCover }) {
+export function Info({ width, onResize, albumCover }) {
+    const { selectedSong, selectedPlaylist } = useSelector((state) => state.music)
     const [savedAlbum, setSavedAlbum] = useState([]);
     useEffect(() => {
         if (selectedSong) {
@@ -19,10 +21,10 @@ export function Info({ width, onResize, selectedSong, selectedPlaylist, albumCov
                             <div className={styles.artistPreview} style={albumCover}></div>
                             <div className={styles.title}>
                                     <div className={styles.title__songName}><a href="#">{selectedSong.title}</a></div>
-                                    <div className={styles.title__artists}>{selectedSong.featuring.map((feat, index) => (
+                                    <div className={styles.title__artists}>{selectedSong.features.map((feat, index) => (
                                         <span key={index}>
                                             <a href='#'>{feat.artist}</a>
-                                            {index < selectedSong.featuring.length - 1 && ', '}
+                                            {index < selectedSong.features.length - 1 && ', '}
                                         </span>
                                     ))}</div>
                                 </div>

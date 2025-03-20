@@ -1,20 +1,23 @@
 import styles from './library.module.scss';
 import { useState } from 'react';
 
+import { LikedSongsPlaylist } from '../snippets/likedsongs-snippet';
 import { Playlist } from '../snippets/playlist-snippet';
 import { useDispatch } from 'react-redux';
 import { setView } from '../../../lib/viewSlice';
+import { setSelectedPlaylist } from '../../../lib/musicState';
 
 export function Library({ 
     width, 
     onResize, 
     playlists, 
-    onSelectPlaylist, 
     albumCover
 }) {
     const dispatch = useDispatch();
-    const handleClick = (playlist, id) => {
-        onSelectPlaylist(playlist, id);
+
+
+    const handleClick = (playlist) => {
+        dispatch(setSelectedPlaylist(playlist))
         dispatch(setView('playlist'));
     }
     return (
@@ -32,14 +35,14 @@ export function Library({
                 <div className={styles.tag}></div>
             </div>
             <div className={styles.library__playlists}>
+                <LikedSongsPlaylist/>
                 {playlists.map((playlist, index) => (
-                    <div onClick={() => handleClick(playlist, playlist._id)} key={index}>
+                    <div onClick={() => handleClick(playlist)} key={index}>
                         <Playlist 
                             playlist={playlist} 
                             key={index} 
                             libWidth={width} 
-                            albumCover={albumCover} 
-                            ID={playlist._id}/>
+                            albumCover={albumCover} />
                     </div>
                 ))}
             </div>

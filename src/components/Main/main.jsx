@@ -23,10 +23,6 @@ export function Main(user) {
         setSelectedPlaylist(playlist);
         setIndex(index);
     }
-    const handleSelectSong = (song, albumCover) => {
-        setSelectedSong(song);
-        setAlbumCover(albumCover);
-    }
     // const handleSelectActivePlaylist = (playlist) => {
     //     setActivePlaylist(playlist);
     // }
@@ -46,12 +42,10 @@ export function Main(user) {
                 onSelectPlaylist={handleSelectPlaylist}/>
             <ForYou 
                 selectedPlaylist={selectedPlaylist} 
-                onSelectSong={handleSelectSong}
                 id={index} />
             <Info 
                 width={info.width} 
                 onResize={info.handleMouseDown} 
-                selectedSong={selectedSong} 
                 selectedPlaylist={selectedPlaylist}
                 albumCover={albumCover}/>
         </div>

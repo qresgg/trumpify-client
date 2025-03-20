@@ -14,11 +14,11 @@ class AlbumTrackInfo{
     }
         
     get trackInfo(){
-        return this.playlist ? this.playlist.tracks.length : 0;
+        return this.playlist ? this.playlist?.songs.length : 0;
     }
     get totalDurationInSeconds(){
         return this.playlist
-      ? this.playlist.tracks.reduce((acc, track) => acc + this.convertToSeconds(track.duration), 0)
+      ? this.playlist.songs.reduce((acc, track) => acc + this.convertToSeconds(track.duration), 0)
       : 0;
     }
     

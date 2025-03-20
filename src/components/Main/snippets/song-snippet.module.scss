@@ -44,6 +44,19 @@
             }
         }
     }
+    .rightPanel{
+        display: flex;
+        align-items: center;
+        gap: 100px;
+    }
+    &__like{
+        display: flex;
+        justify-content: end;
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
     &__duration{
         margin: auto 0;
         padding-right: 15px;

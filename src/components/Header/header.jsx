@@ -3,6 +3,7 @@ import { useState } from 'react';
 import styles from './header.module.scss';
 import { setView } from '../../lib/viewSlice';
 import { DropdownMenu } from './snippet/dropdownmenu';
+import { UserImage } from '../../hooks/UserImage';
 
 export function Header ({
     onLogout
@@ -22,11 +23,14 @@ export function Header ({
                 <input className={styles.navBar__search} type="text" />
                 <button onClick={() => dispatch(setView("artistCreate"))}>Create Artist Profile</button>
                 <button onClick={() => dispatch(setView("songCreate"))}>Create Song</button>
+                <button onClick={() => dispatch(setView("albumCreate"))}>Create Album</button>
             </div>
             <div className={styles.userBar}>
                 <div className={styles.userBar__subscription}>Дізнатись більше про Premium</div>
                 <div className={styles.pp_dropdown}>
-                    <div className={styles.userBar__profile} onClick={handleDropDownMenu}></div>
+                    <div className={styles.userBar__profile} onClick={handleDropDownMenu}>
+                        <UserImage width={'48px'} height={'48px'}/>
+                    </div>
                     {isDDMenuOpen && <DropdownMenu onLogout={onLogout} dropDownMenuState={handleDropDownMenu}/>}
                 </div>
             </div>

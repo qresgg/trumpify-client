@@ -2,48 +2,42 @@ import styles from './song-snippet.module.scss'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
-import { playPlaylist, pauseMusic, isMusicPlaying, setActiveTrack, activePlaylistIndex, setSelectedSong} from "../../../lib/musicState";
+import {isMusicPlaying, togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/musicState";
 
 export function Song({
     song,
     index,
-    playlist,
-    id,
-    onSelectSong
 }) {
     const dispatch = useDispatch();
     const [isHoovering, setIsHovering] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    const { isMusicPlaying, activeTrackIndex, activePlaylistIndex, selectedSong} = useSelector((state) => state.music);
+    const { isMusicPlaying, activePlaylist, activeSong, selectedSong, selectedPlaylist, activeSongId} = useSelector((state) => state.music);
+    // const [likeSong, setLikedSong]
+
+    // const likeSong = () => {
+
+    // }
 
     useEffect(() => {
-        if(isMusicPlaying){
-            if(activePlaylistIndex == id && activeTrackIndex == index){
-                setIsPlaying(true) 
-            } else{
-                setIsPlaying(false)
-            }
+        if (activeSong === song && isMusicPlaying) {
+            setIsPlaying(true);
         } else {
             setIsPlaying(false)
         }
-    }, [activePlaylistIndex, id, isMusicPlaying]);
+    }, [isMusicPlaying, activeSong, song]);
 
-    useEffect(() => {
-        if(activeTrackIndex != index){
-            setIsPlaying(false);
-        } 
-    })
     const togglePlay = () => {
-        if (isPlaying) {
-            dispatch(pauseMusic());
-        } else {
-            dispatch(playPlaylist(id));
+        dispatch(setActiveSong({song: song, index: index}));
+        if (!activePlaylist) {
+            dispatch(setActivePlaylist(selectedPlaylist));
         }
-        setIsPlaying(!isPlaying);
+
+        if (isPlaying) {
+            dispatch(togglePlayback());
+        }
     }
 
     const handleSongClick = () => {
-        dispatch(setActiveTrack({ index: index, song: song, id: id}));
         togglePlay();
     };
     return (
@@ -56,12 +50,14 @@ export function Song({
             <div className={styles.song__title}>
                 <div className={styles.song__title__name} style={{color: isPlaying ? '#3BE477' : 'white'}}>{song.title}</div>
                 <div className={styles.song__title__artist}>
-                    <p><span>E</span>{song.featuring.map((feat) => feat.artist).join(', ')}</p>
                 </div>
             </div>
-            <div className={styles.song__duration}>
-                <div className={styles.song__duration__time}>
-                    {song.duration}
+            <div className={styles.rightPanel}>
+                <div className={styles.song__like}>0</div>
+                <div className={styles.song__duration}>
+                    <div className={styles.song__duration__time}>
+                        {song.duration}
+                    </div>
                 </div>
             </div>
         </div>

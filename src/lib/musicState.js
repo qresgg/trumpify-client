@@ -2,10 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isMusicPlaying: false,
-    activePlaylistIndex: null,
     activePlaylist: null,
-    activeTrackIndex: null,
-    activeTrack: null,
+    activeSong: null,
+    activeSongId: null,
     selectedPlaylist: null,
     selectedSong: null
 };
@@ -15,57 +14,39 @@ const musicSlice = createSlice({
     initialState,
     reducers: {
         setActivePlaylist: (state, action) => {
-            if (state.activePlaylistIndex !== action.payload.id) {
-                state.activeTrack = null;
-                state.activeTrackIndex = null;
-            }
-            state.activePlaylist = action.payload.selectedPlaylist;
-            state.activePlaylistIndex = action.payload.id;
+            state.activePlaylist = action.payload;
             state.isMusicPlaying = true;
         },
-        setActiveTrack: (state, action) => {
+        setActiveSong: (state, action) => {
+            state.activeSong = action.payload.song;
+            state.activeSongId = action.payload.index;
             state.isMusicPlaying = true;
-            state.activeTrackIndex = action.payload.index;
-            state.activeTrack = action.payload.song;
-            state.activePlaylistIndex = action.payload.id;
         },
         setSelectedSong: (state, action ) => {
-            state.selectedSong = action.payload.song;
+            state.selectedSong = action.payload;
         },
         setSelectedPlaylist: (state, action ) => {
-            state.selectedPlaylist = action.payload.playlist;
+            state.selectedPlaylist = action.payload;
         },
-        playPlaylist: (state, action) => {
-            if (state.activePlaylist && state.activePlaylistIndex !== action.payload) {
-                state.isMusicPlaying = false;
-                state.activeTrack = null;
-                state.activeTrackIndex = null;
-            }
-            state.isMusicPlaying = true;
-            state.activePlaylistIndex = action.payload;
+        togglePlaylistPlayback: (state) => {
+            state.isMusicPlaying = !state.isMusicPlaying;
         },
-        pauseMusic: (state) => {
-            state.isMusicPlaying = false;
-        },
-        playTrack: (state, action) => {
-            if (state.activeTrack && state.activeTrackIndex !== action.payload.index) {
-                state.isMusicPlaying = false;
-            }
-            state.activeTrackIndex = action.payload.index;
-            state.activeTrack = action.payload.song;
-            state.isMusicPlaying = true;
-        },
-        pauseTrack: (state) => {
-            state.isMusicPlaying = false;
+        togglePlayback: (state) => {
+            state.isMusicPlaying = !state.isMusicPlaying;
         },
         stopMusic: (state) => {
             state.isMusicPlaying = false;
-            state.activePlaylistIndex = null;
-            state.activeTrackIndex = null;
-            state.activeTrack = null;
+            state.activeSong = null;
         },
     },
 });
 
-export const { playPlaylist, pauseMusic, setActivePlaylist, setActiveTrack, playTrack, pauseTrack, stopMusic, setSelectedSong, setSelectedPlaylist } = musicSlice.actions;
+export const { 
+    setActivePlaylist,
+    setActiveSong,
+    setSelectedSong,
+    setSelectedPlaylist,
+    togglePlaylistPlayback,
+    togglePlayback,
+    stopMusic } = musicSlice.actions;
 export default musicSlice.reducer;
