@@ -7,12 +7,9 @@ import { UserImage } from '../../../../../hooks/UserImage';
 
 export function UserProfilePage() {
     const user = useSelector((state) => state.user.user);
-    const cloud = useSelector((state) => state.user)
     const [isOpened, setIsOpened] = useState(false)
-    const [userName, setUserName] = useState('');
 
     const urlImage = user.urlAvatar;
-    console.log(urlImage);
     
     const { data, loading, error } = usePalette(urlImage);
 

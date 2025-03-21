@@ -14,13 +14,12 @@ export function InfoChange({
     const [userName, setUserName] = useState('');
     const [isHover, setIsHover] = useState(false)
     const [selectedImage, setSelectedImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState('');
 
     useEffect(() => {
-        console.log(selectedImage);
-    }, [selectedImage])
-    useEffect(() => {
         setUserName(user.userName)
-    }, [])
+    }, [user])
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -30,6 +29,18 @@ export function InfoChange({
             await updateUserName(userName);
         } catch (error) {
             console.error(error.response ? error.response.data : error);
+        }
+    }
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedImage(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setPreviewImage(`url(${event.target.result})`);
+            };
+            reader.readAsDataURL(file); 
         }
     }
 
@@ -46,9 +57,9 @@ export function InfoChange({
                         onMouseLeave={() => setIsHover(false)}>
                     {isHover 
                     ? <div className={styles.upload}>
-                        <input type="file" accept="image/*" style={{display: 'none'}} id="imageInput" onChange={(e) => setSelectedImage(e.target.files[0])}/>
+                        <input type="file" accept="image/*" style={{display: 'none'}} id="imageInput" onChange={handleFileChange}/>
                         <p onClick={() => document.getElementById("imageInput").click()}>Click to choose photo for Avatar</p></div> 
-                    : <UserImage width={'180px'} height={'180px'}/>}
+                    : previewImage ? <div className={styles.image} style={{backgroundImage: previewImage}}> </div> : <UserImage width={'180px'} height={'180px'}/>}
                     </div>
                     <div className={styles.changeName}>
                         <p>username: </p>

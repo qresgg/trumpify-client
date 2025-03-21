@@ -1,0 +1,78 @@
+@import url(../../../../style/select.module.scss);
+.main{
+    color: white;
+    width: 100%;
+
+    %song_box{
+        height: 100px;
+        width: 100px;
+        background: linear-gradient(to bottom right, #616c64, #087D21);
+        border-radius: 16px;
+    }
+    &__container{
+        width: 500px;
+        margin: 0 auto;
+
+        form{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-weight: bold;
+
+            div{
+                display: flex;
+                flex-direction: column;
+
+                input{
+                    height: 25px;
+                    width: 100%;
+                }
+                input[type="file"]{
+                    background: none;
+                    border: none;
+                    height: fit-content;
+                }
+
+                .preview{
+                    min-width: 150px;
+                    width: 150px;
+                    height: 150px;
+                    border: 1px rgba(9, 255, 0, 0.747) solid;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+                .file{
+                    display: flex;
+                    flex-direction: row;
+                }
+                .songs{
+                    margin-top: 16px;
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 16px;
+                    .song{
+                        @extend %song_box;
+                    }
+                    .addSong{
+                        @extend %song_box;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        &__plus{
+                            
+                            background-image: url('../../../../../public/plus.png');
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            width: 48px;
+                            height: 48px;
+                        }
+                    }
+                }
+            }
+            button{
+                align-items: center;
+            }
+        }
+    }
+}

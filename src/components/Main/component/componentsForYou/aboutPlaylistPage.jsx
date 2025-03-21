@@ -56,11 +56,14 @@ export function AboutPlaylistPage({
     const trackCount = selectedPlaylist ? selectedPlaylist.songs.length : 0;
     const year = new Date(selectedPlaylist.created_at).getFullYear();
 
-    const { data, loading, error } = usePalette('');
+    const { data, loading, error } = usePalette(selectedPlaylist.cover);
 
     const backgroundGradient = selectedPlaylist ? {
         background: `linear-gradient(to bottom, ${data.lightMuted}, ${data.darkMuted})`
     } : {};
+    const albumCover = selectedPlaylist && {
+        backgroundImage: `url(${selectedPlaylist.cover})`
+    }
     return (
         <>
             <div className={styles.foryou}>
@@ -68,7 +71,7 @@ export function AboutPlaylistPage({
                     <div className={styles.playlist}>
                         <div className={styles.playlist__title} style={backgroundGradient}>
                             <div className={styles.playlist__title__container}>
-                                <div className={styles.image}></div>
+                                <div className={styles.image} style={albumCover}></div>
                                 <div className={styles.info}>
                                     <div className={styles.info__type}>{selectedPlaylist.type}</div>
                                     <div className={styles.info__albumName}>{selectedPlaylist.title}</div>

@@ -38,18 +38,18 @@
         
 
         .changePFP{
+            height: 180px;
             width: 180px;
             min-width: 180px;
-            height: 180px;
             border-radius: 50%;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             .image{
-                background-image: url('../../../../../../../public/profile-user.png');
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
-                width: 100%;
+                border-radius: 50%;
                 height: 100%;
+                width: 100%;
             }
             .upload{
                 display: flex;
@@ -57,7 +57,6 @@
                 align-items: center;
                 height: 100%;
                 width: 100%;
-                text-align: center;
 
                 p{
                     margin: 0;

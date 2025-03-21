@@ -3,11 +3,15 @@ import { useSelector } from 'react-redux';
 export function UserImage({
     width,
     height,
+    url
 }) {
     const user = useSelector((state) => state.user.user);
 
-    const urlImage = user.urlAvatar;
+    const urlImage = url || user.urlAvatar;
     const imageParameters = {
+        backgroundImage: `url(${urlImage})`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
         height: height || '100%',
         width: width || '100%',
         minWidth: width,
@@ -18,7 +22,7 @@ export function UserImage({
     return (
         <>
             <div>
-                <img src={urlImage} style={imageParameters} alt="your avatar" />
+                <div src={urlImage} style={imageParameters} alt="your avatar" ></div>
             </div>
         </>
     )

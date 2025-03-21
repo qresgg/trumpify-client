@@ -2,7 +2,8 @@ import styles from './song-snippet.module.scss'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
-import {isMusicPlaying, togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/musicState";
+import { togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/musicState";
+import { likeSong, unLikeSong } from '../../../services/userActionsService';
 
 export function Song({
     song,
@@ -12,11 +13,18 @@ export function Song({
     const [isHoovering, setIsHovering] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const { isMusicPlaying, activePlaylist, activeSong, selectedSong, selectedPlaylist, activeSongId} = useSelector((state) => state.music);
-    // const [likeSong, setLikedSong]
+    const [likedSong, setLikedSong] = useState(false)
 
-    // const likeSong = () => {
-
-    // }
+    const OnLikeSong = async (e) => {
+        e.preventDefault();
+        setLikedSong(!likedSong);
+        
+        try {
+            likedSong ? await unLikeSong(song) : await likeSong(song);
+        } catch (error) {
+            console.error(error.response ? error.response.data : error);
+        }
+    }
 
     useEffect(() => {
         if (activeSong === song && isMusicPlaying) {
@@ -53,7 +61,7 @@ export function Song({
                 </div>
             </div>
             <div className={styles.rightPanel}>
-                <div className={styles.song__like}>0</div>
+                <div className={styles.song__like} onClick={OnLikeSong}>{likedSong ? <>1</> : <>0</>}</div>
                 <div className={styles.song__duration}>
                     <div className={styles.song__duration__time}>
                         {song.duration}

@@ -19,7 +19,7 @@ const updatePassword = async (password) => updateSetting('change-password', { pa
 const updateEmail = async (email, newEmail) => updateSetting('change-email', { email, newEmail });
 const updateUserName = async (userName) => updateSetting('change-userName', { userName });
 
-const uploadAvatar = async (avatarFile) => {
+const uploadImage = async (avatarFile) => {
   const token = getAccessToken();
   const formData = new FormData();
   formData.append("avatar", avatarFile);
@@ -36,6 +36,8 @@ const uploadAvatar = async (avatarFile) => {
     console.error('Error uploading avatar:', error);
   }
 };
+
+const uploadAvatar = async (avatarFile) => uploadImage(avatarFile);
 
 
 export { updatePassword, updateEmail, updateUserName, uploadAvatar };
