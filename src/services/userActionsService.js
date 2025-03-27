@@ -19,6 +19,22 @@ const UserAction = async (url, data) => {
 }
 
 const likeSong = async (song) => UserAction('like-song', { song });
-const unLikeSong = async (song) => UserAction('un-like-song', {song});
+const unLikeSong = async (song) => UserAction('unlike-song', { song });
 
-export { likeSong, unLikeSong };
+const getLikedSongs = async (id) => {
+    const token = getAccessToken();
+    try {
+        const response = await axios.get(`http://localhost:8080/actions/getLikedSongs/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response ? error.response.data.message : 'Failed to fetch user data');
+    }
+}
+
+export { likeSong, unLikeSong, getLikedSongs};

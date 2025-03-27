@@ -6,16 +6,11 @@ import { InfoChange } from './snippet/userInfoChange';
 import { UserImage } from '../../../../../hooks/UserImage';
 
 export function UserProfilePage() {
-    const user = useSelector((state) => state.user.user);
+    const { currentUserPage } = useSelector((state) => state.view)
     const [isOpened, setIsOpened] = useState(false)
 
-    const urlImage = user.urlAvatar;
-    
+    const urlImage = currentUserPage.user_avatar_url;
     const { data, loading, error } = usePalette(urlImage);
-
-    useEffect(() => {
-        console.log(user.userName)
-    }, [user])
 
     const handleIsOpened = () => {
         setIsOpened(false);
@@ -34,7 +29,7 @@ export function UserProfilePage() {
                         </div>
                         <div className={styles.info}>
                             <div className={styles.isProfile}>Profile</div>
-                            <div className={styles.userName}>{user.userName}</div>
+                            <div className={styles.userName}>{currentUserPage.user_name}</div>
                             <div className={styles.playlistCount}>0 Playlist is public</div>
                         </div>
                     </div>

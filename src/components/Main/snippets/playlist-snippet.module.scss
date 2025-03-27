@@ -27,10 +27,12 @@
     &__art{
         background-repeat: no-repeat;
         background-size: contain;
+        background-position: 100%;
 
         border-radius: 5px;
         height: 48px;
         width: 48px;
+        min-width: 48px;
 
         &:before{
             position: absolute;
@@ -47,9 +49,16 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        text-overflow: hidden;
 
         .playlist_Name{
-            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+            overflow: hidden;
+            overflow-wrap: anywhere;
+            white-space: normal;
         }
         .playlist_AdditionalInfo{
             display: flex;

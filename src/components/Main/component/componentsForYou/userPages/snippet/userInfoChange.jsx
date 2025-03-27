@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
-import { setUserName } from '../../../../../../lib/userSlice';
 import styles from './userInfoChange.module.scss';
 import { X } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserName, uploadAvatar } from '../../../../../../services/userDataChange';
-import { setUrlAvatar } from '../../../../../../lib/userSlice';
+import { setUrlAvatar } from '../../../../../../lib/dataSlice';
 import { UserImage } from '../../../../../../hooks/UserImage';
+import { getUserData } from '../../../../../../services/userService';
+import { setData as setReduxData } from '../../../../../../lib/dataSlice';
 
 export function InfoChange({
     onOpened
 }) {
-    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.data.user);
     const [userName, setUserName] = useState('');
     const [isHover, setIsHover] = useState(false)
     const [selectedImage, setSelectedImage] = useState(null);
     const [previewImage, setPreviewImage] = useState('');
 
     useEffect(() => {
-        setUserName(user.userName)
+        setUserName(user.user_name)
     }, [user])
     
     const handleSubmit = async (e) => {
@@ -27,6 +29,9 @@ export function InfoChange({
             onOpened();
             selectedImage && await uploadAvatar(selectedImage);
             await updateUserName(userName);
+
+            const userData = await getUserData();
+            dispatch(setReduxData(userData));
         } catch (error) {
             console.error(error.response ? error.response.data : error);
         }

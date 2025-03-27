@@ -1,0 +1,173 @@
+@use '../../../../../style/addictions/select.module.scss';
+
+.main{
+    color: white;
+    width: 100%;
+    position: absolute;
+    top: 15%;
+    left: 0;
+
+    %song_box{
+        height: 100px;
+        width: 100px;
+        background: linear-gradient(to bottom right, #616c64, #087D21);
+        border-radius: 16px;
+    }
+    .blackScreen{
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+        position: absolute;
+        background-color: black;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__container{
+        width: 500px;
+        margin: 0 auto;
+        padding: 16px;
+        box-sizing: border-box;
+        background-color: #121212;
+        border-radius: 5px;
+
+        .closeWindow{
+            display: flex;
+            justify-content: end;
+            svg{
+                cursor: pointer;
+            }
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-weight: bold;
+
+            div{
+                display: flex;
+                flex-direction: column;
+
+                input{
+                    height: 25px;
+                    width: 100%;
+                }
+                input[type="file"]{
+                    background: none;
+                    border: none;
+                    height: fit-content;
+                }
+
+                .preview{
+                    min-width: 150px;
+                    width: 150px;
+                    height: 150px;
+                    border: 1px rgba(9, 255, 0, 0.747) solid;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+                .file{
+                    display: flex;
+                    flex-direction: row;
+                }
+                .previewFeature{
+                    background-color: #1F1F1F;
+                    border-radius: 5px;
+                    padding: 16px;
+                    box-sizing: border-box;
+                    height: 150px;
+                    overflow-y: scroll;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    &::-webkit-scrollbar {
+                        width: 12px;
+                        opacity: 0;
+                        transition: opacity 0.5s ease-in-out;
+                    }
+                    
+                    &::-webkit-scrollbar-track {
+                        background: #121212;
+                        border-radius: 10px;
+                    }
+                    
+                    &::-webkit-scrollbar-thumb {
+                        background: #555;
+                        border-radius: 0px;
+                        width: 20px;
+                    }
+                    
+                    &:hover::-webkit-scrollbar {
+                        opacity: 1;
+                    }
+                    
+
+                    &__topLevel{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        position: relative;
+                        gap: 8px;
+
+                        div{
+                            width: 100px;
+
+                            strong{
+                                display: flex;
+                                justify-content: center;
+                            }
+                            .role{
+                                opacity: 0.7;
+                                display: block;
+                                text-align: center;
+                            }
+                            
+                        }
+                        button{
+                            position: absolute;
+                            padding: 0;
+                            left: -10px;
+                            background: none;
+                            border: none;
+                        }
+                        .roleList{
+                            position: relative;
+                            span{
+                                display: flex;
+                                div{
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
+                            }
+                            button{
+                                position: inherit;
+                                font-size: 10px;
+                            }
+                        }
+                        div:nth-last-child(1){
+                            font-size: 12px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                    }
+
+                    .role{
+                        cursor: pointer;
+                    }
+                }
+            }
+            button{
+                align-items: center;
+            }
+        }
+    }
+}
+
+.mainModal{
+    position: absolute;
+}

@@ -39,10 +39,8 @@ export function Library({
                 {playlists.map((playlist, index) => (
                     <div onClick={() => handleClick(playlist)} key={index}>
                         <Playlist 
-                            playlist={playlist} 
-                            key={index} 
-                            libWidth={width} 
-                            albumCover={albumCover} />
+                            playlist={playlist}  
+                            libWidth={width} />
                     </div>
                 ))}
             </div>

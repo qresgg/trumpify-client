@@ -1,11 +1,18 @@
 import axios from 'axios';
 
+
 const SERVER_API_URL = 'http://localhost:8080';
+
+const apiClient = axios.create({
+    baseURL: SERVER_API_URL,
+    withCredentials: true,
+});
+
 const checkAuth = async () => {
     const token = localStorage.getItem('accessToken');
     if (token) {
         try {
-            const response = await axios.post(`${SERVER_API_URL}/auth/verify    `, {}, {
+            const response = await axios.post(`${SERVER_API_URL}/auth/verify`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -24,6 +31,16 @@ const checkAuth = async () => {
         return null;
     }
 };
+apiClient.interceptors.response.use(null, async (error) => {
+    if (error.response && error.response.status === 401) {
+        const newToken = await refreshAccessToken();
+        if (newToken) {
+        error.config.headers.Authorization = `Bearer ${newToken}`;
+        return apiClient(error.config);
+        }
+    }
+    return Promise.reject(error);
+});
 
 const refreshAccessToken = async () => {
     try {
@@ -39,14 +56,17 @@ const refreshAccessToken = async () => {
     return null;
 };
 
-const login = async (userName, password) => {
-    const response = await axios.post(
-        `${SERVER_API_URL}/auth/login`,
-        { userName, password },
-        { withCredentials: true } 
-    );
-    localStorage.setItem('accessToken', response.data.access_token);
-    console.log('Access token saved to localStorage')
+const login = async (email, password) => {
+   try {
+        const response = await axios.post(
+            `${SERVER_API_URL}/auth/login`,
+            { email, password },
+            { withCredentials: true } 
+        );
+        localStorage.setItem('accessToken', response.data.access_token);
+   } catch (error) {
+        console.log('failed to login', error)
+   }
 }
 
 const logout = async () => {
@@ -61,4 +81,17 @@ const logout = async () => {
     }
 }
 
-export { login, logout, checkAuth}
+const register = async (username, email, password) => {
+    try {
+        const response = await axios.post(`${SERVER_API_URL}/auth/register`,
+            { username, email, password },
+            { withCredentials: true}
+        );
+        return response.data;
+    } catch (error) {
+        console.error("failed to register", error);
+        throw new Error(error.response?.data?.message)
+    }
+}
+
+export { login, logout, checkAuth, register}

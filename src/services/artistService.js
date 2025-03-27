@@ -3,7 +3,7 @@ import { getAccessToken } from './tokenService';
 
 const SERVER_API_URL = 'http://localhost:8080';
 
-const createRecord = async (type, data) => {
+const createRecord = async (type, data, songs = []) => {
     const token = getAccessToken();
     try {
         const formData = new FormData();
@@ -15,6 +15,12 @@ const createRecord = async (type, data) => {
                 formData.append(key, value);
             }
         });
+
+        songs.forEach((song, index) => {
+            formData.append(`songs[${index}]`, JSON.stringify(song));
+        });
+
+        console.log(formData)
 
         const response = await axios.post(
             `${SERVER_API_URL}/artist/${type}`,
@@ -35,6 +41,25 @@ const createRecord = async (type, data) => {
 };
 
 const createSong = (data) => createRecord('create-song', data)
-const createAlbum = (data) => createRecord('create-album', data)
+const createAlbum = (data, songs) => createRecord('create-album', data, songs)
 
-export { createSong, createAlbum };
+const createArtist = async (data) => {
+    const token = getAccessToken();
+    try {
+        const response = await axios.post(`${SERVER_API_URL}/artist/create-artist`, 
+        data, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                withCredentials: true
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('failed to create artist profile', error);
+        throw error;
+    }
+} 
+
+export { createSong, createAlbum, createArtist};

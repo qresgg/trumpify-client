@@ -7,7 +7,9 @@ import { setView } from '../../../../../../lib/viewSlice';
 import { UserImage } from '../../../../../../hooks/UserImage';
 
 export function AccountConfig() {
-    const userG = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.data.user);
+    const artist = useSelector((state) => state.data.artist)
+
     const dispatch = useDispatch();
 
     const [activeChange, setActiveChange] = useState(null);
@@ -26,11 +28,11 @@ export function AccountConfig() {
                     <div className={styles.setting}>
                         <div className={styles.container}>
                             <UserImage width={'48px'} height={'48px'}/>
-                            <div>{userG.userName}</div>
+                            <div>{user.user_name}</div>
                         </div>
                         <button onClick={() => routePage("userProfile")}>View Profile</button>
                     </div>
-                    {userG.artistName == 'none' ? (
+                    {artist == 'none' ? (
                         <div className={styles.setting}>
                             <p>You don't have artist profile</p>
                             <button onClick={() => routePage("artistCreate")}>Create Artist Profile</button>  
@@ -38,14 +40,14 @@ export function AccountConfig() {
                     ) : (<div className={styles.setting}>
                         <div className={styles.container}>
                             <div className={styles.user_avatar}></div>
-                            <div>{userG.artistName}</div>
+                            <div>{artist.artist_name}</div>
                         </div>
                         <button onClick={() => routePage("userArtistProfile")}>View Profile</button>
                     </div>)}
                     <div className={styles.setting}>
                         <div className={styles.container}>
                             <div className={styles.title}>Email Adress</div>
-                            <div className={styles.data}>{userG.userEmail}</div>
+                            <div className={styles.data}>{user.user_email}</div>
                         </div>
                         <button onClick={() => toggleChange(1)}>Change</button>
                     </div>

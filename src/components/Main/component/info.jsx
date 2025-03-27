@@ -10,15 +10,17 @@ export function Info({ width, onResize, albumCover }) {
             setSavedAlbum(selectedPlaylist);
         }
     }, [selectedSong])
+    
+    // const songCover = background: `url(${selectedSong.song_cover})`
     return (
         <>
             {selectedSong && (
                 <>
                     <div className={styles.resizer} onMouseDown={onResize}></div>
                     <div className={styles.song} style={{ width: `${width}px` }}>
-                        <div className={styles.song__albumTitle}>{savedAlbum.title}</div>
+                        <div className={styles.song__albumTitle}></div>
                         <div className={styles.song__container}>
-                            <div className={styles.artistPreview} style={albumCover}></div>
+                            <img src={selectedSong.song_cover}/>
                             <div className={styles.title}>
                                     <div className={styles.title__songName}><a href="#">{selectedSong.title}</a></div>
                                     <div className={styles.title__artists}>{selectedSong.features.map((feat, index) => (

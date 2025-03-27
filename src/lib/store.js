@@ -2,13 +2,13 @@ import { createStore, combineReducers } from 'redux';
 import musicSlice from './musicState'; 
 import resizingReducer from './resizer'
 import viewSlice from './viewSlice'
-import userSlice from './userSlice'
+import dataSlice from './dataSlice'
 
 const rootReducer = combineReducers({
     music: musicSlice, 
     resizingReducer,
     view: viewSlice,
-    user: userSlice,
+    data: dataSlice,
 });
 
 export const store = createStore(rootReducer);

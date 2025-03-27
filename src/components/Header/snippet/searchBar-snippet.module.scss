@@ -1,0 +1,61 @@
+.bar{
+    color: white;
+    
+
+    &__container{
+        height: 100%;
+
+        input{
+            position: relative;
+            cursor: pointer;
+            flex: 1;
+
+            background-color: #121212;
+            border: none;
+            border-radius: 500px;
+            box-sizing: border-box;
+            max-width: 474px;
+            min-width: 300px;
+            flex-grow: 1;
+            height: 100%;
+
+            padding: 12px 64px 12px 48px;
+        }
+
+        .results{
+            position: absolute;
+            z-index: 99;
+            height: 400px;
+            width: 300px;
+            background-color: #272727;
+            overflow-y: scroll;
+            border-radius: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        
+            &::-webkit-scrollbar {
+                width: 12px;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
+        
+            &::-webkit-scrollbar-track {
+            background: #121212;
+            border-radius: 10px;
+            }
+        
+            &::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 0px;
+            width: 20px;
+            }
+        
+            &:hover::-webkit-scrollbar {
+            opacity: 1;
+            }
+            p{
+                font-weight: bold;
+            }
+        }
+    }
+}

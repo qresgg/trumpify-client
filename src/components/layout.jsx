@@ -6,87 +6,57 @@ import { Footer } from "./Footer/footer";
 import { useState, useEffect } from "react";
 import { login, logout, checkAuth } from "../services/authService";
 import { getUserData } from "../services/userService";
-import { setUser as setReduxUser } from "../lib/userSlice";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { setData as setReduxData } from "../lib/dataSlice";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import _ from 'lodash';
 
 export function Layout() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
+  const [message, setMessage] = useState({ success: "", error: "" });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const clearForm = () => {
-    setUserName("");
-    setPassword("");
-    setSuccess("Login successful");
-    setError("");
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await login(userName, password);
-      clearForm();
-    } catch (error) {
-      setError("Error during login");
-      console.error(error.response ? error.response.data : error);
-    }
-  };
-
-  const handleData = (userNameProp, passwordProp) => {
-    setUserName(userNameProp);
-    setPassword(passwordProp);
-    handleSubmit({ preventDefault: () => {} });
-  };
 
   useEffect(() => {
     const authenticateUser = async () => {
-      const token = await checkAuth();
-      if (token) {
-        setIsAuthenticated(true);
-        navigate("/home");
-        const data = await getUserData();
-        
-        dispatch(setReduxUser(data));
-      } else {
+      try {
+        const token = await checkAuth();
+        if (token) {
+          setIsAuthenticated(true);
+          const userData = await getUserData();
+          dispatch(setReduxData(userData));
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
         setIsAuthenticated(false);
-        navigate("/auth");
-      } 
+      }
     };
 
     authenticateUser();
-  }, [success, dispatch]);
+  }, [dispatch, message.success]);
+
+  const handleData = async (inputData) => {
+    try {
+      await login(inputData.email, inputData.password);
+      setMessage({ success: "Login successful", error: "" });
+      setIsAuthenticated(true);
+    } catch (error) {
+      setMessage({ success: "", error: "Error during login" });
+      console.error(error.response?.data || error);
+    }
+  };
 
   return (
     <>
-      {isAuthenticated ? (
-        <Routes>
-          <Route path="/home" element={
-            <>
+        {isAuthenticated ? (
+          <>
             <Header onLogout={logout}/>
             <Main />
             <Footer />
-          </>
-          } />
-        </Routes>
+        </>
       ) : (
         <>
-          <Routes>
-            <Route path="/auth" element={<Auth
-              // user={user}
-              success={success}
-              error={error}
-              handleData={handleData} 
-            />}/>
-          </Routes>
+            <Auth success={message.success} error={message.error}handleData={handleData}/>
         </>
       )}
     </>

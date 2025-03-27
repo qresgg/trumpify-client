@@ -1,14 +1,14 @@
 import { Registration } from "./components/registration";
 import { Login } from "./components/login";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Auth ({
     onLogout,
     handleData
 }
 ) {
-    const [isLogin, setIsLogin] = useState(true);
-    
+    const [isLogin, setIsLogin] = useState(true); 
+
     const handleClick = () => {
         setIsLogin(!isLogin);   
     }
@@ -20,8 +20,7 @@ export function Auth ({
             onLogout={onLogout}/>)}
         {!isLogin && (<Registration 
             handleClick={handleClick}/>)}
-        
-        <button onClick={handleClick}>1231</button>
-        </>
+        <button onClick={handleClick}>Change</button>
+    </>
     )
 }

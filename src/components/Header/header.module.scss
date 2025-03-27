@@ -1,34 +1,29 @@
-$header__primaryColor: black;
-$header__secondColor: #1F1F1F;
+@use '../../style/global/variables.module' as global;
+
 
 .header{
     position: relative;
-    $header__height: 64px;
-    $header__width: 100%;
-
-    width: $header__width;
-    height: $header__height;
+    width: global.$header_width;
+    height: global.$header_height;
     padding: 8px 16px;
     box-sizing: border-box;
 
     background-color: black;
     display: flex;
 
-    %container{
-        background-color: $header__secondColor;
-        border-radius: 50%;
-        $measure: 48px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        min-width: $measure;
-        cursor: pointer;
-
-        width: $measure;
-        height: $measure;
-        &:hover{
-            filter: brightness(1.5);
-        }
+    .blackScreen{
+        color: white;
+        background-color: black;
+        position: absolute;
+        z-index: 98;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        opacity: 0.3;
     }
+
+    
     .navBar{
 
         width: 100%;
@@ -39,7 +34,7 @@ $header__secondColor: #1F1F1F;
         &__logo{
             background-image: url('../../../public/logo.png');
 
-            @extend %container;
+            @extend %header_container;
         }
 
         &__home{
@@ -49,14 +44,18 @@ $header__secondColor: #1F1F1F;
                 background-color: #2b2b2b;
             }
 
-            @extend %container;
+            @extend %header_container;
+        }
+
+        button{
+            margin: 0;
         }
 
         &__search{
             cursor: pointer;
             flex: 1;
 
-            background-color: $header__secondColor;
+            background-color: global.$header_second-color;
             border: none;
             border-radius: 500px;
             box-sizing: border-box;
@@ -69,7 +68,6 @@ $header__secondColor: #1F1F1F;
         }
     }
     .userBar{
-        width: 100%;
         display: flex;
         justify-content: end;
         gap: 10px;
@@ -87,16 +85,16 @@ $header__secondColor: #1F1F1F;
             max-width: fit-content;
             font-size: 13px;
             font-weight: bold;
-            background-color: white;
+            background-color: global.$header_special-button-color;
             border-radius: 500px;
         }
         &__settings{
-            @extend %container;
+            @extend %header_container;
             color: white;
         }
         &__profile{
 
-            @extend %container;
+            @extend %header_container;
             &:hover{
                 filter: none;
             }

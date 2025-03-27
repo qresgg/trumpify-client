@@ -5,9 +5,9 @@ export function UserImage({
     height,
     url
 }) {
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.data.user);
 
-    const urlImage = url || user.urlAvatar;
+    const urlImage = url || user?.user_avatar_url;
     const imageParameters = {
         backgroundImage: `url(${urlImage})`,
         backgroundSize: 'contain',

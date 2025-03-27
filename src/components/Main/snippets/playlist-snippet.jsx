@@ -14,10 +14,7 @@ export function Playlist({
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHoovering, setIsHovering] = useState(false);
 
-    const formattedArtist = playlist ? playlist.artist.replace(REGEXP_IMAGEURL, '').toLowerCase() : null;
-    const formattedTitle = playlist ? playlist.title.replace(REGEXP_IMAGEURL, '').toLowerCase(): null;
-
-    const urlImage = playlist ? `/album-covers/${formattedArtist}_${formattedTitle}.jpg` : null;
+    const urlImage = playlist.cover;
     const albumCover = playlist ? {
         backgroundImage: `url("${urlImage}")`
     } : {};
@@ -35,7 +32,6 @@ export function Playlist({
     
     const togglePlay = async () => {
         if (activePlaylist === playlist) {
-            console.log('trueS')
             dispatch(togglePlayback());
         } else {
             await dispatch(setActivePlaylist(playlist));

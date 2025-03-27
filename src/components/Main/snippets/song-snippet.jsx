@@ -1,5 +1,5 @@
 import styles from './song-snippet.module.scss'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
 import { togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/musicState";
@@ -8,24 +8,35 @@ import { likeSong, unLikeSong } from '../../../services/userActionsService';
 export function Song({
     song,
     index,
+    claim
 }) {
     const dispatch = useDispatch();
-    const [isHoovering, setIsHovering] = useState(false);
+    const [isHover, setIsHover] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    const { isMusicPlaying, activePlaylist, activeSong, selectedSong, selectedPlaylist, activeSongId} = useSelector((state) => state.music);
+    const { isMusicPlaying, activePlaylist, activeSong, selectedSong, selectedPlaylist } = useSelector((state) => state.music);
     const [likedSong, setLikedSong] = useState(false)
+    const timerRef = useRef(null);
 
-    const OnLikeSong = async (e) => {
-        e.preventDefault();
-        setLikedSong(!likedSong);
+    useEffect(() => {
+        setLikedSong(claim)
+    }, [selectedPlaylist, claim])
+
+    const OnLikeSong = async () => {
+        clearTimeout(timerRef.current);
         
-        try {
-            likedSong ? await unLikeSong(song) : await likeSong(song);
-        } catch (error) {
-            console.error(error.response ? error.response.data : error);
-        }
-    }
-
+        const prevLikeRef = likedSong;
+        const newLikeState = !likedSong;
+        setLikedSong(newLikeState);
+    
+        timerRef.current = setTimeout(async () => {
+            try {
+                prevLikeRef ? await unLikeSong(song) : await likeSong(song);
+            } catch (error) {
+                console.error(error.response ? error.response.data : error);
+            }
+        }, 1200);
+    };
+    
     useEffect(() => {
         if (activeSong === song && isMusicPlaying) {
             setIsPlaying(true);
@@ -50,18 +61,22 @@ export function Song({
     };
     return (
         <div className={styles.song} 
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}>
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}>
             <div className={styles.song__id} onClick={handleSongClick}>
-                {isHoovering ? (isPlaying ? <Pause size={20}/> : <Play size={20}/>) : <div>{index}</div>}
+                {isHover ? (isPlaying ? <Pause size={20}/> : <Play size={20}/>) : <div>{index}</div>}
             </div>
             <div className={styles.song__title}>
-                <div className={styles.song__title__name} style={{color: isPlaying ? '#3BE477' : 'white'}}>{song.title}</div>
+                <div className={styles.song__title__name} style={{color: isPlaying ? '#3BE477' : 'white' }}>{song.title}</div>
                 <div className={styles.song__title__artist}>
                 </div>
             </div>
             <div className={styles.rightPanel}>
-                <div className={styles.song__like} onClick={OnLikeSong}>{likedSong ? <>1</> : <>0</>}</div>
+                <div className={styles.song__like} onClick={OnLikeSong}>
+                    {likedSong 
+                    ? <div className={styles.liked}></div> 
+                    : <div className={styles.notliked}></div>}
+                </div>
                 <div className={styles.song__duration}>
                     <div className={styles.song__duration__time}>
                         {song.duration}

@@ -26,7 +26,7 @@
         }
 
         .addiction{
-            height: calc(300px - 32px);
+            height: calc(400px - 32px);
             display: flex;
             align-items: end;
 
@@ -54,8 +54,8 @@
 
     .statistic{
         position: relative;
-        top: -150px;
-        background: #1212124b;
+        top: -50px;
+        background: #1212129f;
         backdrop-filter: blur(40px);
         height: 1000px;
         padding: 16px;
@@ -63,12 +63,45 @@
 
         .popular_songs{
             display: flex;
+            flex-direction: column;
             color:white;
             
             &__title{
                 color: white;
                 font-size: 24px;
                 font-weight: bold;
+            }
+            &__list{
+                padding: 0 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                .tabulation{
+                    color: white;
+                    display: flex;
+                    box-sizing: border-box;
+                    padding: 16px 0;
+                    padding-right: 16px;
+                    width: 100%;
+                    border-bottom: #555 1px solid;
+
+                    &__id{
+                        min-width: 40px;
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                    }
+                    &__start{
+                        display: flex;
+                        gap: 8px;
+                    }
+                    &__end{
+                        width: 100%;
+                        display: flex;
+                        justify-content: end;
+                    }
+                }
             }
         }
         // .artist_chose{

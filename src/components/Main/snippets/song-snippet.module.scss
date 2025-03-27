@@ -5,7 +5,6 @@
     display: flex;
     gap: 8px;
     border-radius: 5px;
-
     &__id{
         display: flex;
         justify-content: center;
@@ -52,9 +51,36 @@
     &__like{
         display: flex;
         justify-content: end;
+        position: relative;
+        z-index: 90;
+        width: 16px;
+        height: 16px;
 
         &:hover{
             cursor: pointer;
+        }
+
+        .liked{
+            background-image: url('../../../../public/micro-ico/liked.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+            height: inherit;
+            width: inherit;
+        }
+        .notliked{
+            background-image: url('../../../../public/micro-ico/notliked.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: brightness(0.7);
+            height: inherit;
+            width: inherit;
+        }
+
+        &:hover{
+            filter:brightness(1);
+            width: 17px;
+            height: 17px;
         }
     }
     &__duration{

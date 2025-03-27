@@ -1,25 +1,36 @@
 import styles from './createForm.module.scss'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
-import { createAlbum } from '../../../../services/artistService';
-import axios from 'axios';
-const SERVER_API_URL = 'http://localhost:8080';
+import { createAlbum } from '../../../../../services/artistService';
+import { CreateSongAlbum } from './createSongAlbum';
+import { X } from 'lucide-react'
 
 export function AlbumCreatePage() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [previewImage, setPreviewImage] = useState('');
+    const [isOpened, setIsOpened] = useState(false)
+    const [song, setSong] = useState([]);
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
     const onSubmit = async (data) => {
         try {
-            await createAlbum(data);
-            setSuccess('Song created successfully');
+            await createAlbum(data, song);
+            setSuccess('Album created successfully');
+            setError('')
         } catch (error) {
-            setError('Error during creation song');
+            setError('Error during creation album');
+            setSuccess('')
             console.error(error.response ? error.response.data : error);
         }
+    }
+
+    const addSong = (song) => {
+        setSong((prevState) => [...prevState, song]);
+    }
+    const removeSong = (songIndex) => {
+        setSong((prevSongs) => prevSongs.filter((_, index) => index !== songIndex))
     }
 
     const handleFileChange = (e) => {
@@ -32,11 +43,15 @@ export function AlbumCreatePage() {
             reader.readAsDataURL(file); 
         }
     }
+    const handleIsOpened = () => {
+        setIsOpened(false);
+    }
     const previewContainer = {
         backgroundImage: previewImage,
     }
     return (
         <div className={styles.main}>
+            { isOpened && <div className={styles.blackScreen}></div>}
             <div className={styles.main__container}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -91,8 +106,16 @@ export function AlbumCreatePage() {
                     <div>
                         <label>Songs</label>
                         <div className={styles.songs}>
-                            <div className={styles.song}></div>
-                            <div className={styles.addSong}>
+                            {song.map((songie, index) => (
+                                <div key={index} className={styles.song}>
+                                    <div className={styles.removeButton} onClick={() => removeSong(index)}><X color="black" style={{cursor: 'pointer'}}/></div>
+                                    <div className={styles.content}>
+                                        <div className={styles.title}>{songie.title}</div>
+                                        <div className={styles.duration}>{songie.duration}</div>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className={styles.addSong} onClick={() => setIsOpened(true)}>
                                 <div className={styles.addSong__plus}></div>
                             </div>
                         </div>
@@ -102,6 +125,7 @@ export function AlbumCreatePage() {
                     </div>
                 </form>
             </div>
+            { isOpened &&  <CreateSongAlbum toggleModal={handleIsOpened} sendSong={addSong}/> }
         </div>
     )
 }

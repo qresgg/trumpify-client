@@ -1,5 +1,4 @@
 import styles from './login.module.scss'
-import { useState, useEffect } from 'react';
 import { SignIn } from './capitalize/signin';
 import { Signed } from './capitalize/signed';
 

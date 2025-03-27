@@ -31,11 +31,24 @@ const getUserData = async () => {
   }
 };
 
-// const registerArtistProfile = async () => {
-//   try {
+const searchData = async (value) => {
+  const token = getAccessToken();
+  
+  try {
+    const response = await axios.get(`http://localhost:8080/api/search`, {
+      params: { query: value },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    });
 
-//   }
-// }
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to fetch user data');
+  }
+};
 
 
-export { getUserData }
+export { getUserData, searchData}
