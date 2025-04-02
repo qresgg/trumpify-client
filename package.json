@@ -35,7 +35,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "nodemon db"
+    "dev": "nodemon db",
+    "build": "react-scripts build"
+
   },
   "eslintConfig": {
     "extends": [
