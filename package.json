@@ -36,7 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "nodemon db",
-    "build": "echo 'Skipping build step' && exit 0"
+    "build": "npm install && echo 'Skipping build step' && exit 0"
   },
   "eslintConfig": {
     "extends": [
