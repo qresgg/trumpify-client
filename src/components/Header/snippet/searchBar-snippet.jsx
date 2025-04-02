@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, Fragment } from 'react'
 import styles from './searchBar-snippet.module.scss'
 import { debounce } from 'lodash'
-import { searchData } from '../../../services/userService'
+import { searchData } from '../../../services/user/userService'
 import { RelocateFromSearchBar } from './relocate/relocateFromSearchBar'
 
 export function SearchBar({
@@ -40,7 +40,9 @@ export function SearchBar({
                     <p>Results: </p>
                     {Array.isArray(results) && results.length > 0 ? (
                     results.map((result, index) => (
-                        <RelocateFromSearchBar result={result} index={index}/>
+                        <Fragment key={index}>
+                            <RelocateFromSearchBar result={result} index={index}/>
+                        </Fragment>
                     ))
                     ) : (
                     <li>No results available</li>

@@ -1,0 +1,7 @@
+@use '../../global/variables.module' as global;
+
+$footer_primary-color: global.$primary-color;
+$footer_second-color: global.$additional-color;
+$footer_selected-color: global.$selected-color;
+$footer_special-color: global.$special-color;
+$footer_bright-selected-color: global.$bright-selected-color;

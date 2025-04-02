@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { getAccessToken } from './tokenService';
-
-const SERVER_API_URL = 'http://localhost:8080';
+import { getAccessToken } from '../global/functions';
+import { SERVER_API_URL } from '../global/variable';
 
 const createRecord = async (type, data, songs = []) => {
     const token = getAccessToken();
@@ -19,8 +18,6 @@ const createRecord = async (type, data, songs = []) => {
         songs.forEach((song, index) => {
             formData.append(`songs[${index}]`, JSON.stringify(song));
         });
-
-        console.log(formData)
 
         const response = await axios.post(
             `${SERVER_API_URL}/artist/${type}`,

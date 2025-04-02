@@ -1,40 +1,16 @@
 //global
 $primary-color: black;
 $second-color: #1F1F1F; 
+$additional-color: #1ED760;
 $selected-color: #2A2A2A;
+$special-color: white;
+
+$bright-selected-color: #333333;
+
 $big-padding: 16px;
 $small-padding: 8px;
 $border-radius: 5px;
-
-//header
-$header_primary-color: $primary-color;
-$header_second-color: $second-color;
-$header_selected-color: $selected-color;
-$header_special-button-color: white;
-
-$header_height: 64px;
-$header_width: 100%;
-$header_paddings: $small-padding;
-$header_big-paddings: $big-padding;
-
-$header_in-container-height: 32px;
-$header_font-size: 14px;
-
-%header_container{
-    background-color: $header_second-color;
-    border-radius: 50%;
-    $measure: 48px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    min-width: $measure;
-    cursor: pointer;
-
-    width: $measure;
-    height: $measure;
-    &:hover{
-        filter: brightness(1.5);
-    }
-}
-
+$big_gap: 16px;
+$small_gap: 8px;
 
 // main

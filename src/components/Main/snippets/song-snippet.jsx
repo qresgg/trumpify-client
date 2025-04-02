@@ -2,8 +2,10 @@ import styles from './song-snippet.module.scss'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
-import { togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/musicState";
-import { likeSong, unLikeSong } from '../../../services/userActionsService';
+import { togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/redux/music/musicState";
+import { likeSong, unLikeSong } from '../../../services/user/Actions/userActionsService';
+import { setData } from '../../../lib/redux/data/dataSlice';
+import { updateLikedSongsCount } from '../../../services/global/functions';
 
 export function Song({
     song,
@@ -14,9 +16,9 @@ export function Song({
     const [isHover, setIsHover] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const { isMusicPlaying, activePlaylist, activeSong, selectedSong, selectedPlaylist } = useSelector((state) => state.music);
+    const data = useSelector((state) => state.data)
     const [likedSong, setLikedSong] = useState(false)
     const timerRef = useRef(null);
-
     useEffect(() => {
         setLikedSong(claim)
     }, [selectedPlaylist, claim])
@@ -30,7 +32,10 @@ export function Song({
     
         timerRef.current = setTimeout(async () => {
             try {
-                prevLikeRef ? await unLikeSong(song) : await likeSong(song);
+                const response = prevLikeRef 
+                ? await unLikeSong(song) 
+                : await likeSong(song);
+                updateLikedSongsCount(dispatch, data.user, data.artist, response.likedSongs)
             } catch (error) {
                 console.error(error.response ? error.response.data : error);
             }
@@ -59,6 +64,8 @@ export function Song({
     const handleSongClick = () => {
         togglePlay();
     };
+    
+
     return (
         <div className={styles.song} 
         onMouseEnter={() => setIsHover(true)}
@@ -69,6 +76,7 @@ export function Song({
             <div className={styles.song__title}>
                 <div className={styles.song__title__name} style={{color: isPlaying ? '#3BE477' : 'white' }}>{song.title}</div>
                 <div className={styles.song__title__artist}>
+                    {song.features.map((feat) => feat.name).join(', ')}
                 </div>
             </div>
             <div className={styles.rightPanel}>

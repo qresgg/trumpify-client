@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePalette } from 'react-palette';
 import { Play, Pause } from 'lucide-react';
-import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong } from '../../../../lib/musicState';
+import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong } from '../../../../lib/redux/music/musicState';
 import AlbumTrackInfo from '../../../../hooks/albumTrackInfo';
-import { setSelectedArtistPage } from '../../../../lib/viewSlice';
 import ShowPage from '../../../../hooks/showPage';
-import { getLikedSongs } from '../../../../services/userActionsService';
+import { getLikedSongs } from '../../../../services/user/Actions/userActionsService';
 
-export function AboutPlaylistPage({ id }) {
+export function AboutPlaylistPage() {
     const dispatch = useDispatch();
     const { isMusicPlaying, activePlaylist, activeSong, selectedPlaylist } = useSelector(state => state.music);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -18,15 +17,10 @@ export function AboutPlaylistPage({ id }) {
     const [likedSongs, setLikedSongs] = useState([]);
 
     useEffect(() => {
-        console.log(likedSongs)
-    }, [likedSongs])
-
-    useEffect(() => {
         const fetchLikedSongs = async () => {
             if (!selectedPlaylist?._id) return;
             try {
                 const response = await getLikedSongs(selectedPlaylist._id);
-                console.log(response)
                 setLikedSongs(response.likedSongsInAlbum || []);
             } catch (error) {
                 console.error("Error fetching liked songs:", error);
@@ -72,7 +66,7 @@ export function AboutPlaylistPage({ id }) {
         <div className={styles.foryou}>
             {selectedPlaylist ? (
                 <div className={styles.playlist}>
-                    <div className={styles.playlist__title} style={{ background: `linear-gradient(to bottom, ${data.lightMuted}, ${data.darkMuted})` }}>
+                    <div className={styles.playlist__title} style={{ background: `linear-gradient(to bottom, ${data.lightVibrant}, ${data.darkMuted})` }}>
                         <div className={styles.playlist__title__container}>
                             <div className={styles.image} style={{ backgroundImage: `url(${selectedPlaylist.cover})` }}></div>
                             <div className={styles.info}>
@@ -105,7 +99,7 @@ export function AboutPlaylistPage({ id }) {
                             <div className={styles.tracks__trackplate}>
                                 {trackCount > 0 ? (
                                     selectedPlaylist.songs.map((song, index) => {
-                                        const isLiked = likedSongs.some(likedSong => likedSong === song._id);
+                                        const isLiked = likedSongs.includes(song._id);
                                         return (
                                             <div key={index} onClick={() => selectSong(song)}>
                                                 <Song song={song} index={index + 1} claim={isLiked ? true : false} />

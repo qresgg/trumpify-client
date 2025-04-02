@@ -18,7 +18,7 @@ export function UserArtistProfilePage() {
             <div className={styles.title}>
                 <div className={styles.addiction}>
                     <div className={styles.info}>
-                        <div className={styles.isProfile}>Verified artist</div>
+                        <div className={styles.isProfile}>{currentArtistPage.artist_is_verified && <p className={styles.verifiedIco}>Verified</p>} Artist</div>
                         <div className={styles.userName}>{currentArtistPage.artist_name}</div>
                         <div className={styles.playlistCount}>0 listeners per month</div>
                     </div>

@@ -1,7 +1,7 @@
 import styles from './createForm.module.scss'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
-import { createAlbum } from '../../../../../services/artistService';
+import { createAlbum } from '../../../../../services/artist/artistService';
 import { CreateSongAlbum } from './createSongAlbum';
 import { X } from 'lucide-react'
 

@@ -24,9 +24,7 @@
     }
     
     &__art{
-        background-image: url('../../../../public/likedsongs.png');
-        background-size: contain;
-        background-repeat: no-repeat;
+        background: url('../../../../public/likedsongs.png') center/contain no-repeat;
         width: 48px;
         height: 100%;
         border-radius: 5px;

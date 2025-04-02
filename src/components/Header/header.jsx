@@ -1,7 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import styles from './header.module.scss';
-import { setView } from '../../lib/viewSlice';
+import { setView } from '../../lib/redux/pages/viewSlice';
 import { DropdownMenu } from './snippet/dropdownmenu-snippet';
 import { UserImage } from '../../hooks/UserImage';
 import { SearchBar } from './snippet/searchBar-snippet';
@@ -13,7 +13,6 @@ export function Header ({
     const [isDDMenuOpen, setIsDDMenuOpen] = useState(false);
     const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false);
     const [isBlackScreen, setIsBlackScreen] = useState(false);
-
 
     const handleDropDownMenu = () => {
         setIsDDMenuOpen(!isDDMenuOpen);
@@ -39,6 +38,7 @@ export function Header ({
                 <button onClick={() => dispatch(setView("artistCreate"))}>Create Artist Profile</button>
                 <button onClick={() => dispatch(setView("songCreate"))}>Create Song</button>
                 <button onClick={() => dispatch(setView("albumCreate"))}>Create Album</button>
+                <button onClick={() => dispatch(setView("songTEST"))}>songTEST</button>
             </div>
             <div className={styles.userBar}>
                 {/* <div className={styles.userBar__subscription}>Learn more about Premium</div> */}

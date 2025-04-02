@@ -8,8 +8,10 @@ import { UserArtistProfilePage } from './componentsForYou/userPages/userArtistPr
 import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
 import { AlbumCreatePage } from './componentsForYou/createPages/albumCreatePage';
+import { LikedSongsPage } from './componentsForYou/likedSongsPage';
+import { CreateMusicFile } from './componentsForYou/createPages/createMusicFile';
 
-export function ForYou({ selectedPlaylist, onSelectSong, id}) {
+export function ForYou() {
     const currentView = useSelector((state) => state.view.currentView)
     console.log(currentView);
     
@@ -17,10 +19,8 @@ export function ForYou({ selectedPlaylist, onSelectSong, id}) {
         <Fragment>
             {currentView === "home" && <HomePage />}
             {currentView === "settings" && <SettingsPage/>}
-            {currentView === "playlist" && <AboutPlaylistPage 
-                selectedPlaylist={selectedPlaylist}
-                onSelectSong={onSelectSong}
-                id={id}/>}
+            {currentView === "playlist" && <AboutPlaylistPage/>}
+            {currentView === "likedSongs" && <LikedSongsPage />}
 
             {/* PROFILES */}
             {currentView === "userArtistProfile" && <UserArtistProfilePage />}
@@ -30,6 +30,7 @@ export function ForYou({ selectedPlaylist, onSelectSong, id}) {
             {currentView === "artistCreate" && <ArtistPageCreate/>}
             {currentView === "songCreate" && <SongPageCreate/>}
             {currentView === "albumCreate" && <AlbumCreatePage />}
+            {currentView === "songTEST" && <CreateMusicFile />}
         </Fragment>
     );
 }

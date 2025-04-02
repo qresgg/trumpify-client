@@ -1,15 +1,14 @@
 import axios from 'axios';
-
-
-const SERVER_API_URL = 'http://localhost:8080';
+import { getAccessToken } from '../global/functions';
+import { SERVER_API_URL } from '../global/variable';
 
 const apiClient = axios.create({
     baseURL: SERVER_API_URL,
     withCredentials: true,
 });
 
-const checkAuth = async () => {
-    const token = localStorage.getItem('accessToken');
+const checkAuth = async (retryCount = 0, maxRetries = 3) => {
+    const token = getAccessToken();
     if (token) {
         try {
             const response = await axios.post(`${SERVER_API_URL}/auth/verify`, {}, {
@@ -25,16 +24,24 @@ const checkAuth = async () => {
                 console.error('Unauthorized access - Invalid token');
             }
 
-            return await refreshAccessToken();
+            if (retryCount < maxRetries) {
+                await refreshAccessToken();
+                console.log('refreshsed')
+                return await checkAuth(retryCount + 1, maxRetries);
+            } else {
+                console.error('Max retries reached. Unable to verify token.');
+                return null;
+            }
         }
     } else {
-        return null;
+        return await refreshAccessToken();
     }
 };
 apiClient.interceptors.response.use(null, async (error) => {
     if (error.response && error.response.status === 401) {
         const newToken = await refreshAccessToken();
         if (newToken) {
+            console.log('incterceptor');
         error.config.headers.Authorization = `Bearer ${newToken}`;
         return apiClient(error.config);
         }
@@ -47,6 +54,7 @@ const refreshAccessToken = async () => {
         const response = await axios.post(`${SERVER_API_URL}/auth/refresh`, {}, { withCredentials: true });
         if (response.data.access_token) {
 
+            console.log('refreshed')
             localStorage.setItem('accessToken', response.data.access_token);
             return response.data.access_token;
         }

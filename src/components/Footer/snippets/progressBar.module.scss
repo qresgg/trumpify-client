@@ -1,0 +1,41 @@
+@use '../../../style/lead/footer/var-footer.module' as global;
+
+.progressContainer {
+    width: 100%;
+    height: 4px;
+    background: global.$footer_bright-selected-color;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+
+    .progressBar {
+        width: 50%;
+        height: 100%;
+        background: global.$footer_special-color;
+    }
+    
+    .slider {
+        position: absolute;
+        display: none;
+        z-index: 10;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        transform: translateY(-50%);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    &:hover {
+        .progressBar{
+            background-color: global.$footer_second-color;
+        }
+
+        .slider{
+            display: block;
+        }
+    }
+}
+

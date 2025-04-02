@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { isValidEmail, isValidPassword, isValidUserName} from '../../../lib/regexp';
 import { Check, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { register } from '../../../services/authService';
+import { register } from '../../../services/auth/authService';
 
 export function Registration () {
     const { register: hookRegister, handleSubmit, formState: { errors }, setValue } = useForm();

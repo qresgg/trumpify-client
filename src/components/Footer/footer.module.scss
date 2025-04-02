@@ -2,4 +2,22 @@
     background-color: black;
     height: 72px;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+    
+    .activeSong{
+        width: 100%;
+    }
+    .controller{
+        width: 100%;
+    }
+    .audioMixer{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
 }

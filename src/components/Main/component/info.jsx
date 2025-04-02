@@ -1,34 +1,37 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './info.module.scss';
-import { useState, useEffect } from 'react';
+import { setSelectedSong } from '../../../lib/redux/music/musicState';
+import { X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-export function Info({ width, onResize, albumCover }) {
+export function Info({ 
+    width, 
+    onResize 
+}) {
+    const dispatch = useDispatch();
     const { selectedSong, selectedPlaylist } = useSelector((state) => state.music)
-    const [savedAlbum, setSavedAlbum] = useState([]);
+    const [albumName, setAlbumName] = useState(null);
     useEffect(() => {
-        if (selectedSong) {
-            setSavedAlbum(selectedPlaylist);
-        }
+        selectedSong && setAlbumName(selectedPlaylist ? selectedPlaylist.title : 'Liked Songs')
     }, [selectedSong])
     
-    // const songCover = background: `url(${selectedSong.song_cover})`
     return (
         <>
             {selectedSong && (
                 <>
                     <div className={styles.resizer} onMouseDown={onResize}></div>
                     <div className={styles.song} style={{ width: `${width}px` }}>
-                        <div className={styles.song__albumTitle}></div>
+                        <div className={styles.song__albumTitle}>
+                            <div className={styles.albumName}>{albumName}</div>
+                            <div className={styles.closeInfo}><X onClick={() => dispatch(setSelectedSong(null))}/></div>
+                        </div>
                         <div className={styles.song__container}>
-                            <img src={selectedSong.song_cover}/>
+                            <div className={styles.image_container}>
+                                <img src={selectedSong.song_cover}/>
+                            </div>
                             <div className={styles.title}>
-                                    <div className={styles.title__songName}><a href="#">{selectedSong.title}</a></div>
-                                    <div className={styles.title__artists}>{selectedSong.features.map((feat, index) => (
-                                        <span key={index}>
-                                            <a href='#'>{feat.artist}</a>
-                                            {index < selectedSong.features.length - 1 && ', '}
-                                        </span>
-                                    ))}</div>
+                                    <div className={styles.title__songName}>{selectedSong.title}</div>
+                                    <div className={styles.title__artists}>{selectedSong.features.map((feat) => feat.name).join(', ')}</div>
                                 </div>
                                 <div className={styles.artistAccount}>
                                     <div className={styles.artist}>

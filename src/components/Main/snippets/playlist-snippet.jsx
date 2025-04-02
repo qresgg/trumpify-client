@@ -2,9 +2,8 @@ import style from './playlist-snippet.module.scss';
 import { REGEXP_IMAGEURL } from '../../../lib/regexp';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { setActivePlaylist, togglePlaylistPlayback, togglePlayback, setActiveSong } from '../../../lib/musicState';
+import { setActivePlaylist, togglePlaylistPlayback, togglePlayback, setActiveSong } from '../../../lib/redux/music/musicState';
 import { Pause, Play} from 'lucide-react';
-import { setView } from '../../../lib/viewSlice';
 export function Playlist({
     playlist,
     libWidth
@@ -34,8 +33,8 @@ export function Playlist({
         if (activePlaylist === playlist) {
             dispatch(togglePlayback());
         } else {
-            await dispatch(setActivePlaylist(playlist));
-            await dispatch(setActiveSong({ song: playlist.songs[0], index: 0 })); 
+            dispatch(setActivePlaylist(playlist));
+            dispatch(setActiveSong({ song: playlist.songs[0], index: 0 })); 
         }
     };
 

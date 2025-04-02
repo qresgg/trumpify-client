@@ -1,7 +1,7 @@
 import styles from './settingsPage.module.scss';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSettingsView } from '../../../../../lib/viewSlice';
+import { setSettingsView } from '../../../../../lib/redux/pages/viewSlice';
 import { AccountConfig } from './ConfigPanel/accountConfig';
 
 const SideBarElement = ({name, id, isActive, onClick}) => {

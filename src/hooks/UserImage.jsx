@@ -9,9 +9,7 @@ export function UserImage({
 
     const urlImage = url || user?.user_avatar_url;
     const imageParameters = {
-        backgroundImage: `url(${urlImage})`,
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
+        background: `url(${urlImage}) center/contain no-repeat`,
         height: height || '100%',
         width: width || '100%',
         minWidth: width,

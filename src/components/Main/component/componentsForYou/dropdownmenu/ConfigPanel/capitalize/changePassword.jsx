@@ -1,7 +1,7 @@
 import styles from './slidingContainer.module.scss';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { updatePassword } from '../../../../../../../services/userDataChange';
+import { updatePassword } from '../../../../../../../services/user/changeData/userDataChange';
 import { isValidPassword } from '../../../../../../../lib/regexp';
 
 export function ChangePassword() {

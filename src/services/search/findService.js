@@ -1,7 +1,6 @@
 import axios from "axios";
-import { getAccessToken } from "./tokenService";
-
-const SERVER_API_URL = 'http://localhost:8080';
+import { getAccessToken } from '../global/functions';
+import { SERVER_API_URL } from '../global/variable';
 
 const findData = async (type, id) => {
     const token = getAccessToken();

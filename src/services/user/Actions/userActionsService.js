@@ -1,11 +1,12 @@
 import axios from "axios";
-import { getAccessToken } from "./tokenService";
+import { getAccessToken } from '../../global/functions';
+import { SERVER_API_URL } from '../../global/variable';
 
 const UserAction = async (url, data) => {
     const token = getAccessToken();
 
     try {
-        const response = await axios.put(`http://localhost:8080/actions/${url}`, data, {
+        const response = await axios.put(`${SERVER_API_URL}/actions/${url}`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -24,7 +25,7 @@ const unLikeSong = async (song) => UserAction('unlike-song', { song });
 const getLikedSongs = async (id) => {
     const token = getAccessToken();
     try {
-        const response = await axios.get(`http://localhost:8080/actions/getLikedSongs/${id}`, {
+        const response = await axios.get(`${SERVER_API_URL}/actions/getLikedSongs/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'

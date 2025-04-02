@@ -1,9 +1,7 @@
 import styles from './createForm.module.scss'
 import { useState } from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { createArtist } from '../../../../../services/artistService';
-const SERVER_API_URL = 'http://localhost:8080';
+import { createArtist } from '../../../../../services/artist/artistService';
 
 export function ArtistPageCreate () {
     const { register, handleSubmit, formState: { errors }, reset} = useForm();

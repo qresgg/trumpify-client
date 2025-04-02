@@ -1,3 +1,5 @@
+@use '../../../../../style/mixins/scrollbar.module.scss';
+
 .profile{
     width: 100%;
     overflow-y: scroll;
@@ -75,25 +77,6 @@
     }
 
 
-    &::-webkit-scrollbar {
-        width: 12px;
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-      }
-    
-      &::-webkit-scrollbar-track {
-        background: #121212;
-        border-radius: 10px;
-      }
-    
-      &::-webkit-scrollbar-thumb {
-        background: #555;
-        border-radius: 0px;
-        width: 20px;
-      }
-    
-      &:hover::-webkit-scrollbar {
-        opacity: 1;
-      }
+    @include scrollbar.scrollbar;
 }
 

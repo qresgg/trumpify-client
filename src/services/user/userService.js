@@ -1,13 +1,11 @@
 import axios from 'axios';
-import { getAccessToken } from './tokenService';
+import { getAccessToken } from '../global/functions';
+import { SERVER_API_URL } from '../global/variable';
 
-const { SERVER_API_URL } = process.env;
-
-const fetchUserData = async () => {
+const fetchData = async (type) => {
   const token = getAccessToken();
-  
   try {
-    const response = await axios.get(`http://localhost:8080/api/getUser`, {
+    const response = await axios.get(`${SERVER_API_URL}/api/${type}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -23,19 +21,27 @@ const fetchUserData = async () => {
 
 const getUserData = async () => {
   try {
-    const data = await fetchUserData();
-    
-  return data;
+    const data = await fetchData('getUser');
+    return data;
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
 };
 
+const getAlbumData = async () => {
+  try {
+    const data = await fetchData('getAlbum');
+    return data;
+  } catch (error) {
+    console.error('Error fetching album data:', error)
+  }
+}
+
 const searchData = async (value) => {
   const token = getAccessToken();
   
   try {
-    const response = await axios.get(`http://localhost:8080/api/search`, {
+    const response = await axios.get(`${SERVER_API_URL}/api/search`, {
       params: { query: value },
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -50,5 +56,4 @@ const searchData = async (value) => {
   }
 };
 
-
-export { getUserData, searchData}
+export { getUserData, searchData, getAlbumData }

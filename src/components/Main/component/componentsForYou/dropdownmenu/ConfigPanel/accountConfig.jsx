@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { ChangePassword } from './capitalize/changePassword';
 import { ChangeEmail } from './capitalize/changeEmail';
-import { setView } from '../../../../../../lib/viewSlice';
+import { setView } from '../../../../../../lib/redux/pages/viewSlice';
 import { UserImage } from '../../../../../../hooks/UserImage';
 
 export function AccountConfig() {

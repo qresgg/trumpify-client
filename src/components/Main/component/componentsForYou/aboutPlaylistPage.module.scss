@@ -1,3 +1,5 @@
+@use '../../../../style/mixins/scrollbar.module.scss';
+
 .foryou{
     border-radius: 5px;
     background-color: #1F1F1F;
@@ -7,26 +9,7 @@
 
     overflow-y: scroll;
         
-    &::-webkit-scrollbar {
-        width: 12px;
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
-    
-    &::-webkit-scrollbar-track {
-        background: #121212;
-        border-radius: 10px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-        background: #555;
-        border-radius: 0px;
-        width: 20px;
-    }
-    
-    &:hover::-webkit-scrollbar {
-        opacity: 1;
-    }
+    @include scrollbar.scrollbar;
     .playlist{
         height: 100%;
         background-color: #121212;
@@ -35,7 +18,6 @@
             gap: 25px;
             color: white;
             align-items: start;
-
             border-radius: 5px; 
             height: 450px;
             width: 100%;
@@ -46,18 +28,20 @@
 
             &__container{
                 margin-top: 50px;
-
                 display: flex;
                 gap: 25px;
-                .image{
 
-                    background-position: 100%;
-                    background-repeat: no-repeat;
-                    background-size: contain;
+                %image_cont{
                     width: 200px;
                     height: 200px;
                     min-width: 200px;
                     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+                }
+
+                .image{
+                    background: center/contain no-repeat;
+                    @extend %image_cont;
+                    
                 }
 
                 .info{
@@ -69,18 +53,11 @@
                         margin: 0;
                     }
                     &__albumName{
-                        font-size: calc(6rem + 2vw);
+                        font-size: calc(6rem + 1vw);
                         font-weight: bold;
-                        text-indent: -10px;
+                        text-indent: -8px;
                         line-height: 0.9;
-
-                        display: -webkit-box;
-                        -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
-                        overflow: hidden;
-                        word-wrap: break-word;
-                        overflow-wrap: anywhere;
-                        white-space: normal;
                     }
 
                     &__otherInfo{
@@ -108,7 +85,7 @@
         &__tracks{
             position: relative;
             top: -150px;
-            background: #1212124b;
+            background: #12121269;
             backdrop-filter: blur(40px);
             max-height: 300px;
     

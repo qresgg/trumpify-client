@@ -1,7 +1,7 @@
 import styles from './slidingContainer.module.scss';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { updateEmail} from '../../../../../../../services/userDataChange';
+import { updateEmail} from '../../../../../../../services/user/changeData/userDataChange';
 import { isValidEmail } from '../../../../../../../lib/regexp';
 
 export function ChangeEmail() {

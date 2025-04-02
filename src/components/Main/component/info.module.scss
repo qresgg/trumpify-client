@@ -1,3 +1,5 @@
+@use '../../../style/mixins/scrollbar.module.scss';
+
 .song{
     user-select: none;
     width: 100%;
@@ -5,6 +7,7 @@
     background-color: #121212;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
 
     &__albumTitle{
         height: 64px;
@@ -13,6 +16,17 @@
         box-sizing: border-box;
         color: white;
         font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        
+        .closeInfo{
+            display: flex;
+            justify-content: end;
+            
+            svg{
+                cursor: pointer;
+            }
+        }
     }
     &__container{
         overflow-y: scroll;
@@ -24,34 +38,18 @@
         flex-direction: column;
         gap: 16px;
 
-        &::-webkit-scrollbar {
-            width: 12px;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-    
-        &::-webkit-scrollbar-track {
-        background: #121212;
-        border-radius: 10px;
-        }
-    
-        &::-webkit-scrollbar-thumb {
-        background: #555;
-        border-radius: 0px;
-        width: 20px;
-        }
-    
-        &:hover::-webkit-scrollbar {
-        opacity: 1;
-        }
+        @include scrollbar.scrollbar;
 
-        img{
-            width: 100%;
-
+        .image_container{
+            background-color: #1F1F1F;
             border-radius: 5px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            aspect-ratio: 1/1;
+            img{
+                width: 100%;
+    
+                border-radius: 5px;
+                background: center/contain no-repeat;
+                aspect-ratio: 1/1;
+            }
         }
         .title{
     
@@ -60,6 +58,7 @@
                 font-weight: bold;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
+                line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 word-wrap: break-word;
@@ -128,7 +127,7 @@
 }
 
 .resizer {
-    width: 10px;
+    min-width: 8px;
     cursor: grab;
     transition: background 0.3s ease;
     transition: border-right 0.3s ease-in-out; 

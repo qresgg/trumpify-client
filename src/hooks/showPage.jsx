@@ -1,5 +1,5 @@
-import { setSelectedArtistPage, setView, setSelectedPlaylistPage, setSelectedUserPage } from '../lib/viewSlice';
-import { findContent } from '../services/findService';
+import { setSelectedArtistPage, setView, setSelectedPlaylistPage, setSelectedUserPage } from '../lib/redux/pages/viewSlice';
+import { findContent } from '../services/search/findService';
 import { useDispatch } from 'react-redux';
 
 const actionMap = {

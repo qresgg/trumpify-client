@@ -1,7 +1,7 @@
 import styles from './dropdownmenu-snippet.module.scss';
-import { setView } from '../../../lib/viewSlice';
+import { setView } from '../../../lib/redux/pages/viewSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedArtistPage, setSelectedUserPage } from '../../../lib/viewSlice';
+import { setSelectedArtistPage, setSelectedUserPage } from '../../../lib/redux/pages/viewSlice';
 
 export function DropdownMenu({onLogout, dropDownMenuState}) {
     const dispatch = useDispatch();

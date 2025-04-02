@@ -1,9 +1,8 @@
 import styles from './createForm.module.scss'
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { createSong } from '../../../../../services/artistService';
+import { createSong } from '../../../../../services/artist/artistService';
 import { X } from 'lucide-react';
-const SERVER_API_URL = 'http://localhost:8080';
 
 export function SongPageCreate () {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -16,7 +15,8 @@ export function SongPageCreate () {
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
-                await createSong({ data, artists})
+                const formData = { ...data, artists: JSON.stringify(artists) };
+                await createSong(formData)
                 setSuccess('Song created successfully');
                 setError('')
             } else {

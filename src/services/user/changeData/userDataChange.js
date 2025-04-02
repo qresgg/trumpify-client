@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { getAccessToken } from './tokenService';
+import { getAccessToken } from '../../global/functions';
+import { SERVER_API_URL } from '../../global/variable';
 
 const updateSetting = async (url, data) => {
   const token = getAccessToken();
   
   try {
-    const response = await axios.put(`http://localhost:8080/settings/${url}`, data, {
+    const response = await axios.put(`${SERVER_API_URL}/settings/${url}`, data, {
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       withCredentials: true
     });
@@ -22,12 +23,12 @@ const updateUserName = async (userName) => updateSetting('change-userName', { us
 const uploadImage = async (avatarFile) => {
   const token = getAccessToken();
   const formData = new FormData();
-  formData.append("avatar", avatarFile);
+  formData.append("avatar", avatarFile[0]);
 
   try {
-    const response = await axios.put('http://localhost:8080/settings/change-avatar', formData, {
+    const response = await axios.put(`${SERVER_API_URL}/settings/change-avatar`, formData, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       withCredentials: true,
     });

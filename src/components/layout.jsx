@@ -1,13 +1,11 @@
-import styles from "./layout.module.scss";
 import { Auth } from "./Auth/auth";
 import { Header } from "./Header/header";
 import { Main } from "./Main/main";
 import { Footer } from "./Footer/footer";
 import { useState, useEffect } from "react";
-import { login, logout, checkAuth } from "../services/authService";
-import { getUserData } from "../services/userService";
-import { setData as setReduxData } from "../lib/dataSlice";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { login, logout, checkAuth } from "../services/auth/authService";
+import { getUserData } from "../services/user/userService";
+import { setData as setReduxData } from "../lib/redux/data/dataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import _ from 'lodash';
 
@@ -15,7 +13,9 @@ export function Layout() {
   const dispatch = useDispatch();
   const [message, setMessage] = useState({ success: "", error: "" });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const user = useSelector((state) => state.data);
+  console.log(user)
+ 
   useEffect(() => {
     const authenticateUser = async () => {
       try {
@@ -56,7 +56,7 @@ export function Layout() {
         </>
       ) : (
         <>
-            <Auth success={message.success} error={message.error}handleData={handleData}/>
+            <Auth success={message.success} error={message.error} handleData={handleData}/>
         </>
       )}
     </>

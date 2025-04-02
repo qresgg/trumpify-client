@@ -1,6 +1,6 @@
 import styles from './relocateFromSearchBar.module.scss'
-import { findContent } from '../../../../services/findService'
-import { setSelectedPlaylist } from '../../../../lib/musicState'
+import { findContent } from '../../../../services/search/findService'
+import { setSelectedPlaylist } from '../../../../lib/redux/music/musicState'
 
 export function RelocateFromSearchBar({
     result,

@@ -12,100 +12,102 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 
-    .title{
-        padding: 24px;
-        font-size: 20px;
-        display: flex;
-        justify-content: space-between;
-        p{
-            margin: 0;
-        }
-
-        button{
-            margin: 0;
-            padding: 0;
-            height: fit-content;
-            background: none !important;
-            border: none;
-            opacity: 0.6;
-        }
-    }
-    .mainChange{
-        height: 180px;
-        display: flex;
-        padding: 0 24px;
-        gap: 16px;
-        
-
-        .changePFP{
-            height: 180px;
-            width: 180px;
-            min-width: 180px;
-            border-radius: 50%;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            .image{
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                border-radius: 50%;
-                height: 100%;
-                width: 100%;
+    form{
+        .title{
+            padding: 24px;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            p{
+                margin: 0;
             }
-            .upload{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100%;
-                width: 100%;
-
-                p{
-                    margin: 0;
-                    cursor: pointer;
-                    
-                    &:hover{
-                        text-decoration: underline;
+    
+            button{
+                margin: 0;
+                padding: 0;
+                height: fit-content;
+                background: none !important;
+                border: none;
+                opacity: 0.6;
+            }
+        }
+        .mainChange{
+            height: 180px;
+            display: flex;
+            padding: 0 24px;
+            gap: 16px;
+            
+    
+            .changePFP{
+                height: 180px;
+                width: 180px;
+                min-width: 180px;
+                border-radius: 50%;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                .image{
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    border-radius: 50%;
+                    height: 100%;
+                    width: 100%;
+                }
+                .upload{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%;
+                    width: 100%;
+    
+                    p{
+                        margin: 0;
+                        cursor: pointer;
+                        
+                        &:hover{
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
-        }
-        .changeName{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            
-            p{
-                margin: 0;
-                margin-top: 28px;
-            }
-            input{
+            .changeName{
                 width: 100%;
-                background-color: #3E3E3E;
-                height: 40px;
-                border: 0;
-                border-radius: 5px;
-                font-size: 15px;
-
-                &:focus{
-                    background-color: #2e2e2e;
-                    outline: 1px #3E3E3E solid;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                
+                p{
+                    margin: 0;
+                    margin-top: 28px;
+                }
+                input{
+                    width: 100%;
+                    background-color: #3E3E3E;
+                    height: 40px;
+                    border: 0;
+                    border-radius: 5px;
+                    font-size: 15px;
+    
+                    &:focus{
+                        background-color: #2e2e2e;
+                        outline: 1px #3E3E3E solid;
+                    }
+                }
+                button{
+                    background-color: white;
+                    color: black;
+                    font-weight: bold;
+                    border-radius: 25px;
+                    padding: 8px 32px;
+                    margin: 0;
+                    margin-left: 60%;
+                    font-size: 16px;
                 }
             }
-            button{
-                background-color: white;
-                color: black;
-                font-weight: bold;
-                border-radius: 25px;
-                padding: 8px 32px;
-                margin: 0;
-                margin-left: 60%;
-                font-size: 16px;
-            }
         }
-    }
-    .attentions{
-        padding: 24px;
-        font-size: 12px;
-        font-weight: bold;
+        .attentions{
+            padding: 24px;
+            font-size: 12px;
+            font-weight: bold;
+        }
     }
 }

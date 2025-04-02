@@ -19,6 +19,16 @@
     &__title{
         margin: auto 0;
         width: 100%;
+        min-width: 150px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        
+
         &__name{
             font-size: 16px;
         }
@@ -28,6 +38,7 @@
             opacity: 0.7;
             p{
                 span{
+                    display: inline;
                     font-size: 12px;
                     padding: 0 5px;
                     font-weight: bold;
@@ -60,21 +71,19 @@
             cursor: pointer;
         }
 
-        .liked{
-            background-image: url('../../../../public/micro-ico/liked.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+        @mixin like($type) {
+            background: url("../../../../public/micro-ico/#{$type}.png") center/contain no-repeat;
             height: inherit;
             width: inherit;
         }
+
+        .liked{
+            @include like("liked");
+            filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+        }
         .notliked{
-            background-image: url('../../../../public/micro-ico/notliked.png');
-            background-size: contain;
-            background-repeat: no-repeat;
+            @include like("notliked");
             filter: brightness(0.7);
-            height: inherit;
-            width: inherit;
         }
 
         &:hover{

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export function LikedSongsPlaylist() {
     const dispatch = useDispatch();
     const { isMusicPlaying, activePlaylistIndex, activeTrack, activeTrackIndex} = useSelector((state) => state.music);
+    const user = useSelector((state) => state.data.user)
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHoovering, setIsHovering] = useState(false);
 
@@ -35,8 +36,8 @@ export function LikedSongsPlaylist() {
             </div>
             <div className={styles.likedSongs__art}></div>
             <div className={styles.likedSongs__info}>
-                <div className={styles.title}>Favorite songs</div>
-                <div className={styles.additionalInfo}><p>Playlist</p>&nbsp; • &nbsp;<p>0 Songs</p></div>
+                <div className={styles.title}>Liked songs</div>
+                <div className={styles.additionalInfo}><p>Collection</p>&nbsp; • &nbsp;<p>{user.user_likedSongsCount} songs</p></div>
             </div>
         </div>
     )
