@@ -16,6 +16,8 @@ export function AboutPlaylistPage() {
     const [totalDuration, setTotalDuration] = useState('');
     const [likedSongs, setLikedSongs] = useState([]);
 
+    console.log(selectedPlaylist)
+
     useEffect(() => {
         const fetchLikedSongs = async () => {
             if (!selectedPlaylist?._id) return;
@@ -30,7 +32,7 @@ export function AboutPlaylistPage() {
     }, [selectedPlaylist]);
 
     useEffect(() => {
-        setIsPlaying(activePlaylist === selectedPlaylist && isMusicPlaying);
+        setIsPlaying(activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying);
     }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
 
     useEffect(() => {
@@ -55,7 +57,7 @@ export function AboutPlaylistPage() {
     };
 
     const selectArtist = (artistId) => {
-        ShowPage('artist-profile', artistId, dispatch);
+        ShowPage('Artist', artistId, dispatch);
     };
 
     const trackCount = selectedPlaylist?.songs?.length || 0;

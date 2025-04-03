@@ -20,7 +20,6 @@ const findData = async (type, id) => {
     }
 }
 
-const findContent = async (type, id) => findData(type = 'Artist', id);
-// const findAlbum = async (id) => 
+const findContent = async (type, id) => findData(type, id);
 
 export { findContent }

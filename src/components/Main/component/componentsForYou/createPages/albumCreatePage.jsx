@@ -76,13 +76,21 @@ export function AlbumCreatePage() {
                     </div>
                     <div>
                         <label>What's main language in your album</label>
-                        <input {...register("language", { required: "LAN required" })} />
+                        <select {...register('language', { required: 'language is required'})}>
+                            <option value="">choose language</option>
+                            <option value="UA">Ukrainian</option>
+                            <option value="ENG(US)">English (United States)</option>
+                            <option value="ENG(UK)">English (United Kingdom)</option>
+                            <option value="DEU">German</option>
+                            <option value="POL">Polish</option>
+                        </select>
+                        {/* <input {...register("language", { required: "LAN required" })} /> */}
                         {errors.language && <p>{errors.language.message}</p>}
                     </div>
                     <div>
                         <label>Choose main genre in album</label>
                         <select {...register('genre', { required: 'genre is required'})}>
-                            <option value="" disabled>-_-_-Choose-_-_-</option>
+                            <option value="">choose genre</option>
                             <option value="pop">Pop</option>
                             <option value="rock">Rock</option>
                             <option value="hip-hop">Hip-Hop</option>
@@ -97,7 +105,7 @@ export function AlbumCreatePage() {
                     <div>
                         <label>What's type of album </label>
                         <select {...register('type', { required: 'Choose Type' })}>
-                            <option disabled>--- Choose ---</option>
+                            <option value="">choose album type</option>
                             <option value="Album">Album</option>
                             <option value="Short-Album">Short-Album</option>
                         </select>

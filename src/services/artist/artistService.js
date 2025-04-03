@@ -8,16 +8,27 @@ const createRecord = async (type, data, songs = []) => {
         const formData = new FormData();
         
         Object.entries(data).forEach(([key, value]) => {
-            if (key === 'cover' && value instanceof FileList) {
+            if (key === ('cover') && value instanceof FileList) {
                 formData.append('cover', value[0]);
+            } else if (key === ("audio") && value instanceof FileList) {
+                formData.append('audio', value[0])
             } else {
                 formData.append(key, value);
             }
         });
 
         songs.forEach((song, index) => {
-            formData.append(`songs[${index}]`, JSON.stringify(song));
+            const { musicFile, ...textData } = song;
+            formData.append(`songs[${index}]`, JSON.stringify(textData));
+            if (musicFile) {
+                formData.append(`songs[${index}][musicFile]`, musicFile);
+            }
         });
+
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
+        
 
         const response = await axios.post(
             `${SERVER_API_URL}/artist/${type}`,

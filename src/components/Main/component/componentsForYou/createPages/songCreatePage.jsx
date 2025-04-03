@@ -15,6 +15,7 @@ export function SongPageCreate () {
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
+                console.log(data)
                 const formData = { ...data, artists: JSON.stringify(artists) };
                 await createSong(formData)
                 setSuccess('Song created successfully');
@@ -28,19 +29,6 @@ export function SongPageCreate () {
             console.error(error.response ? error.response.data : error);
         }
     }
-
-    const handleInputChange = (e) => {
-        let value = e.target.value.replace(/[^0-9]/g, '');
-
-        if (value.length > 2) {
-          value = value.slice(0, 2) + ':' + value.slice(2);
-        }
-        const [minutes, seconds] = value.split(':');
-        if (seconds && parseInt(seconds, 10) > 59) {
-            value = `${minutes}:59`;
-        }
-        setValue('duration', value);
-      };
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -123,7 +111,8 @@ export function SongPageCreate () {
                         </div>
                         <div>
                             <label>Enter song duration</label>
-                            <input {...register('duration', { required: 'duration is required'})} onChange={handleInputChange} placeholder="MM:SS" maxLength={5}/>
+                            <input type="file" accept='audio/*' {...register('audio')}/>
+                            {errors.audio && <p>{errors.audio.message}</p>}
                             {errors.duration && <p>{errors.duration.message}</p>}
                         </div>
                         <div>

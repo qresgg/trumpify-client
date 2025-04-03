@@ -103,23 +103,8 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
                             {errors.genre && <p>{errors.genre.message}</p>}
                         </div>
                         <div>
-                            <label>Enter song duration</label>
-                            <input {...register('duration', { required: 'duration is required' })}
-                                onChange={(e) => {
-                                    let value = e.target.value.replace(/[^0-9]/g, '');
-                                    if (value.length > 2) {
-                                        value = value.slice(0, 2) + ':' + value.slice(2);
-                                    }
-                                    const [minutes, seconds] = value.split(':');
-                                    if (seconds && parseInt(seconds, 10) > 59) {
-                                        value = `${minutes}:59`;
-                                    }
-                                    setValue('duration', value);
-                                }}
-                                placeholder="MM:SS"
-                                maxLength={5}
-                            />
-                            {errors.duration && <p>{errors.duration.message}</p>}
+                            <input type="file" accept='audio/*' {...register('audio')}/>
+                            {errors.audio && <p>{errors.audio.message}</p>}
                         </div>
                         <div>
                             <label>Add artists on feat</label>

@@ -9,7 +9,7 @@ export function Playlist({
     libWidth
 }) {
     const dispatch = useDispatch();
-    const { isMusicPlaying, activePlaylist, selectedPlaylist, activeSongId} = useSelector((state) => state.music);
+    const { isMusicPlaying, activePlaylist} = useSelector((state) => state.music);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHoovering, setIsHovering] = useState(false);
 
@@ -22,7 +22,7 @@ export function Playlist({
         display: libWidth < 350 ? 'none' : 'block'
     }
     useEffect(() => {
-        if (activePlaylist == playlist && isMusicPlaying) {
+        if (activePlaylist?._id === playlist?._id && isMusicPlaying) {
             setIsPlaying(true);
         } else {
             setIsPlaying(false)

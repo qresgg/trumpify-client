@@ -7,7 +7,6 @@ import { Song } from '../../../snippets/song-snippet';
 
 export function UserArtistProfilePage() {
     const { currentArtistPage, currentUserPage, currentPlaylistPage } = useSelector((state) => state.view)
-    console.log(currentArtistPage)
 
     // const urlImage = selectedPlaylist ? `/album-covers/${formattedArtist}_${formattedTitle}.jpg` : null;
     // const { data, loading, error } = usePalette(urlImage);

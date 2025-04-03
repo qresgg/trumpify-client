@@ -43,7 +43,7 @@ export function Song({
     };
     
     useEffect(() => {
-        if (activeSong === song && isMusicPlaying) {
+        if (activeSong?._id === song?._id && isMusicPlaying) {
             setIsPlaying(true);
         } else {
             setIsPlaying(false)
@@ -60,17 +60,13 @@ export function Song({
             dispatch(togglePlayback());
         }
     }
-
-    const handleSongClick = () => {
-        togglePlay();
-    };
     
 
     return (
         <div className={styles.song} 
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}>
-            <div className={styles.song__id} onClick={handleSongClick}>
+            <div className={styles.song__id} onClick={togglePlay}>
                 {isHover ? (isPlaying ? <Pause size={20}/> : <Play size={20}/>) : <div>{index}</div>}
             </div>
             <div className={styles.song__title}>

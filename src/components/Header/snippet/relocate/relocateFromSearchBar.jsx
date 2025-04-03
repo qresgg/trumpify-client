@@ -1,18 +1,17 @@
 import styles from './relocateFromSearchBar.module.scss'
 import { findContent } from '../../../../services/search/findService'
 import { setSelectedPlaylist } from '../../../../lib/redux/music/musicState'
+import ShowPage from '../../../../hooks/showPage'
+import { useDispatch } from 'react-redux'
 
 export function RelocateFromSearchBar({
     result,
     index
 }) {
+    const dispatch = useDispatch()
+
     const handleClick = async () => {
-        try{
-            const newData = await findContent(result.definition, result._id)
-            result.definition == ('Album' || 'Playlist') && setSelectedPlaylist(newData);
-        } catch(e) {
-            console.error({ message: e })
-        }
+        ShowPage(result.definition, result._id, dispatch)
     }
 
     return (
