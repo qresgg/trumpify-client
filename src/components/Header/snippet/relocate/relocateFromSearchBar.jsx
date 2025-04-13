@@ -19,7 +19,7 @@ export function RelocateFromSearchBar({
             <div className={styles.frame}>
                 <img src={result.song_cover || result.cover || result.url_avatar}/>
             </div>
-            <div className={styles.resultData__title}>{result.title || result.name}</div>
+            <div className={styles.resultData__title}>{result.title || result.name || result.user_name}</div>
         </div>
     )
 }

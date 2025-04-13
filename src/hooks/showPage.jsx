@@ -38,8 +38,8 @@ const ShowPage = async (type, id, dispatch) => {
     const action = actionMap[type];
     if (action) {
         try {
-            dispatch(setView(action.view));
             dispatch(action.action(data));
+            dispatch(setView(action.view));
         } catch (error) {
             console.error('Error dispatching action:', error);
         }

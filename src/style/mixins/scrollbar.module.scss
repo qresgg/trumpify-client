@@ -7,6 +7,7 @@
   
     &::-webkit-scrollbar-track {
       background: $track-color;
+      background: transparent;
       border-radius: $track-radius;
     }
   

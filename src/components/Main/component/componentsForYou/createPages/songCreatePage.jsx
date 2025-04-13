@@ -15,7 +15,6 @@ export function SongPageCreate () {
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
-                console.log(data)
                 const formData = { ...data, artists: JSON.stringify(artists) };
                 await createSong(formData)
                 setSuccess('Song created successfully');

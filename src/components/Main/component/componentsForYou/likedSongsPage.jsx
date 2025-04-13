@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePalette } from 'react-palette';
 import { Play, Pause } from 'lucide-react';
-import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong } from '../../../../lib/redux/music/musicState';
+import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist } from '../../../../lib/redux/music/musicState';
 import AlbumTrackInfo from '../../../../hooks/albumTrackInfo';
 import ShowPage from '../../../../hooks/showPage';
-import { fetchLikedCollection } from '../../../../services/user/fetchData/getLikedCollection';
+import { fetchLikedCollection } from '../../../../services/user/fetchData/fetchLikedCollection';
 
 export function LikedSongsPage() {
     const dispatch = useDispatch();
@@ -17,14 +17,12 @@ export function LikedSongsPage() {
     const [likedSongs, setLikedSongs] = useState([]);
     const user = useSelector(state => state.data.user)
 
-    // console.log(user.user_likedSongsCount)
-
     useEffect(() => {
         const fetchLiked = async () => {
             try{
                 const response = await fetchLikedCollection();
-                console.log(response)
                 setLikedSongs(response.songs);
+                dispatch(setSelectedPlaylist(response));
             } catch (error) {
                 console.error(error);
                 setLikedSongs([]);

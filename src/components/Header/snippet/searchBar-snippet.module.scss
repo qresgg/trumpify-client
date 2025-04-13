@@ -35,7 +35,11 @@
             box-sizing: border-box;
             transition: 0.5s ease;
 
-            @include scrollbar.scrollbar;
+            @include scrollbar.scrollbar($track-color: #272727);
+
+            box-shadow: -2px 8px 19px 0px rgba(0,0,0,0.75);
+            -webkit-box-shadow: -2px 8px 19px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: -2px 8px 19px 0px rgba(0,0,0,0.75);
         }
     }
 }

@@ -32,13 +32,14 @@ export function Header ({
         <div className={styles.header}>
             {isBlackScreen && <div className={styles.blackScreen} onClick={BlackScreen}></div>}
             <div className={styles.navBar}>
-                <div className={styles.navBar__logo}>1</div>
+                <div className={styles.navBar__logo}>
+                    <div className={styles.logo}></div>
+                </div>
                 <div className={styles.navBar__home} onClick={() => dispatch(setView("home"))}></div>
                 <SearchBar searchBarState={handleSearchDropMenu} menuState={isSearchMenuOpen}/>
                 <button onClick={() => dispatch(setView("artistCreate"))}>Create Artist Profile</button>
                 <button onClick={() => dispatch(setView("songCreate"))}>Create Song</button>
                 <button onClick={() => dispatch(setView("albumCreate"))}>Create Album</button>
-                <button onClick={() => dispatch(setView("songTEST"))}>songTEST</button>
             </div>
             <div className={styles.userBar}>
                 {/* <div className={styles.userBar__subscription}>Learn more about Premium</div> */}

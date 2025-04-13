@@ -16,8 +16,6 @@ export function AboutPlaylistPage() {
     const [totalDuration, setTotalDuration] = useState('');
     const [likedSongs, setLikedSongs] = useState([]);
 
-    console.log(selectedPlaylist)
-
     useEffect(() => {
         const fetchLikedSongs = async () => {
             if (!selectedPlaylist?._id) return;
@@ -35,21 +33,19 @@ export function AboutPlaylistPage() {
         setIsPlaying(activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying);
     }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
 
-    useEffect(() => {
-        if (selectedPlaylist) {
-            const totalDur = new AlbumTrackInfo(selectedPlaylist);
-            setTotalDuration(totalDur.totalDuration);
-        }
-    }, [selectedPlaylist]);
+    // useEffect(() => {
+    //     if (selectedPlaylist) {
+    //         const totalDur = new AlbumTrackInfo(selectedPlaylist);
+    //         setTotalDuration(totalDur.totalDuration);
+    //     }
+    // }, [selectedPlaylist]);
 
     const togglePlay = () => {
         if (!selectedPlaylist?.songs?.length) return;
         dispatch(setActivePlaylist(selectedPlaylist));
         if (isPlaying) {
             dispatch(togglePlayback());
-        } else {
-            dispatch(setActiveSong({ song: selectedPlaylist.songs[0], index: 1 }));
-        }
+        } 
     };
 
     const selectSong = (song) => {
@@ -77,7 +73,7 @@ export function AboutPlaylistPage() {
                                 <div className={styles.info__otherInfo}>
                                     <p className={styles.artist} onClick={() => selectArtist(selectedPlaylist.artist)}>{selectedPlaylist.artist_name}</p>
                                     <p className={styles.year}>• {year} •</p>
-                                    <p className={styles.trackCount}>{trackCount} songs, {totalDuration}</p>
+                                    <p className={styles.trackCount}>{trackCount} songs </p>
                                 </div>
                             </div>
                         </div>
@@ -100,14 +96,11 @@ export function AboutPlaylistPage() {
                             </div>
                             <div className={styles.tracks__trackplate}>
                                 {trackCount > 0 ? (
-                                    selectedPlaylist.songs.map((song, index) => {
-                                        const isLiked = likedSongs.includes(song._id);
-                                        return (
-                                            <div key={index} onClick={() => selectSong(song)}>
-                                                <Song song={song} index={index + 1} claim={isLiked ? true : false} />
-                                            </div>
-                                        )
-                                        })
+                                    selectedPlaylist.songs.map((song, index) => (
+                                        <div key={index} onClick={() => selectSong(song)}>
+                                            <Song song={song} index={index + 1} />
+                                        </div>
+                                    ))
                                 ) : (
                                     <p>No songs available</p>
                                 )}

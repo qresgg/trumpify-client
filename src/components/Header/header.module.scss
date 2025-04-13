@@ -32,9 +32,13 @@
         overflow: hidden;
 
         &__logo{
-            background-image: url('../../../public/logo.png');
-
-            @extend %header_container;
+            width: 150px;
+            height: 100%;
+            .logo{
+                background: url('../../../public/logo.png') center/contain no-repeat;
+                width: 100%;
+                height: 100%;
+            }
         }
 
         &__home{

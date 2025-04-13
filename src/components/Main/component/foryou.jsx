@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
 import { AlbumCreatePage } from './componentsForYou/createPages/albumCreatePage';
 import { LikedSongsPage } from './componentsForYou/likedSongsPage';
-import { CreateMusicFile } from './componentsForYou/createPages/createMusicFile';
 
 export function ForYou() {
     const currentView = useSelector((state) => state.view.currentView)
@@ -30,7 +29,6 @@ export function ForYou() {
             {currentView === "artistCreate" && <ArtistPageCreate/>}
             {currentView === "songCreate" && <SongPageCreate/>}
             {currentView === "albumCreate" && <AlbumCreatePage />}
-            {currentView === "songTEST" && <CreateMusicFile />}
         </Fragment>
     );
 }

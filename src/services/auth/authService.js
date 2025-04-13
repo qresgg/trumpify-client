@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAccessToken } from '../global/functions';
+import { getAccessToken } from '../global/functions.js';
 import { SERVER_API_URL } from '../global/variable';
 
 const apiClient = axios.create({

@@ -4,7 +4,7 @@ import { Main } from "./Main/main";
 import { Footer } from "./Footer/footer";
 import { useState, useEffect } from "react";
 import { login, logout, checkAuth } from "../services/auth/authService";
-import { getUserData } from "../services/user/userService";
+import { fetchUserData } from "../services/user/fetchData/fetchUserData";
 import { setData as setReduxData } from "../lib/redux/data/dataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import _ from 'lodash';
@@ -14,7 +14,6 @@ export function Layout() {
   const [message, setMessage] = useState({ success: "", error: "" });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const user = useSelector((state) => state.data);
-  console.log(user)
  
   useEffect(() => {
     const authenticateUser = async () => {
@@ -22,7 +21,7 @@ export function Layout() {
         const token = await checkAuth();
         if (token) {
           setIsAuthenticated(true);
-          const userData = await getUserData();
+          const userData = await fetchUserData();
           dispatch(setReduxData(userData));
         } else {
           setIsAuthenticated(false);

@@ -4,7 +4,7 @@ import { SERVER_API_URL } from '../global/variable';
 
 const findData = async (type, id) => {
     const token = getAccessToken();
-
+    
     try{
         const response = await axios.get(`${SERVER_API_URL}/find/${type}/${id}`, {
             headers: {

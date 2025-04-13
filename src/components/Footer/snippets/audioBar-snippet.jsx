@@ -1,10 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './progressBar.module.scss';
+import SaveAudioVolume from '../../../services/global/functions/song/saveAudioVolume';
+import { getVolume } from '../../../services/global/functions';
 
-export function AudioBar() {
+export function AudioBar({
+    audioRef
+}) {
     const [isDragging, setIsDragging] = useState(false);
-    const [progress, setProgress] = useState(50);
+    const [progress, setProgress] = useState(getVolume() || 50);
     const progressRef = useRef(null);
+    const delay = useRef(null);
+
+    useEffect(() => {
+        if(audioRef.current) {
+            audioRef.current.volume = progress / 100;
+        }
+    }, [progress])
 
     const handleMouseMove = (event) => {
         if (isDragging && progressRef.current) {
@@ -15,6 +26,11 @@ export function AudioBar() {
             setProgress(Math.round(newProgress));
         }
     };
+
+    useEffect(() => {
+        SaveAudioVolume( progress, delay )
+    }, [progress])
+
     const handleMouseDown = () => {
         setIsDragging(true);
     };
@@ -40,11 +56,9 @@ export function AudioBar() {
 
     return (
         <>
-            <div className={styles.progressContainer}
-                ref={progressRef}
-                onMouseDown={handleMouseDown}>
-                    <div className={styles.progressBar} style={{ width: `${progress}%`, backgroundColor: isDragging && "#1ED760" }}></div>
-                    <div className={styles.slider} style={{ left: `calc(${progress}% - 5px)`, display: isDragging ? "block" : 'none'}}></div>
+            <div className={styles.progressContainer} ref={progressRef} onMouseDown={handleMouseDown}>
+                <div className={styles.progressBar} style={{ width: `${progress}%`, backgroundColor: isDragging && "#1ED760" }}></div>
+                <div className={styles.slider} style={{ left: `calc(${progress}% - 5px)`, display: isDragging && "block" }}></div>
             </div>
         </>
     );

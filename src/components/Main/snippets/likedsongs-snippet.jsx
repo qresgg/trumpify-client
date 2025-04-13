@@ -1,38 +1,28 @@
 import styles from './likedsongs-snippet.module.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pause, Play} from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedPlaylist } from '../../../lib/redux/music/musicState';
 
 export function LikedSongsPlaylist() {
     const dispatch = useDispatch();
-    const { isMusicPlaying, activePlaylistIndex, activeTrack, activeTrackIndex} = useSelector((state) => state.music);
+    const { isMusicPlaying, activePlaylistIndex, activeTrack, selectedPlaylist} = useSelector((state) => state.music);
     const user = useSelector((state) => state.data.user)
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isHoovering, setIsHovering] = useState(false);
-
-    // useEffect(() => {
-    //     if(isMusicPlaying){
-    //         if(activePlaylistIndex == ID){
-    //             setIsPlaying(true) 
-    //         } else{
-    //             setIsPlaying(false)
-    //         }
-    //     } else {
-    //         setIsPlaying(false)
-    //     }
-    // }, [activePlaylistIndex, ID, isMusicPlaying]);
+    const [isHover, setIsHover] = useState(false);
+    
     const handlePlaylistClick = () => {
         setIsPlaying(!isPlaying);
     }
 
     return (
         <div className={styles.likedSongs}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}>
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}>
             <div className={styles.likedSongs__state} 
-                style={{background: isHoovering ? 'black' : 'none'}}
+                style={{background: isHover ? 'black' : 'none'}}
                 onClick={handlePlaylistClick}>
-                {isHoovering && (isPlaying ? <Pause size={24}/> : <Play size={24}/>)}
+                {isHover && (isPlaying ? <Pause size={24}/> : <Play size={24}/>)}
             </div>
             <div className={styles.likedSongs__art}></div>
             <div className={styles.likedSongs__info}>

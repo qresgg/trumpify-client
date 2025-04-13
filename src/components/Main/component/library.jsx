@@ -18,7 +18,6 @@ export function Library({
     const showPage = (page) => {
         dispatch(setView(page))
     }
-    console.log(playlists)
     return (
         <>
         <div className={styles.library} style={{ width: `${width}px`}}>

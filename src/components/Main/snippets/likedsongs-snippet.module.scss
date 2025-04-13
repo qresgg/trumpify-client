@@ -1,16 +1,14 @@
 .likedSongs{
-    position: relative;
+    user-select: none;
+
     height: 64px;
-    width: 100%;
-    padding: 8px;
+    width: calc(100% + 8px);
+    color: white;
     box-sizing: border-box;
     display: flex;
     gap: 10px;
-
-    &:hover{
-        background-color: #1F1F1F;
-        cursor: pointer;
-    }
+    padding: 8px;
+    position: relative;
 
     &__state{
         position: absolute;
@@ -22,12 +20,26 @@
         border-radius: 4px;
         opacity: 0.6;
     }
-    
+    &:hover{
+        background-color: #181818;
+        cursor: pointer;
+    }
     &__art{
         background: url('../../../../public/likedsongs.png') center/contain no-repeat;
         width: 48px;
         height: 100%;
         border-radius: 5px;
+
+        &:before{
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            opacity: 0.6;
+        }
     }
     &__info{
         display: flex;

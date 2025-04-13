@@ -6,6 +6,7 @@ import { InfoChange } from './snippet/userInfoChange';
 import { UserImage } from '../../../../../hooks/UserImage';
 import { getUserData } from '../../../../../services/user/userService';
 import { setSelectedUserPage } from '../../../../../lib/redux/pages/viewSlice';
+import { isOriginPage } from '../../../../../services/auth/isOriginPage';
 
 export function UserProfilePage() {
     const dispatch = useDispatch();
@@ -14,16 +15,14 @@ export function UserProfilePage() {
     const [isOpened, setIsOpened] = useState(false)
     const [updateInfo, setUpdateInfo] = useState(false);
     const [originUser, setOriginUser] = useState(false);
-
+    
     useEffect(() => {
-        if (user.user_id === currentUserPage.user_id){
-            setOriginUser(true);
-            console.log('This is your page')
-        }
         const fetchUserData = async () => {
             try{
                 const response = await getUserData();
-                dispatch(setSelectedUserPage(response.user));
+                if (currentUserPage === user) {
+                    dispatch(setSelectedUserPage(response.user));
+                }
             } catch (error) {
                 console.error();
             }
@@ -32,8 +31,11 @@ export function UserProfilePage() {
         fetchUserData();
     }, [updateInfo])
 
-    const urlImage = currentUserPage.user_avatar_url;
-    const { data, loading, error } = usePalette(urlImage);
+    useEffect(() => {
+        setOriginUser(isOriginPage(user, currentUserPage));
+    }, [currentUserPage, user])
+
+    const { data } = usePalette(currentUserPage?.user_avatar_url);
     
     const handleIsOpened = (data) => {
         setIsOpened(false);
@@ -44,17 +46,14 @@ export function UserProfilePage() {
     const openModal = () => {
         originUser && setIsOpened(true);
     }
-    const backgroundGradient = {
-        background: `linear-gradient(to bottom, ${data.lightMuted}, ${data.darkMuted})`
-    }
 
     return (
         <div className={styles.profile}>
                 { isOpened && <div className={styles.blackScreen}></div>}
-                <div className={styles.title} style={backgroundGradient}>
+                <div className={styles.title} style={{ background: `linear-gradient(to bottom, ${data.lightMuted}, ${data.darkMuted})` }}>
                     <div className={styles.addiction} onClick={openModal}>
                         <div className={styles.image}>
-                            <UserImage width={'210px'} height={'210px'}/>
+                            <UserImage width={'210px'} height={'210px'} avatar={currentUserPage.user_avatar_url}/>
                         </div>
                         <div className={styles.info}>
                             <div className={styles.isProfile}>Profile</div>

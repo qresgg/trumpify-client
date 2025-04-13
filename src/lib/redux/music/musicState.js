@@ -7,6 +7,7 @@ const initialState = {
     activeSongId: null,
     selectedPlaylist: null,
     selectedSong: null
+    
 };
 
 const musicSlice = createSlice({

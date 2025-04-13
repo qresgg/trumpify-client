@@ -36,18 +36,15 @@ export function SearchBar({
         <div className={styles.bar}>
             <div className={styles.bar__container} onFocus={searchBarState}>
                 <input type="text" onChange={handleChange} value={querry}/>
-                {menuState && <div className={styles.results}>
-                    <p>Results: </p>
-                    {Array.isArray(results) && results.length > 0 ? (
-                    results.map((result, index) => (
-                        <Fragment key={index}>
-                            <RelocateFromSearchBar result={result} index={index}/>
-                        </Fragment>
-                    ))
-                    ) : (
-                    <li>No results available</li>
-                    )}
-                </div>}
+                {menuState && Array.isArray(results) && results.length > 0 && (
+                    <div className={styles.results}>
+                         {results.map((result, index) => (
+                             <Fragment key={index}>
+                                 <RelocateFromSearchBar result={result} index={index}/>
+                             </Fragment>
+                         ))}
+                    </div>
+                )}
             </div>
         </div>
     )

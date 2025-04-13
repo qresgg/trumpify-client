@@ -1,7 +1,9 @@
 import styles from './audioController.module.scss'
-import { ProgressBar } from '../snippets/progressBar-snippet'
+import { AudioBar } from '../snippets/audioBar-snippet'
 
-export function AudioController() {
+export function AudioController({
+    audioRef
+}) {
 
     return(
         <>
@@ -9,7 +11,7 @@ export function AudioController() {
                 <div className={styles.audioIcon}>
                     <div></div>
                 </div>
-                <ProgressBar type="music" initialProgress="50"/>
+                <AudioBar audioRef={audioRef}/>
             </div>
         </>
     )

@@ -23,7 +23,7 @@ const updateUserName = async (userName) => updateSetting('change-userName', { us
 const uploadImage = async (avatarFile) => {
   const token = getAccessToken();
   const formData = new FormData();
-  formData.append("avatar", avatarFile[0]);
+  formData.append("avatar", avatarFile);
 
   try {
     const response = await axios.put(`${SERVER_API_URL}/settings/change-avatar`, formData, {

@@ -1,29 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './userInfoChange.module.scss';
 import { X } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { updateUserName, uploadAvatar } from '../../../../../../services/user/changeData/userDataChange';
 import { UserImage } from '../../../../../../hooks/UserImage';
 import { useForm } from 'react-hook-form';
+import { setData } from '../../../../../../lib/redux/data/dataSlice';
+import { useDispatch } from 'react-redux';
 
 export function InfoChange({
     onOpened
 }) {
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.data.user);
+    const artist = useSelector((state) => state.data.artist);
     const {register, handleSubmit, formState: { errors }, setValue} = useForm();
 
     const [isHover, setIsHover] = useState(false)
-    const [previewImage, setPreviewImage] = useState('');
+    const [previewImage, setPreviewImage] = useState(null);
+    const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
 
     const onSubmit = async (data) => {
         try {
-            if (data.avatar) {
-                await uploadAvatar(data.avatar);
+            if (data) {
+                if (data.avatar) {
+                    await uploadAvatar(data.avatar);
+                    dispatch(setData({
+                        user: {
+                            ...user,
+                            user_avatar_url: data.avatar
+                        },
+                        artist: artist
+                    }));
+                }
+                if (data.username) {
+                    await updateUserName(data.username);
+                    dispatch(setData({
+                        user: {
+                            ...user,
+                            user_name: data.username
+                        },
+                        artist: artist
+                    }));
+                }
+                onOpened(data);
             }
-            if (data.username) {
-                await updateUserName(data.username);
-            }
-            onOpened(data);
         } catch (error) {
             console.error(error.response ? error.response.data : error);
         }
@@ -43,7 +74,14 @@ export function InfoChange({
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={styles.container}
+            style={{
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: Math.min(500, windowSize.width * 0.8),
+                    }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.title}>
                         <p>Profile's info</p>
@@ -55,7 +93,7 @@ export function InfoChange({
                             onMouseLeave={() => setIsHover(false)}>
                         {isHover 
                         ? <div className={styles.upload}>
-                            <input type="file" accept="image/*" style={{display: 'none'}} id="imageInput" onChange={handleFileChange} {...register("avatar")}/>
+                            <input type="file" accept="image/*" style={{display: 'none'}} id="imageInput" {...register("avatar", {onChange: (e) => handleFileChange(e) })}/>
                             <p onClick={() => document.getElementById("imageInput").click()}>Click to choose photo for Avatar</p></div> 
                         : previewImage ? <div className={styles.image} style={{backgroundImage: previewImage}}> </div> : <UserImage width={'180px'} height={'180px'}/>}
                         </div>

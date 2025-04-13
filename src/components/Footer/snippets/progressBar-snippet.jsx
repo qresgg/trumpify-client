@@ -2,12 +2,25 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './progressBar.module.scss';
 
 export function ProgressBar({
-    type = "default",
-    initialProgress = 0
+    audioRef
 }) {
     const [isDragging, setIsDragging] = useState(false);
-    const [progress, setProgress] = useState(initialProgress);
+    const [progress, setProgress] = useState(0);
     const progressRef = useRef(null);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            const updateProgress = () => {
+                const currentTime = audioRef?.current?.currentTime;
+                const duration = audioRef?.current?.duration;
+                if (duration) {
+                    setProgress((currentTime / duration) * 100);
+                }
+            };
+
+            audioRef.current.addEventListener('timeupdate', updateProgress);
+        }
+    }, [audioRef]);
 
     const handleMouseMove = (event) => {
         if (isDragging && progressRef.current) {
@@ -16,6 +29,13 @@ export function ProgressBar({
             let newProgress = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
 
             setProgress(Math.round(newProgress));
+
+            if (audioRef?.current) {
+                const newTime = (audioRef.current.duration * newProgress) / 100;
+                if (Number.isFinite(newTime)) {
+                    audioRef.current.currentTime = newTime;
+                }
+            }
         }
     };
     const handleMouseDown = () => {

@@ -69,7 +69,7 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
         <>
             <div className={styles.main} style={{
             position: 'fixed',
-            top: '35%',
+            top: '28%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: Math.min(500, windowSize.width * 0.8),
@@ -105,6 +105,11 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
                         <div>
                             <input type="file" accept='audio/*' {...register('audio')}/>
                             {errors.audio && <p>{errors.audio.message}</p>}
+                        </div>
+                        <div>
+                            <label>Does your song have explicit lyrics?</label>
+                            <input type="checkbox" {...register('explicit')} />
+                            {errors.explicit && <p>{errors.explicit.message}</p>}
                         </div>
                         <div>
                             <label>Add artists on feat</label>

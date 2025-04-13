@@ -1,15 +1,26 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export function UserImage({
     width,
     height,
-    url
+    avatar
 }) {
+    const [urlAvatar, setAvatar] = useState(null);
     const user = useSelector((state) => state.data.user);
 
-    const urlImage = url || user?.user_avatar_url;
+    // const refreshAvatar = () => {
+    //     const timestamp = new Date().getTime();
+    //     setAvatar(`${user.user_avatar_url}?t=${timestamp}`);
+    //     console.log('changed avatar')
+    //   };
+
+      
+    useEffect(() => {
+        setAvatar(avatar ? avatar : user.user_avatar_url);
+    }, [user, avatar])
     const imageParameters = {
-        background: `url(${urlImage}) center/contain no-repeat`,
+        background: `url(${urlAvatar}) center/contain no-repeat`,
         height: height || '100%',
         width: width || '100%',
         minWidth: width,
@@ -20,7 +31,7 @@ export function UserImage({
     return (
         <>
             <div>
-                <div src={urlImage} style={imageParameters} alt="your avatar" ></div>
+                <div src={urlAvatar} style={imageParameters} alt="your avatar" key={`${new Date().getTime()}`}></div>
             </div>
         </>
     )
