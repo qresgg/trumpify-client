@@ -1,5 +1,5 @@
-import { unLikeSong, likeSong } from '../../../services/user/Actions/userActionsService';
-import { updateLikedSongsCount } from '../../../services/global/functions/updateLikedSongsCount';
+import { unLikeSong, likeSong } from '../../../../services/user/Actions/userActionsService';
+import { updateLikedSongsCount } from './updateLikedSongsCount';
 
 const OnLikeSong = async (song, likedSong, setLikedSong, dispatch, data, timerRef) => {
     clearTimeout(timerRef.current);

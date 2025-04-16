@@ -3,18 +3,23 @@ import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
 import { togglePlayback, setSelectedSong, setActiveSong, setActivePlaylist} from "../../../lib/redux/music/musicState";
-import OnLikeSong from '../../../services/global/functions/likeSongHandler';
+import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
 
 export function Song({
     song,
-    index
+    index,
+    songPrevNext
 }) {
     const dispatch = useDispatch();
     const [isHover, setIsHover] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    const { isMusicPlaying, activePlaylist, activeSong, selectedSong, selectedPlaylist } = useSelector((state) => state.music);
+
+    const { isMusicPlaying } = useSelector((state) => state.music);
+    const { activePlaylist, selectedPlaylist } = useSelector((state) => state.music.playlist);
+    const { activeSong, selectedSong, prevSong } = useSelector((state) => state.music.song);
+
     const data = useSelector((state) => state.data)
     const [likedSong, setLikedSong] = useState(false)
     const timerRef = useRef(null);
@@ -25,22 +30,27 @@ export function Song({
     
     useEffect(() => {
         setIsSelected(song._id === selectedSong?._id);
-    }, [selectedSong])
+    }, [selectedSong, selectedPlaylist])
     
     useEffect(() => {
         if (activeSong?._id === song?._id && isMusicPlaying) {
-            setIsPlaying(true);
+            setIsPlaying(true)
         } else {
             setIsPlaying(false)
         }
     }, [isMusicPlaying, activeSong, song]);
 
+    useEffect(() => {
+        if (activeSong?._id === song?._id) {
+            songPrevNext(index);
+        }
+    }, [activeSong])
+
     const togglePlay = () => {
-        dispatch(setActiveSong({song: song, index: index}));
+        dispatch(setActiveSong({ song: song }));
         if (!activePlaylist) {
             dispatch(setActivePlaylist(selectedPlaylist));
         }
-
         if (isPlaying) {
             dispatch(togglePlayback());
         }
@@ -59,7 +69,7 @@ export function Song({
             <div className={styles.song__id} onClick={togglePlay}>
                 {isHover || (selectedSong?._id === song?._id) 
                     ? (isPlaying ? <Pause size={20}/> : <Play size={20}/>) 
-                    : <div>{index}</div>}
+                    : <div>{index + 1}</div>}
             </div>
             <div className={styles.song__title}>
                 <div 

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { set } from "mongoose";
 
   const initialState = {
     user: {
@@ -7,7 +8,8 @@ import { createSlice } from "@reduxjs/toolkit";
       user_name: null,
       user_email: null,
       user_likedSongsCount: null,
-      user_likedSongsList: null
+      user_likedSongsList: null,
+      user_library: null
     },
     artist: {
       artist_id: null,
@@ -35,5 +37,5 @@ const dataSlice = createSlice({
   },
 });
 
-export const { setData, setUserName, setAvatarUrl} = dataSlice.actions;
+export const { setData, setUserName, setAvatarUrl } = dataSlice.actions;
 export default dataSlice.reducer;

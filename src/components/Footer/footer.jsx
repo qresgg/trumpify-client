@@ -9,8 +9,9 @@ import { stopMusic, togglePlayback } from '../../lib/redux/music/musicState'
 export function Footer () {
     const dispatch = useDispatch()
     const audioRef = useRef(null);
-    const musicState = useSelector((state) => state.music)
-    const { activeSong, isMusicPlaying } = useSelector((state) => state.music)
+    const { isMusicPlaying } = useSelector((state) => state.music)
+    const { activeSong } = useSelector((state) => state.music.song)
+
     const [currentSong, setCurrentSong] = useState(null)
 
     useEffect(() => {

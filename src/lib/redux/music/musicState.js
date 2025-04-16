@@ -2,12 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isMusicPlaying: false,
-    activePlaylist: null,
-    activeSong: null,
-    activeSongId: null,
-    selectedPlaylist: null,
-    selectedSong: null
-    
+    song: {
+        selectedSong: null,
+        activeSong: null,
+        prevSong: null,
+        nextSong: null
+    },
+    playlist: {
+        selectedPlaylist: null, 
+        activePlaylist: null
+    }
 };
 
 const musicSlice = createSlice({
@@ -15,19 +19,24 @@ const musicSlice = createSlice({
     initialState,
     reducers: {
         setActivePlaylist: (state, action) => {
-            state.activePlaylist = action.payload;
+            state.playlist.activePlaylist = action.payload;
             state.isMusicPlaying = true;
         },
         setActiveSong: (state, action) => {
-            state.activeSong = action.payload.song;
-            state.activeSongId = action.payload.index;
+            state.song.activeSong = action.payload.song;
             state.isMusicPlaying = true;
         },
+        setPrevSong: (state, action) => {
+            state.song.prevSong = action.payload;
+        },
+        setNextSong: (state, action) => {
+            state.song.nextSong = action.payload;
+        },
         setSelectedSong: (state, action ) => {
-            state.selectedSong = action.payload;
+            state.song.selectedSong = action.payload;
         },
         setSelectedPlaylist: (state, action ) => {
-            state.selectedPlaylist = action.payload;
+            state.playlist.selectedPlaylist = action.payload;
         },
         togglePlaylistPlayback: (state) => {
             state.isMusicPlaying = !state.isMusicPlaying;
@@ -37,7 +46,7 @@ const musicSlice = createSlice({
         },
         stopMusic: (state) => {
             state.isMusicPlaying = false;
-            state.activeSong = null;
+            state.song.activeSong = null;
         },
     },
 });
@@ -49,5 +58,7 @@ export const {
     setSelectedPlaylist,
     togglePlaylistPlayback,
     togglePlayback,
-    stopMusic } = musicSlice.actions;
+    stopMusic,
+    setPrevSong,
+    setNextSong } = musicSlice.actions;
 export default musicSlice.reducer;

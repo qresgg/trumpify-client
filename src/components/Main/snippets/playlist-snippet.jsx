@@ -10,7 +10,8 @@ export function Playlist({
     type='playlist'
 }) {
     const dispatch = useDispatch();
-    const { isMusicPlaying, activePlaylist, selectedPlaylist} = useSelector((state) => state.music);
+    const { isMusicPlaying } = useSelector((state) => state.music);
+    const { activePlaylist, selectedPlaylist } = useSelector((state) => state.music.playlist);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHover, setIsHover] = useState(false);
     const [isSelected, setIsSelected] = useState(false);

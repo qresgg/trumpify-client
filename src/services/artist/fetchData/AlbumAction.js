@@ -1,11 +1,12 @@
-import { getAccessToken } from '../../global/functions/functions';
+import axios from "axios";
+import { getAccessToken } from "../../global/functions/functions";
 import { SERVER_API_URL } from '../../global/variable';
-import axios from 'axios';
 
-const fetchLikedSong = async (id) => {
+const AlbumAction = async (url, data) => {
     const token = getAccessToken();
+
     try {
-        const response = await axios.get(`${SERVER_API_URL}/actions/getLikedSong/${id}`, {
+        const response = await axios.put(`${SERVER_API_URL}/artist/${url}`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -18,4 +19,7 @@ const fetchLikedSong = async (id) => {
     }
 }
 
-export { fetchLikedSong };
+const likeAlbum = async (album) => AlbumAction('like-album', { album });
+const unLikeAlbum = async (album) => AlbumAction('unlike-album', { album });
+
+export { likeAlbum, unLikeAlbum };

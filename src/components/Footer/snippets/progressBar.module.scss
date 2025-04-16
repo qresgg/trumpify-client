@@ -1,9 +1,9 @@
-@use '../../../style/lead/footer/var-footer.module' as global;
+@use '../../../style/global/variables.module' as global;
 
 .progressContainer {
     width: 100%;
     height: 4px;
-    background: global.$footer_bright-selected-color;
+    background: global.$bright-selected-color;
     border-radius: 5px;
     position: relative;
     cursor: pointer;
@@ -11,7 +11,7 @@
     .progressBar {
         width: 50%;
         height: 100%;
-        background: global.$footer_special-color;
+        background: global.$special-color;
         border-radius: 5px;
     }
     
@@ -31,7 +31,7 @@
 
     &:hover {
         .progressBar{
-            background-color: global.$footer_second-color;
+            background-color: global.$second-color;
         }
 
         .slider{

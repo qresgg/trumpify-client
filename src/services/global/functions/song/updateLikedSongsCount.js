@@ -1,4 +1,4 @@
-import { setData } from '../../../lib/redux/data/dataSlice';
+import { setData } from '../../../../lib/redux/data/dataSlice';
 
 export const updateLikedSongsCount = (dispatch, currentUser, currentArtist, newCount) => {
     dispatch(

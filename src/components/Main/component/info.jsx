@@ -3,7 +3,7 @@ import styles from './info.module.scss';
 import { setSelectedSong } from '../../../lib/redux/music/musicState';
 import { X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
-import OnLikeSong from '../../../services/global/functions/likeSongHandler';
+import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
 import { usePalette } from 'react-palette';
 import { findContent } from '../../../services/search/findService';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
@@ -13,7 +13,9 @@ export function Info({
     onResize 
 }) {
     const dispatch = useDispatch();
-    const { selectedSong, selectedPlaylist } = useSelector((state) => state.music)
+    const { selectedSong } = useSelector((state) => state.music.song)
+    const { selectedPlaylist } = useSelector((state) => state.music.playlist)
+
     const [albumName, setAlbumName] = useState(null);
     const [liked, setLiked] = useState(false);
     const dataRedux = useSelector((state) => state.data)

@@ -1,10 +1,27 @@
-@use '../../style/lead/header/var-header.module' as global;
+@use '../../style/global/variables.module.scss' as global;
 
+$height: 64px;
+$width: 100%;
+%header_container{
+    background-color: global.$second-color;
+    border-radius: 50%;
+    $measure: 48px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    min-width: $measure;
+    cursor: pointer;
+
+    width: $measure;
+    height: $measure;
+    &:hover{
+        filter: brightness(1.5);
+    }
+}
 
 .header{
     position: relative;
-    width: global.$header_width;
-    height: global.$header_height;
+    width: $width;
+    height: $height;
     padding: 8px 16px;
     box-sizing: border-box;
 
@@ -59,7 +76,7 @@
             cursor: pointer;
             flex: 1;
 
-            background-color: global.$header_second-color;
+            background-color: global.$second-color;
             border: none;
             border-radius: 500px;
             box-sizing: border-box;
@@ -89,7 +106,7 @@
             max-width: fit-content;
             font-size: 13px;
             font-weight: bold;
-            background-color: global.$header_special-button-color;
+            background-color: global.$special-color;
             border-radius: 500px;
         }
         &__settings{

@@ -1,4 +1,4 @@
-import { getAccessToken } from '../../global/functions';
+import { getAccessToken } from '../../global/functions/functions';
 import { SERVER_API_URL } from '../../global/variable';
 import axios from 'axios';
 

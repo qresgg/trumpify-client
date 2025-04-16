@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAccessToken } from '../global/functions';
+import { getAccessToken } from '../global/functions/functions';
 import { SERVER_API_URL } from '../global/variable';
 
 const fetchData = async (type) => {
@@ -28,14 +28,14 @@ const getUserData = async () => {
   }
 };
 
-const getAlbumData = async () => {
+const getUserLibrary = async () => {
   try {
-    const data = await fetchData('getAlbum');
+    const data = await fetchData('getLibrary');
     return data;
   } catch (error) {
-    console.error('Error fetching album data:', error)
+    console.error('Error fetching user library:', error);
   }
-}
+};
 
 const searchData = async (value) => {
   const token = getAccessToken();
@@ -56,4 +56,4 @@ const searchData = async (value) => {
   }
 };
 
-export { getUserData, searchData, getAlbumData }
+export { getUserData, searchData, getUserLibrary }

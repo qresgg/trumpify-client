@@ -1,0 +1,107 @@
+.homePage{
+    color: white;
+    padding: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #121212;
+    position: relative;
+
+    .header{
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0 40px;
+        width: 100%;
+        &__filter{
+            display: flex;
+            gap: 8px;
+
+            div{
+                background-color: #373737;
+                border-radius: 100px;
+                padding: 4px 12px;
+                cursor: pointer;
+            }
+        }
+    }
+    .selections{
+
+        &__container{
+            
+            &__title{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 56px;
+
+                .title{
+                    font-size: 29px;
+                    font-weight: bold;
+                }
+                .showall{
+                    font-weight: bold;
+                    opacity: 0.6;
+                    font-size: 14px;
+                }   
+            }
+            
+            &__content{
+                display: flex;
+                height: 273px;
+                
+                &__item{
+                    padding: 12px;
+                    width: 177px;
+                    border-radius: 5px;
+                    position: relative;
+
+                    .playButton{
+                        position: absolute;
+                        background-color: rgb(0, 255, 55);
+                        z-index: 10;
+                        height: 50px;
+                        width: 50px;
+                        bottom: 77px;
+                        right: 20px;
+                        border-radius: 100px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        opacity: 0;
+                        transition: opacity 0.2s ease-in-out;
+                        box-shadow: -4px 8px 27px 0px rgba(0,0,0,0.88);
+                        -webkit-box-shadow: -4px 8px 27px 0px rgba(0,0,0,0.88);
+                        -moz-box-shadow: -4px 8px 27px 0px rgba(0,0,0,0.88);
+                    }
+
+                    &:hover{
+
+                        .playButton{
+                            opacity: 1;
+                        }
+                    }
+
+                    .cover{
+                        width: 153px;
+                        height: 153px;
+                        background: center/contain no-repeat;
+                        border-radius: 5px;
+                    }
+                    .title{
+                        margin-top: 8px;
+                        font-size: 22px;
+                    }
+                    .author{
+                        font-size: 14px;
+                        opacity: 0.6;
+                    }
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: #1E1E1E;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -4,18 +4,24 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePalette } from 'react-palette';
 import { Play, Pause } from 'lucide-react';
-import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist } from '../../../../lib/redux/music/musicState';
+import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist, setNextSong, setPrevSong } from '../../../../lib/redux/music/musicState';
 import AlbumTrackInfo from '../../../../hooks/albumTrackInfo';
 import ShowPage from '../../../../hooks/showPage';
 import { fetchLikedCollection } from '../../../../services/user/fetchData/fetchLikedCollection';
 
 export function LikedSongsPage() {
     const dispatch = useDispatch();
-    const { isMusicPlaying, activePlaylist, activeSong, selectedPlaylist } = useSelector(state => state.music);
+    const { isMusicPlaying } = useSelector(state => state.music);
+    const { activePlaylist, selectedPlaylist } = useSelector(state => state.music.playlist);
+    const { selectedSong, activeSong } = useSelector(state => state.music.song);
+
     const [isPlaying, setIsPlaying] = useState(false);
     const [totalDuration, setTotalDuration] = useState('');
     const [likedSongs, setLikedSongs] = useState([]);
     const user = useSelector(state => state.data.user)
+
+    const handleSongState = (index) => {
+    }
 
     useEffect(() => {
         const fetchLiked = async () => {
@@ -32,7 +38,7 @@ export function LikedSongsPage() {
     }, []);
 
     useEffect(() => {
-        setIsPlaying(activePlaylist === selectedPlaylist && isMusicPlaying);
+        setIsPlaying(activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying);
     }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
 
     const togglePlay = () => {
@@ -94,7 +100,7 @@ export function LikedSongsPage() {
                                 {likedSongs.length > 0 ? (
                                     likedSongs.map((song, index) => (
                                         <div key={index} onClick={() => selectSong(song)}>
-                                            <Song song={song} index={index + 1} claim={true}/>
+                                            <Song song={song} index={index} songPrevNext={() => handleSongState}/>
                                         </div>
                                     ))
                                 ) : (

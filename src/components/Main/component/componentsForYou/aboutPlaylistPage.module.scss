@@ -91,7 +91,14 @@
     
                 .nav{
                     display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 16px;
                     padding: 16px;
+
+                    button{
+                        margin: 0;
+                    }
 
                     .button__play{
                         cursor: pointer;
@@ -108,6 +115,37 @@
                         // .play__ico{
 
                         // }
+                    }
+
+                    .button__like{
+                        display: flex;
+                        justify-content: end;
+                        z-index: 90;
+                        width: 32px;
+                        height: 32px;
+
+                        &:hover{
+                            cursor: pointer;
+                        }
+
+                        @mixin like($type) {
+                            background: url("../../../../../public/micro-ico/#{$type}.png") center/contain no-repeat;
+                            height: inherit;
+                            width: inherit;
+                        }
+
+                        .liked{
+                            @include like("liked");
+                            filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+                        }
+                        .notliked{
+                            @include like("notliked");
+                            filter: brightness(0.7);
+                        }
+
+                        &:hover{
+                            filter:brightness(1);
+                        }
                     }
                 }
                 .tracks{

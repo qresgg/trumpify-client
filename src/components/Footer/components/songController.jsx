@@ -2,13 +2,14 @@ import styles from './songController.module.scss'
 import { ProgressBar } from '../snippets/progressBar-snippet'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { togglePlayback } from '../../../lib/redux/music/musicState'
+import { setActiveSong, setPrevSong, togglePlayback } from '../../../lib/redux/music/musicState'
 
 export function SongController({
     audioRef
 }) {
     const [pause, setPause] = useState(false)
     const { isMusicPlaying } = useSelector((state) => state.music)
+    const { prevSong, nextSong } = useSelector((state) => state.music.song)
     const dispatch = useDispatch()
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
@@ -16,6 +17,7 @@ export function SongController({
     const [loopPressed, setLoopPressed] = useState(false)
     const [shufflePressed, setShufflePressed] = useState(false)
 
+    
     const handlePause = () => {
         setPause(!pause)
         dispatch(togglePlayback())
@@ -54,9 +56,7 @@ export function SongController({
     const pressedTemplate = loopPressed ? {
         filter: 'brightness(0) saturate(100%) invert(60%) sepia(57%) saturate(564%) hue-rotate(89deg) brightness(94%) contrast(104%)',
         opacity: 1
-    } : {
-        opacity: 0.6
-    }
+    } : {}
 
     return (
         <div className={styles.main}>
@@ -70,7 +70,7 @@ export function SongController({
                             <div></div>
                         </div>
                         <div className={styles.panel__prevSong} title='previous song'>
-                            <div></div>
+                            <div onClick={() => (dispatch(setActiveSong({ song: prevSong }),))}></div>
                         </div>
                         <div onClick={handlePause}>
                             {isMusicPlaying
@@ -82,7 +82,7 @@ export function SongController({
                             </div>}
                         </div>
                         <div className={styles.panel__nextSong} title='next song'>
-                            <div></div>
+                            <div onClick={() => (dispatch(setActiveSong({ song: nextSong }),))}></div>
                         </div>
                         <div className={styles.panel__loop} 
                             title='loop' 

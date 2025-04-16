@@ -1,12 +1,12 @@
 import styles from './activeSong.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import OnLikeSong from '../../../services/global/functions/likeSongHandler'
+import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
 import likeChecker from '../../../services/global/functions/song/likeChecker'
 
 export function ActiveSong() {
     const dispatch = useDispatch();
-    const { activeSong } = useSelector((state) => state.music)
+    const { activeSong } = useSelector((state) => state.music.song)
     const [liked, setLiked] = useState(false);
     const timerRef = useRef(null);
     const data = useSelector((state) => state.data)
