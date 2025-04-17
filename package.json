@@ -28,8 +28,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm start",
     "dev": "nodemon db",
+    "prod": "serve -s build",
     "build": "react-scripts build"
   },
   "eslintConfig": {
