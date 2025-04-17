@@ -86,7 +86,7 @@
             position: relative;
             top: -150px;
             background: #12121269;
-            backdrop-filter: blur(40px);
+            backdrop-filter: blur(30px);
             max-height: 300px;
     
                 .nav{
@@ -182,4 +182,26 @@
                 }
             }
         }
+}
+
+
+//skeleton
+.skeleton{
+    padding-left: 54px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    
+    &__leftPanel{
+        display: flex; 
+        gap: 10px;  
+
+        &__title{
+            
+        }
+    }
+
+    &__rightPanel{
+        width: 50px;
+    }
 }

@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './userProfilePage.module.scss'
-import { usePalette } from 'react-palette';
 import { useEffect, useState } from 'react';
 import { InfoChange } from './snippet/userInfoChange';
 import { UserImage } from '../../../../../hooks/UserImage';
 import { getUserData } from '../../../../../services/user/userService';
 import { setSelectedUserPage } from '../../../../../lib/redux/pages/viewSlice';
 import { isOriginPage } from '../../../../../services/auth/isOriginPage';
+import fetchColors from '../../../../../hooks/global/colorPalette';
 
 export function UserProfilePage() {
     const dispatch = useDispatch();
@@ -15,6 +15,7 @@ export function UserProfilePage() {
     const [isOpened, setIsOpened] = useState(false)
     const [updateInfo, setUpdateInfo] = useState(false);
     const [originUser, setOriginUser] = useState(false);
+    const [gradient, setGradient] = useState(null);
     
     useEffect(() => {
         const fetchUserData = async () => {
@@ -35,7 +36,6 @@ export function UserProfilePage() {
         setOriginUser(isOriginPage(user, currentUserPage));
     }, [currentUserPage, user])
 
-    const { data } = usePalette(currentUserPage?.user_avatar_url);
     
     const handleIsOpened = (data) => {
         setIsOpened(false);
@@ -47,10 +47,17 @@ export function UserProfilePage() {
         originUser && setIsOpened(true);
     }
 
+    useEffect(() => {      
+        const getColors = async () => {
+            setGradient(await fetchColors(currentUserPage));
+        }
+        getColors();
+    }, [currentUserPage]);
+
     return (
         <div className={styles.profile}>
                 { isOpened && <div className={styles.blackScreen}></div>}
-                <div className={styles.title} style={{ background: `linear-gradient(to bottom, ${data.lightMuted}, ${data.darkMuted})` }}>
+                <div className={styles.title} style={gradient}>
                     <div className={styles.addiction} onClick={openModal}>
                         <div className={styles.image}>
                             <UserImage width={'210px'} height={'210px'} avatar={currentUserPage.user_avatar_url}/>

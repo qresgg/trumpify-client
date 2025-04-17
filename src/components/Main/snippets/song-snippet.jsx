@@ -9,7 +9,8 @@ import likeChecker from '../../../services/global/functions/song/likeChecker';
 export function Song({
     song,
     index,
-    songPrevNext
+    songPrevNext,
+    cover = false
 }) {
     const dispatch = useDispatch();
     const [isHover, setIsHover] = useState(false);
@@ -71,14 +72,17 @@ export function Song({
                     ? (isPlaying ? <Pause size={20}/> : <Play size={20}/>) 
                     : <div>{index + 1}</div>}
             </div>
-            <div className={styles.song__title}>
-                <div 
-                    className={styles.song__title__name} 
-                    style={{color: isPlaying ? '#3BE477' : 'white' }}>
-                    {song.title}
-                </div>
-                <div className={styles.song__title__artist}>
-                    {song.features.map((feat) => feat.name).join(', ')}
+            <div className={styles.leftPanel}>
+                { cover && <img src={song?.song_cover} width={36} height={36}/>}
+                <div className={styles.leftPanel__title}>
+                    <div 
+                        className={styles.leftPanel__name} 
+                        style={{color: isPlaying ? '#3BE477' : 'white' }}>
+                        {song.title}
+                    </div>
+                    <div className={styles.leftPanel__artist}>
+                        {song.features.map((feat) => feat.name).join(', ')}
+                    </div>
                 </div>
             </div>
             <div className={styles.rightPanel}>

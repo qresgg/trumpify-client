@@ -4,9 +4,10 @@ import { setSelectedSong } from '../../../lib/redux/music/musicState';
 import { X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
-import { usePalette } from 'react-palette';
 import { findContent } from '../../../services/search/findService';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
+import ColorClassifier from '../../../hooks/colorThief';
+import fetchColors from '../../../hooks/global/colorPalette';
 
 export function Info({ 
     width, 
@@ -15,6 +16,7 @@ export function Info({
     const dispatch = useDispatch();
     const { selectedSong } = useSelector((state) => state.music.song)
     const { selectedPlaylist } = useSelector((state) => state.music.playlist)
+    const [ gradient, setGradient ] = useState(null)
 
     const [albumName, setAlbumName] = useState(null);
     const [liked, setLiked] = useState(false);
@@ -43,7 +45,12 @@ export function Info({
         selectedSong && fetchArtist();
     }, [selectedSong])
 
-    const { data } = usePalette(selectedSong?.song_cover);
+      useEffect(() => {      
+        const getColors = async () => {
+            setGradient(await fetchColors(selectedSong));
+        }
+        getColors();
+      }, [selectedSong]);
     
     return (
         <>
@@ -55,7 +62,10 @@ export function Info({
                             <div className={styles.albumName}>{albumName}</div>
                             <div className={styles.closeInfo}><X onClick={() => dispatch(setSelectedSong(null))}/></div>
                         </div>
-                        <div className={styles.song__backcolor} style={{ background: `linear-gradient(to bottom, ${data.lightMuted}, ${data.darkMuted})`}}></div>
+                        <div
+                            className={styles.song__backcolor}
+                            style={gradient}
+                        ></div>
                         <div className={styles.song__container}>
                             <div className={styles.image_container}>
                                 <img src={selectedSong.song_cover}/>

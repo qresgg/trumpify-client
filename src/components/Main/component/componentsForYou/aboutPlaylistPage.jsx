@@ -2,7 +2,6 @@ import styles from "./aboutPlaylistPage.module.scss";
 import { Song } from "../../snippets/song-snippet";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { usePalette } from "react-palette";
 import { Play, Pause, Album } from "lucide-react";
 import {
   setSelectedSong,
@@ -17,6 +16,7 @@ import { redirectTo } from "../../../../services/global/functions/redirection";
 import { getLikedSongs } from "../../../../services/user/Actions/userActionsService";
 import OnLikeAlbum from "../../../../services/global/functions/album/likeAlbumHandler";
 import { useRef } from "react";
+import fetchColors from "../../../../hooks/global/colorPalette";
 
 export function AboutPlaylistPage() {
   const dispatch = useDispatch();
@@ -35,6 +35,7 @@ export function AboutPlaylistPage() {
   const [totalDuration, setTotalDuration] = useState("");
   const [likedSongs, setLikedSongs] = useState([]);
   const [isLikedPlaylist, setIsLIkedPlaylist] = useState(false);
+  const [gradient, setGradient] = useState(null);
   
   useEffect(() => {
     if (user.user_library.some((playlist) => playlist._id === selectedPlaylist?._id)) {
@@ -91,7 +92,12 @@ export function AboutPlaylistPage() {
   const year = selectedPlaylist?.created_at
     ? new Date(selectedPlaylist.created_at).getFullYear()
     : "";
-  const { data } = usePalette(selectedPlaylist?.cover || "");
+  useEffect(() => {      
+    const getColors = async () => {
+        setGradient(await fetchColors(selectedPlaylist));
+    }
+    getColors();
+  }, [selectedPlaylist]);
 
   return (
     <div className={styles.foryou}>
@@ -99,9 +105,7 @@ export function AboutPlaylistPage() {
         <div className={styles.playlist}>
           <div
             className={styles.playlist__title}
-            style={{
-              background: `linear-gradient(to bottom, ${data.lightVibrant}, ${data.darkMuted})`,
-            }}>
+            style={gradient}>
             <div className={styles.playlist__title__container}>
               <div
                 className={styles.image}

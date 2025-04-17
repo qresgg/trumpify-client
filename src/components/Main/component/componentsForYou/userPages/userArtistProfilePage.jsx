@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import styles from './userArtistProfilePage.module.scss'
-import { usePalette } from 'react-palette';
 import { useState } from 'react';
 import infoChange from './snippet/userInfoChange';
 import { Song } from '../../../snippets/song-snippet';
