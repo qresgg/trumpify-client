@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.24dbb447.css",
-    "main.js": "/static/js/main.8116d3c4.js",
+    "main.js": "/static/js/main.2586cccf.js",
     "static/media/likedsongs.png": "/static/media/likedsongs.c1427fd4fecd0e65ed6a.png",
     "static/media/verifiedIcon.png": "/static/media/verifiedIcon.bbb925e7511fb7fd08c9.png",
     "static/media/profile-user.png": "/static/media/profile-user.301a027ed71b2df9901d.png",
@@ -11,10 +11,10 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "main.24dbb447.css.map": "/static/css/main.24dbb447.css.map",
-    "main.8116d3c4.js.map": "/static/js/main.8116d3c4.js.map"
+    "main.2586cccf.js.map": "/static/js/main.2586cccf.js.map"
   },
   "entrypoints": [
     "static/css/main.24dbb447.css",
-    "static/js/main.8116d3c4.js"
+    "static/js/main.2586cccf.js"
   ]
 }
