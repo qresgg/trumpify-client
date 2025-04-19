@@ -5,15 +5,12 @@ import { useAuth } from '../../../hooks/useAuth';
 import { useDispatch } from 'react-redux';
 
 export function Login ({
-    success,
-    error,
     switchAuth
 }) {
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }} = useForm();
-    const { handleLogin } = useAuth();
+    const { handleLogin, message } = useAuth();
     const [isAdClosed, setIsAdClosed] = useState(false);
-    const [message, setMessage] = useState({ success: "", error: "" });
 
     return (
         <>
@@ -22,8 +19,8 @@ export function Login ({
                     <div className={styles.contik}>
                         <div className={styles.auth__container__logo}></div>
                         <form onSubmit={handleSubmit(handleLogin)}>
-                            {error && <p style={{ color: 'red' }}>{error}</p>}
-                            {success && <p style={{ color: 'green' }}>{success}</p>}
+                            {message?.error && <p style={{ color: 'red' }}>{message?.error}</p>}
+                            {message?.success && <p style={{ color: 'green' }}>{message?.success}</p>}
                             <div className={styles.section}>Log in</div>
 
                             <div className={styles.inputData}>

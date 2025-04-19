@@ -5,6 +5,7 @@ import { setView } from '../../lib/redux/pages/viewSlice';
 import { DropdownMenu } from './snippet/dropdownmenu-snippet';
 import { UserImage } from '../../hooks/UserImage';
 import { SearchBar } from './snippet/searchBar-snippet';
+import { useAuth } from '../../hooks/useAuth';
 
 export function Header ({
     onLogout
@@ -13,6 +14,7 @@ export function Header ({
     const [isDDMenuOpen, setIsDDMenuOpen] = useState(false);
     const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false);
     const [isBlackScreen, setIsBlackScreen] = useState(false);
+    const { handleLogout } = useAuth();
 
     const handleDropDownMenu = () => {
         setIsDDMenuOpen(!isDDMenuOpen);
@@ -47,7 +49,7 @@ export function Header ({
                     <div className={styles.userBar__profile} onClick={handleDropDownMenu}>
                         <UserImage width={'48px'} height={'48px'}/>
                     </div>
-                    {isDDMenuOpen && <DropdownMenu onLogout={onLogout} dropDownMenuState={handleDropDownMenu}/>}
+                    {isDDMenuOpen && <DropdownMenu onLogout={handleLogout} dropDownMenuState={handleDropDownMenu}/>}
                 </div>
             </div>
         </div>

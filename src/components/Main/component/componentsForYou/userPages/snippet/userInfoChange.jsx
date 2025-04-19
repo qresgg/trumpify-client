@@ -7,6 +7,7 @@ import { UserImage } from '../../../../../../hooks/UserImage';
 import { useForm } from 'react-hook-form';
 import { setData } from '../../../../../../lib/redux/data/dataSlice';
 import { useDispatch } from 'react-redux';
+import { isValidPassword, isValidEmail, isValidUserName } from '../../../../../../lib/regexp';
 
 export function InfoChange({
     onOpened
@@ -31,6 +32,10 @@ export function InfoChange({
 
 
     const onSubmit = async (data) => {
+        if (!isValidUserName(data?.username)) {
+            setMessage({ error: "Username doesn't comply with our policy", success: "" });
+            return;
+        }
         try {
             if (data) {
                 if (data.avatar) {
@@ -39,8 +44,7 @@ export function InfoChange({
                         user: {
                             ...user,
                             user_avatar_url: data.avatar
-                        },
-                        artist: artist
+                        }
                     }));
                 }
                 if (data.username) {
@@ -49,8 +53,7 @@ export function InfoChange({
                         user: {
                             ...user,
                             user_name: data.username
-                        },
-                        artist: artist
+                        }
                     }));
                 }
                 onOpened(data);

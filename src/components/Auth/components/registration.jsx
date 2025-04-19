@@ -3,39 +3,20 @@ import { useEffect, useState } from 'react';
 import { isValidEmail, isValidPassword, isValidUserName} from '../../../lib/regexp';
 import { Check, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { register } from '../../../services/auth/authService';
 import { useDispatch } from 'react-redux';
-import { redirectPage } from '../../../services/global/functions/redirection';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAuth } from '../../../hooks/useAuth';
 
 export function Registration ({
     switchAuth
 }) {
     const dispatch = useDispatch();
     const { register: hookRegister, handleSubmit, formState: { errors }, setValue } = useForm();
-    const [message, setMessage] = useState({ success: "", error: "" });
+    const { message, handleRegistration } = useAuth();
     const [passwordValidation, setPasswordValidation] = useState({});
     const [isAdClosed, setIsAdClosed] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const onSubmit = async (data) => {
-        if (!isValidPassword(data.password) || !isValidEmail(data.email) || !isValidUserName(data.userName)) {
-            setMessage({ error: "All fields are required", success: "" });
-            return;
-        }
-        if (data.password !== data.passwordConfirm) {
-            setMessage({ error: "Passwords do not match", success: "" });
-            return;
-        }
-
-        try {
-            const response = await register(data.userName, data.email, data.password);
-            setMessage({ success: response.message || "Registration successful!", error: "" });
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || "Error during registration";
-            setMessage({ error: errorMessage, success: "" });
-        }
-    };
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
         setValue('password', newPassword);
@@ -55,9 +36,9 @@ export function Registration ({
                 <div className={styles.auth__container}>
                     <div className={styles.contik}>
                         <div className={styles.auth__container__logo}></div>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            {message.error && <p style={{ color: 'red' }}>{message.error}</p>}
-                            {message.success && <p style={{ color: 'green' }}>{message.success}</p>}
+                        <form onSubmit={handleSubmit(handleRegistration)}>
+                            {message?.error && <p style={{ color: 'red' }}>{message?.error}</p>}
+                            {message?.success && <p style={{ color: 'green' }}>{message?.success}</p>}
                             <div className={styles.section}>Sign up</div>
 
                             <div className={styles.inputData}>
@@ -74,7 +55,7 @@ export function Registration ({
 
                             <div className={styles.inputData} onFocus={handlePasswordCheck}>
                                 <label>Password</label>
-                                <input {...hookRegister('password', { required: "password is required"})} onChange={handlePasswordChange} type="password"/>
+                                <input onChange={handlePasswordChange} type="password" required/>
                                 {errors.password && <p>{errors.password.message}</p>}
                             </div>
 

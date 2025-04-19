@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { login, logout, checkAuth } from "../services/auth/authService";
+import { login, logout, checkAuth, register } from "../services/auth/authService";
 import { fetchUserData } from "../services/user/fetchData/fetchUserData";
 import { useDispatch, useSelector } from "react-redux";
 import { setData as setReduxData } from "../lib/redux/data/dataSlice";
 import { setAuthenticated } from "../lib/redux/data/dataSlice";
+import { isValidEmail, isValidPassword, isValidUserName } from "../lib/regexp";
 
 export function useAuth() {
   const dispatch = useDispatch();
@@ -21,6 +22,11 @@ export function useAuth() {
   };
 
   const handleLogin = async (data) => {
+    if (!isValidPassword(data.password) || !isValidEmail(data.email)) {
+        setMessage({ error: "All fields are required", success: "" });
+        return;
+    }
+
     try {
       const response = await login(data.email, data.password);
       dispatch(setAuthenticated(true));
@@ -34,5 +40,24 @@ export function useAuth() {
     }
   };
 
-  return { isAuthenticated, message, handleLogout, handleLogin };
+  const handleRegistration = async (data) => {
+    if (!isValidPassword(data.password) || !isValidEmail(data.email) || !isValidUserName(data.userName)) {
+        setMessage({ error: "All fields are required", success: "" });
+        return;
+    }
+    if (data.password !== data.passwordConfirm) {
+        setMessage({ error: "Passwords do not match", success: "" });
+        return;
+    }
+
+    try {
+        const response = await register(data.userName, data.email, data.password);
+        setMessage({ success: response.message || "Registration successful!", error: "" });
+    } catch (error) {
+        const errorMessage = error.response?.data?.message || "Error during registration";
+        setMessage({ error: errorMessage, success: "" });
+    }
+  };
+
+  return { isAuthenticated, message, handleLogout, handleLogin, handleRegistration };
 }

@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 export function Layout() {
   const dispatch = useDispatch();
-  const { isAuthenticated, message, handleLogout } = useAuth();
+  const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export function Layout() {
     <>
       {isAuthed ? (
         <>
-          <Header onLogout={handleLogout}/>
+          <Header />
           <Main />
           <Footer />
         </>
