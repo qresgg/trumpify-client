@@ -3,17 +3,44 @@ import { useEffect, useState } from 'react';
 import { Pause, Play} from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedPlaylist } from '../../../lib/redux/music/musicState';
+import { setActiveSong, setActivePlaylist, togglePlayback} from '../../../lib/redux/music/musicState';
+import { getLikedSongs } from '../../../services/user/Actions/userActionsService';
 
 export function LikedSongsPlaylist() {
     const dispatch = useDispatch();
-    const { isMusicPlaying, activePlaylistIndex, activeTrack, selectedPlaylist} = useSelector((state) => state.music);
+    const { isMusicPlaying, activePlaylist, activeTrack, selectedPlaylist} = useSelector((state) => state.music);
     const user = useSelector((state) => state.data.user)
+    const [isSelected, setIsSelected] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHover, setIsHover] = useState(false);
+    // const playlist = useSelector((state) => state.user?.user_likedCollection)
+
+    // useEffect(() => {
+    //     setIsSelected(playlist?._id === selectedPlaylist?._id);
+    // }, [selectedPlaylist])
     
+    // useEffect(() => {
+    //     console.log(activePlaylist)
+    //     console.log(playlist)
+    //     if (activePlaylist?._id === playlist?._id && isMusicPlaying) {
+    //         setIsPlaying(true);
+    //     } else {
+    //         setIsPlaying(false)
+    //     }
+    // }, [activePlaylist, isMusicPlaying, playlist]);
+    
+    // const togglePlay = async () => {
+    //     if (activePlaylist?._id === playlist?._id) {
+    //         dispatch(togglePlayback());
+    //     } else {
+    //         dispatch(setActivePlaylist(playlist));
+    //         console.log('changed activeplaylist', playlist)
+    //         // dispatch(setActiveSong({ song: playlist.songs[0], index: 0 })); 
+    //     }
+    // };
     const handlePlaylistClick = () => {
-        setIsPlaying(!isPlaying);
-    }
+        // togglePlay();
+    };
 
     return (
         <div className={styles.likedSongs}

@@ -23,6 +23,7 @@ export function LikedSongsPage() {
 
     const handleSongState = (index) => {
     }
+    const playlist = useSelector((state) => state.user?.user_likedCollection)
 
     useEffect(() => {
         const fetchLiked = async () => {
@@ -105,7 +106,7 @@ export function LikedSongsPage() {
                                     ))
                                 ) : (
                                     Array.from({ length: 10 }).map((_, index) => (
-                                        <div className={styles.skeleton}> 
+                                        <div className={styles.skeleton} key={index}> 
                                             <div className={styles.skeleton__leftPanel}>
                                                 <Skeleton width={36} height={36} baseColor="#4B4B4B" highlightColor="#1ED760"/>
                                                 <div className={styles.skeleton__title}>

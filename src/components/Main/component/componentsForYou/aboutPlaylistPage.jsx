@@ -36,6 +36,9 @@ export function AboutPlaylistPage() {
   const [likedSongs, setLikedSongs] = useState([]);
   const [isLikedPlaylist, setIsLIkedPlaylist] = useState(false);
   const [gradient, setGradient] = useState(null);
+
+  console.log(selectedPlaylist?._id)
+    console.log(activePlaylist?._id)
   
   useEffect(() => {
     if (user.user_library.some((playlist) => playlist._id === selectedPlaylist?._id)) {
