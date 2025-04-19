@@ -9,7 +9,7 @@ import { redirectPage } from '../../../services/global/functions/redirection';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export function Registration ({
-    handleClick
+    switchAuth
 }) {
     const dispatch = useDispatch();
     const { register: hookRegister, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -120,7 +120,7 @@ export function Registration ({
                         <div className={styles.breakLine}></div>
                         <div className={styles.loginButton}>
                             <div className={styles.loginButton__text}>Already have an account?</div>
-                            <div className={styles.loginButton__button} onClick={handleClick}>Log in here</div>
+                            <div className={styles.loginButton__button} onClick={switchAuth}>Log in here</div>
                         </div>
                         <div className={styles.footer}>
                             {!isAdClosed && (

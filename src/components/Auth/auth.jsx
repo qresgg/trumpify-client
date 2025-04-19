@@ -5,16 +5,15 @@ import { useState, useEffect } from "react";
 export function Auth () {
     const [isLogin, setIsLogin] = useState(true); 
 
-    const handleClick = () => {
+    const switchAuth = () => {
         setIsLogin(!isLogin);   
     }
 
     return (
         <>
             {isLogin
-            ? (<Login />)
-            : (<Registration handleClick={handleClick} />)}
-            <button onClick={handleClick}>Change</button>
+            ? (<Login switchAuth={switchAuth} />)
+            : (<Registration switchAuth={switchAuth} />)}
         </>
     )
 }

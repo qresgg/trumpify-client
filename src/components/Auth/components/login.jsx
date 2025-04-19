@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux';
 
 export function Login ({
     success,
-    error
+    error,
+    switchAuth
 }) {
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }} = useForm();
@@ -45,7 +46,7 @@ export function Login ({
                         <div className={styles.breakLine}></div>
                         <div className={styles.loginButton}>
                             <div className={styles.loginButton__text}>Don't have an account?</div>
-                            <div className={styles.loginButton__button}>Sign up</div>
+                            <div className={styles.loginButton__button} onClick={switchAuth}>Sign up</div>
                         </div>
                         <div className={styles.footer}>
                             {!isAdClosed && (
