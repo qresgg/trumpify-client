@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
   const initialState = {
+    isAuthenticated: false,
     user: {
       user_avatar_url: null,
       user_id: null,
@@ -32,9 +33,12 @@ const dataSlice = createSlice({
     setAvatarUrl: (state, action) => {
       const { avatar } = action.payload;
       state.user_avatar_url = avatar;
-    }
+    },
+    setAuthenticated: (state, action) => {
+      state.isAuthenticated = action.payload;
+    },
   },
 });
 
-export const { setData, setUserName, setAvatarUrl } = dataSlice.actions;
+export const { setData, setUserName, setAvatarUrl, setAuthenticated } = dataSlice.actions;
 export default dataSlice.reducer;

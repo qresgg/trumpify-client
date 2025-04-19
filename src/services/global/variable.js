@@ -1,1 +1,1 @@
-export const SERVER_API_URL = 'https://trumpify-api.onrender.com';
+export const SERVER_API_URL = process.env.NODE_ENV === 'production' ? 'https://music-online-l49p.onrender.com' : 'http://localhost:8080';

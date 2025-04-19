@@ -2,11 +2,7 @@ import { Registration } from "./components/registration";
 import { Login } from "./components/login";
 import { useState, useEffect } from "react";
 
-export function Auth ({
-    onLogout,
-    handleData
-}
-) {
+export function Auth () {
     const [isLogin, setIsLogin] = useState(true); 
 
     const handleClick = () => {
@@ -15,12 +11,10 @@ export function Auth ({
 
     return (
         <>
-        {isLogin && (<Login 
-            handleData={handleData}
-            onLogout={onLogout}/>)}
-        {!isLogin && (<Registration 
-            handleClick={handleClick}/>)}
-        <button onClick={handleClick}>Change</button>
-    </>
+            {isLogin
+            ? (<Login />)
+            : (<Registration handleClick={handleClick} />)}
+            <button onClick={handleClick}>Change</button>
+        </>
     )
 }
