@@ -69,6 +69,10 @@ export function AboutPlaylistPage() {
     );
   }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
 
+  useEffect(() => {
+    console.log('user', user)
+  }, [])
+
   // useEffect(() => {
   //     if (selectedPlaylist) {
   //         const totalDur = new AlbumTrackInfo(selectedPlaylist);

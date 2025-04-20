@@ -12,6 +12,7 @@ export function Main() {
     const info = useResizable(370);
 
     const isResizing = useSelector((state) => state.isResizing);
+    
 
     return (
         <div className={styles.main} style={{ userSelect: isResizing ? 'none' : 'auto' }}>

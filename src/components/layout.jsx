@@ -21,13 +21,16 @@ export function Layout() {
       try {
         const token = await checkAuth();
         if (token) {
+          console.log('authed')
           setAuthed(true);
           const userData = await fetchUserData();
           dispatch(setReduxData(userData));
         } else {
+          console.log('not authed')
           setAuthed(false);
         }
       } catch (error) {
+        console.error('An error occurred during authentication:', error);
         dispatch(setAuthenticated(false));
       }
     };
