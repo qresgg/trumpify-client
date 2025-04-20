@@ -17,7 +17,7 @@ export function UserImage({
 
       
     useEffect(() => {
-        setAvatar(avatar ? avatar : user.user_avatar_url);
+        setAvatar(avatar ? avatar : user?.user_avatar_url);
     }, [user, avatar])
     const imageParameters = {
         background: `url(${urlAvatar}) center/contain no-repeat`,
