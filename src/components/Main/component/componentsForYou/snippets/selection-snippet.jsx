@@ -12,7 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 export function Selection({ title, fetchFunction }) {
     const dispatch = useDispatch();
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(() => []);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -80,7 +80,7 @@ export function Selection({ title, fetchFunction }) {
                         </div>
                     ))
                 : <Slider {...settings}>
-                    {items?.map((item, index) => renderItem(item, item.definition, index))}
+                    {Array.isArray(items) && items.map((item, index) => renderItem(item, item.definition, index))}
                     </Slider>}
           </div>
         </div>
