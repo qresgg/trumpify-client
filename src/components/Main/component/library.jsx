@@ -12,12 +12,7 @@ import { useEffect } from "react";
 
 export function Library({ width, onResize }) {
   const dispatch = useDispatch();
-  const { user_library } = useSelector((state) => state.data.user);
   const user = useSelector((state) => state.data.user);
-  
-  useEffect(() => {
-    console.log(user_library)
-  }, [user_library]);
 
   return (
     <>
@@ -37,7 +32,7 @@ export function Library({ width, onResize }) {
           <div onClick={() => redirectPage("likedSongs", dispatch)}>
             <LikedSongsPlaylist />
           </div>
-          {user_library?.map((playlist, index) => (
+          {user?.user_library?.map((playlist, index) => (
             <div
               onClick={() => redirectPlaylist(playlist, "playlist", dispatch)}
               key={index}
