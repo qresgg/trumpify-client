@@ -54,7 +54,7 @@ export function LikedSongsPlaylist() {
             <div className={styles.likedSongs__art}></div>
             <div className={styles.likedSongs__info}>
                 <div className={styles.title}>Liked songs</div>
-                <div className={styles.additionalInfo}><p>Collection</p>&nbsp; • &nbsp;<p>{user.user_likedSongsCount} songs</p></div>
+                <div className={styles.additionalInfo}><p>Collection</p>&nbsp; • &nbsp;<p>{user?.user_likedSongsCount} songs</p></div>
             </div>
         </div>
     )
