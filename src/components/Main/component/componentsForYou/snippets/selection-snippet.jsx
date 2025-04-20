@@ -80,7 +80,7 @@ export function Selection({ title, fetchFunction }) {
                         </div>
                     ))
                 : <Slider {...settings}>
-                    {items.map((item, index) => renderItem(item, item.definition, index))}
+                    {items?.map((item, index) => renderItem(item, item.definition, index))}
                     </Slider>}
           </div>
         </div>
