@@ -49,7 +49,7 @@ export function Header ({
             <div className={styles.userBar}>
                 {/* <div className={styles.userBar__subscription}>Learn more about Premium</div> */}
                 <div className={styles.pp_dropdown}>
-                    <div className={styles.userBar__profile} onClick={handleDropDownMenu} title={user.user_name}>
+                    <div className={styles.userBar__profile} onClick={handleDropDownMenu} title={user?.user_name}>
                         <UserImage width={'48px'} height={'48px'}/>
                     </div>
                     {isDDMenuOpen && <DropdownMenu onLogout={handleLogout} dropDownMenuState={handleDropDownMenu}/>}
