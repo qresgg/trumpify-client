@@ -56,7 +56,7 @@ export function UserProfilePage() {
 
     return (
         <div className={styles.profile}>
-                { isOpened && <div className={styles.blackScreen}></div>}
+                { isOpened && <div className={styles.blackScreen} onClick={handleIsOpened}></div>}
                 <div className={styles.title} style={gradient}>
                     <div className={styles.addiction} onClick={openModal}>
                         <div className={styles.image}>

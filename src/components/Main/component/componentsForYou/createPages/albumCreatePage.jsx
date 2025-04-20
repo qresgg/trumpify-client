@@ -1,15 +1,17 @@
 import styles from './createForm.module.scss'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { createAlbum } from '../../../../../services/artist/artistService';
 import { CreateSongAlbum } from './createSongAlbum';
 import { X } from 'lucide-react'
+import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
 
 export function AlbumCreatePage() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, setValue} = useForm();
     const [previewImage, setPreviewImage] = useState('');
     const [isOpened, setIsOpened] = useState(false)
     const [song, setSong] = useState([]);
+    const contentRef = useRef();
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -31,47 +33,35 @@ export function AlbumCreatePage() {
     }
     const removeSong = (songIndex) => {
         setSong((prevSongs) => prevSongs.filter((_, index) => index !== songIndex))
-    }
+    } 
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setPreviewImage(`url(${event.target.result})`);
-            };
-            reader.readAsDataURL(file); 
-        }
-    }
     const handleIsOpened = () => {
         setIsOpened(false);
-    }
-    const previewContainer = {
-        backgroundImage: previewImage,
     }
     return (
         <div className={styles.main}>
             { isOpened && <div className={styles.blackScreen}></div>}
-            <div className={styles.main__container}>
+            <div className={styles.main__container} ref={contentRef}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     {success && <p style={{ color: 'green' }}>{success}</p>}
+                    <div className={styles.section}>Album creation</div>
                     <div>
                         <label>Choose album cover</label>
                         <div className={styles.file}>
-                            <input type="file" accept="image/*"{...register('cover', { required: 'cover is required'})} onChange={handleFileChange}/>
-                            <div className={styles.preview} style={previewContainer}></div>
+                            <input type="file" accept="image/*"{...register('cover', { required: 'cover is required'})} onChange={(e) => previewFromFile(e, setPreviewImage, setValue)}/>
+                            <div className={styles.preview} style={{ backgroundImage: previewImage}}></div>
                         </div>
                         {errors.cover && <p>{errors.cover.message}</p>}
                     </div>
                     <div>
                         <label>Create album name</label>
-                        <input {...register("albumTitle", { required: "required" })} />
+                        <input {...register("albumTitle", { required: "Album name required" })} />
                         {errors.albumTitle && <p>{errors.albumTitle.message}</p>}
                     </div>
                     <div>
                         <label>Enter Record Label</label>
-                        <input {...register("recordLabel", { required: "REC required" })} />
+                        <input {...register("recordLabel", { required: "Record Label required" })} />
                         {errors.recordLabel && <p>{errors.recordLabel.message}</p>}
                     </div>
                     <div>
@@ -84,7 +74,6 @@ export function AlbumCreatePage() {
                             <option value="DEU">German</option>
                             <option value="POL">Polish</option>
                         </select>
-                        {/* <input {...register("language", { required: "LAN required" })} /> */}
                         {errors.language && <p>{errors.language.message}</p>}
                     </div>
                     <div>

@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createSong } from '../../../../../services/artist/artistService';
 import { X } from 'lucide-react';
+import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
 
 export function SongPageCreate () {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
-    const [previewImage, setPreviewImage] = useState('');
+    const [previewImage, setPreviewImage] = useState(null);
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -27,19 +28,6 @@ export function SongPageCreate () {
             setSuccess('')
             console.error(error.response ? error.response.data : error);
         }
-    }
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setPreviewImage(`url(${event.target.result})`);
-            };
-            reader.readAsDataURL(file); 
-        }
-    }
-    const previewContainer = {
-        backgroundImage: previewImage,
     }
 
     const addArtistWithRole = (artistName, role) => {
@@ -78,13 +66,14 @@ export function SongPageCreate () {
             <div className={styles.main}>
                 <div className={styles.main__container}>
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className={styles.section}>Song creation</div>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         {success && <p style={{ color: 'green' }}>{success}</p>}
                         <div>
                             <label>Choose song cover</label>
                             <div className={styles.file}>
-                                <input type="file" accept="image/*"{...register('cover', { required: 'cover is required'})} onChange={handleFileChange}/>
-                                <div className={styles.preview} style={previewContainer}></div>
+                                <input type="file" accept="image/*"{...register('cover', { required: 'cover is required'})} onChange={(e) => previewFromFile(e, setPreviewImage, setValue)}/>
+                                <div className={styles.preview} style={{ backgroundImage: previewImage }}></div>
                             </div>
                             {errors.cover && <p>{errors.cover.message}</p>}
                         </div>

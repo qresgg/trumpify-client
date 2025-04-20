@@ -24,6 +24,7 @@ export function ArtistPageCreate () {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         {message.error && <p style={{ color: 'red' }}>{message.error}</p>}
                         {message.success && <p style={{ color: 'green' }}>{message.success}</p>}
+                        <div className={styles.section}>Artist creation</div>
                         <div>
                             <label>Create your artist name</label>
                             <input {...register('artistName')}/>
