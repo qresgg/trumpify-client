@@ -10,7 +10,7 @@ export function ArtistPageCreate () {
     const onSubmit = async (data) => {
         try {
             const response = await createArtist(data);
-            setMessage({ success: response.message})
+            setMessage({ success: response.message, error: ''})
         } catch (error) {
             const errorMessage = error.response?.data?.message || "error during creation artist profile";
             setMessage({ error: errorMessage, success: "" });

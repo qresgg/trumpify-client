@@ -5,25 +5,24 @@ import { createAlbum } from '../../../../../services/artist/artistService';
 import { CreateSongAlbum } from './createSongAlbum';
 import { X } from 'lucide-react'
 import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
+import { useModal } from '../../../../../hooks/useModal';
+import { useSelector } from 'react-redux';
 
 export function AlbumCreatePage() {
     const { register, handleSubmit, formState: { errors }, setValue} = useForm();
+    const modal = useModal();
+    const { modalState } = useSelector((state) => state.view.modal)
     const [previewImage, setPreviewImage] = useState('');
-    const [isOpened, setIsOpened] = useState(false)
     const [song, setSong] = useState([]);
     const contentRef = useRef();
-
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const [message, setMessage] = useState({ success: '', error: '' })
 
     const onSubmit = async (data) => {
         try {
             await createAlbum(data, song);
-            setSuccess('Album created successfully');
-            setError('')
+            setMessage({ success: "Album has been created successfully", error: ''})
         } catch (error) {
-            setError('Error during creation album');
-            setSuccess('')
+            setMessage({ success: '', success: "Error during creation album!"})
             console.error(error.response ? error.response.data : error);
         }
     }
@@ -34,22 +33,18 @@ export function AlbumCreatePage() {
     const removeSong = (songIndex) => {
         setSong((prevSongs) => prevSongs.filter((_, index) => index !== songIndex))
     } 
-
-    const handleIsOpened = () => {
-        setIsOpened(false);
-    }
     return (
         <div className={styles.main}>
-            { isOpened && <div className={styles.blackScreen}></div>}
+            { modalState && <div className={styles.blackScreen} onClick={() => modal.closeModal()}></div>}
             <div className={styles.main__container} ref={contentRef}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    {message.error && <p style={{ color: 'red' }}>{message.error}</p>}
+                    {message.success && <p style={{ color: 'green' }}>{message.success}</p>}
                     <div className={styles.section}>Album creation</div>
                     <div>
                         <label>Choose album cover</label>
                         <div className={styles.file}>
-                            <input type="file" accept="image/*"{...register('cover', { required: 'cover is required'})} onChange={(e) => previewFromFile(e, setPreviewImage, setValue)}/>
+                            <input type="file" accept="image/*"{...register('cover', { required: 'cover is required'})} onChange={(e) => previewFromFile(e, setPreviewImage)}/>
                             <div className={styles.preview} style={{ backgroundImage: previewImage}}></div>
                         </div>
                         {errors.cover && <p>{errors.cover.message}</p>}
@@ -112,7 +107,7 @@ export function AlbumCreatePage() {
                                     </div>
                                 </div>
                             ))}
-                            <div className={styles.addSong} onClick={() => setIsOpened(true)}>
+                            <div className={styles.addSong} onClick={() => modal.openModal()}>
                                 <div className={styles.addSong__plus}></div>
                             </div>
                         </div>
@@ -122,7 +117,7 @@ export function AlbumCreatePage() {
                     </div>
                 </form>
             </div>
-            { isOpened &&  <CreateSongAlbum toggleModal={handleIsOpened} sendSong={addSong}/> }
+            { modalState && <CreateSongAlbum sendSong={addSong}/> }
         </div>
     )
 }

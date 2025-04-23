@@ -1,3 +1,5 @@
+@use '../global/collection.module' as global;
+
 :root {
     --arrow-bg: rgba(255, 255, 255, 0.3);
     --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
@@ -12,25 +14,33 @@
     border: 0;
     outline: 0;
     font: inherit;
-    width: 20rem;
     padding: 8px 16px;
-    background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
-        linear-gradient(35deg, rgb(107, 107, 107), rgba(0, 255, 55, 0.493));
-    color: white;
+    background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em, transparent;
+    border-bottom: 2px solid global.$additional-color;
+    color: global.$special-color;
     border-radius: 0.25em;
     box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
     height: 40px;
     box-sizing: border-box;
+    transition: 0.3s all;
 
     &::-ms-expand {
       display: none;
     }
+    &:hover {
+      outline: none;
+      border-bottom: 2px solid global.$special-color;
+    }
     &:focus {
       outline: none;
-    }
+      border-bottom: 2px solid global.$special-color;
+  }
     option {
       color: black;
+      backdrop-filter: blur(10px);
+      background: transparent;
+      font-weight: bold;
       background-color: var(--option-bg);
     }
   }

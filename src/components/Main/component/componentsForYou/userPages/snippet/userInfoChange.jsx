@@ -55,8 +55,8 @@ export function InfoChange({
                             onMouseEnter={() => setIsHover(true)} 
                             onMouseLeave={() => setIsHover(false)}>
                             <div className={styles.upload}>
-                                <input type="file" accept="image/*" style={{display: 'none'}} id="imageInput" onChange={(e) => previewFromFile(e, setPreviewImage, setValue)}/>
-                                {previewImage ? <div className={styles.image} style={{backgroundImage: previewImage}}> </div> : <UserImage width={'180px'} height={'180px'}/>}
+                                <input type="file" accept="image/*" style={{display: 'none'}} id="imageInput" onChange={(e) => previewFromFile(e, setPreviewImage, setValue, 'avatar')}/>
+                                {previewImage ? <div className={styles.image} style={{ backgroundImage: previewImage }}> </div> : <UserImage width={'180px'} height={'180px'}/>}
                                 {isHover && (
                                     <>
                                         <div className={styles.blackscreen}></div>

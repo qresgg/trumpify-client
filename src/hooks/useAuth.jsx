@@ -9,7 +9,7 @@ import { isValidEmail, isValidPassword, isValidUserName } from "../lib/regexp";
 export function useAuth() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.data);
-  const [message, setMessage] = useState({ success: "", error: "" });
+  const [ message, setMessage ] = useState({ success: "", error: "" });
 
   const handleLogout = async () => {
     try {

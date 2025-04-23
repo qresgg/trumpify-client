@@ -1,6 +1,7 @@
-const previewFromFile = (e, setPreviewImage, setValue) => {
+const previewFromFile = (e, setPreviewImage, setValue, type) => {
     const file = e.target.files[0];
-    setValue('avatar', file)
+    type && setValue(type, file)
+    
     if (file) {
         const reader = new FileReader();
         reader.onload = (event) => {

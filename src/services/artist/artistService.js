@@ -17,6 +17,11 @@ const createRecord = async (type, data, songs = []) => {
             }
         });
 
+        console.log('FormData entries:');
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}:`, pair[1]);
+        }
+
         songs.forEach((song, index) => {
             const { audio, ...textData } = song;
             formData.append(`songs[${index}]`, JSON.stringify(textData));

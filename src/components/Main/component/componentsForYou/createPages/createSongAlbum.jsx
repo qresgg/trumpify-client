@@ -2,9 +2,13 @@ import { X } from 'lucide-react';
 import styles from './createSongAlbum.module.scss';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useModal } from '../../../../../hooks/useModal';
+import { removeArtist, removeRoleFromArtist, addArtistWithRole } from '../../../../../services/global/functions/song/createSongServices';
 
 export function CreateSongAlbum({ toggleModal, sendSong }) {
+    const modal = useModal();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+    const [ message, setMessage ] = useState({ success: '', error: '' });
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [artists, setArtists] = useState([]);
@@ -15,7 +19,6 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
         const handleResize = () => {
             setWindowSize({ width: window.innerWidth, height: window.innerHeight });
         };
-
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
@@ -34,37 +37,6 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
         }
     };
 
-    const addArtistWithRole = (artistName, role) => {
-        setArtists((prevArtists) => {
-            const existingArtist = prevArtists.find((artist) => artist.name === artistName);
-            if (existingArtist) {
-                const updatedArtists = prevArtists.map((artist) => {
-                    if (artist.name === artistName && !artist.roles.includes(role)) {
-                        return { ...artist, roles: [...artist.roles, role] };
-                    }
-                    return artist;
-                });
-                return updatedArtists;
-            }
-            return [...prevArtists, { name: artistName, roles: [role] }];
-        });
-    };
-
-    const removeArtist = (artistIndex) => {
-        setArtists((prevArtists) => prevArtists.filter((_, index) => index !== artistIndex));
-    };
-
-    const removeRoleFromArtist = (artistName, role) => {
-        setArtists((prevArtists) => {
-            return prevArtists.map((artist) => {
-                if (artist.name === artistName) {
-                    return { ...artist, roles: artist.roles.filter((r) => r !== role) };
-                }
-                return artist;
-            }).filter((artist) => artist.roles.length > 0);
-        });
-    };
-
     return (
         <>
             <div className={styles.main} style={{
@@ -77,7 +49,7 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
         }}>
                 <div className={styles.main__container}>
                     <div className={styles.closeWindow}>
-                        <X onClick={() => toggleModal(false)} />
+                        <X onClick={() => modal.closeModal()} />
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -121,7 +93,7 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
                                         e.preventDefault();
                                         const artistName = e.target.value.trim();
                                         if (artistName) {
-                                            addArtistWithRole(artistName, 'main vocal');
+                                            addArtistWithRole(artistName, 'main vocal', setArtists);
                                             e.target.value = '';
                                         }
                                     }
@@ -131,7 +103,7 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
                                 const selectedRole = e.target.value;
                                 if (artists.length > 0) {
                                     const lastArtist = artists[artists.length - 1];
-                                    addArtistWithRole(lastArtist.name, selectedRole); 
+                                    addArtistWithRole(lastArtist.name, selectedRole, setArtists); 
                                 }
                             }}>
                                 <option value="" disabled>-_-_-Choose Role-_-_-</option>
@@ -158,14 +130,14 @@ export function CreateSongAlbum({ toggleModal, sendSong }) {
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => removeArtist(index)}>
+                                            onClick={() => removeArtist(index, setArtists)}>
                                             <X />
                                         </button>
                                         <div className={styles.roleList}>
                                             {artist.roles.map((role, idx) => (
                                                 <span key={idx} className={styles}>
                                                     <div>{role}{' '}</div>
-                                                    <X onClick={() => removeRoleFromArtist(artist.name, role)} color='red'/>
+                                                    <X onClick={() => removeRoleFromArtist(artist.name, role, setArtists)} color='red'/>
                                                 </span>
                                             ))}
                                         </div>
