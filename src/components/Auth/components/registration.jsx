@@ -37,8 +37,8 @@ export function Registration ({
                     <div className={styles.contik}>
                         <div className={styles.auth__container__logo}></div>
                         <form onSubmit={handleSubmit(handleRegistration)}>
-                            {message?.error && <p style={{ color: 'red' }}>{message?.error}</p>}
-                            {message?.success && <p style={{ color: 'green' }}>{message?.success}</p>}
+                            {message?.error && <p className='error'>{message?.error}</p>}
+                            {message?.success && <p className='success'>{message?.success}</p>}
                             <div className={styles.section}>Sign up</div>
 
                             <div className={styles.inputData}>
