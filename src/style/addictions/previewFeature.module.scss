@@ -1,65 +1,67 @@
 @import '../mixins/scrollbar.module.scss';
 
-.previewFeature{
+.previewFeatScroll{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 100px;
+
+    @include scrollbar;
+}
+
+.previewFeature, .previewFeatScroll{
     background-color: #1F1F1F;
     border-radius: 5px;
     padding: 16px;
     box-sizing: border-box;
-    height: 150px;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
+    height: fit-content;
     gap: 8px;
-    @include scrollbar();
 
-    &__topLevel{
+    &__artistContainer{
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         position: relative;
         gap: 8px;
 
-        div{
-            width: 100px;
+        .artistData{
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
 
-            strong{
-                display: flex;
-                justify-content: center;
+            &__removeArtist{
+                border: 0;
+                padding: 0;
             }
-            .role{
-                opacity: 0.7;
-                display: block;
-                text-align: center;
-            }
-            
-        }
-        button{
-            position: absolute;
-            padding: 0;
-            left: -10px;
-            background: none;
-            border: none;
-        }
-        .roleList{
-            position: relative;
-            span{
-                display: flex;
-                div{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+
+            &__previewData{
+                
+                &__name{
+
+                }
+                &__roles{
+                    opacity: 0.7;
+                    font-weight: normal;
                 }
             }
-            button{
-                position: inherit;
-                font-size: 10px;
+
+            &__container{
+                position: relative;
+                
+                &__roleRemover{
+                    cursor: pointer;
+                    position: absolute;
+                    top: 0;
+                    left: -24px;
+                    svg{
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+                &__role{
+
+                }
             }
-        }
-        div:nth-last-child(1){
-            font-size: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
     }
 

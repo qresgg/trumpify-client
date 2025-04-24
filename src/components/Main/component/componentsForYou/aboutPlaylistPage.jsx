@@ -68,11 +68,6 @@ export function AboutPlaylistPage() {
       activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying
     );
   }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
-
-  useEffect(() => {
-    console.log('user', user)
-  }, [])
-
   // useEffect(() => {
   //     if (selectedPlaylist) {
   //         const totalDur = new AlbumTrackInfo(selectedPlaylist);

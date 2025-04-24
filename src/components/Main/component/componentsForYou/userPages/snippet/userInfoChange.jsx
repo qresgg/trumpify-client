@@ -72,7 +72,7 @@ export function InfoChange({
                             <div className={styles.button}>
                                 <button type="submit">Save</button>
                             </div>
-                            {message.error && <div className={styles.error}>{message.error}</div>}
+                            {message.error && <div className='error'>{message.error}</div>}
                         </div>
                     </div>
                     <div className={styles.attentions}>

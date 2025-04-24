@@ -63,8 +63,8 @@ export function ChangeEmail() {
                         Submit
                     </button>
                 </div>
-                {success && <div className={styles.success}>{success}</div>}
-                {error && <div className={styles.error}>{error}</div>}
+                {success && <div className={'success'}>{success}</div>}
+                {error && <div className={'error'}>{error}</div>}
             </div>
         </>
     )   

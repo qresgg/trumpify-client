@@ -25,11 +25,9 @@ const createRecord = async (type, data, songs = []) => {
         songs.forEach((song, index) => {
             const { audio, ...textData } = song;
             formData.append(`songs[${index}]`, JSON.stringify(textData));
-            console.log(audio, 'audio file');
-            console.log(audio[0], 'audio file 0');
 
-            if (audio && audio instanceof FileList) {
-                formData.append(`songs[${index}][audio]`, audio[0]);
+            if (audio && audio instanceof File) {
+                formData.append(`songs[${index}][audio]`, audio);
             }
         });
 
