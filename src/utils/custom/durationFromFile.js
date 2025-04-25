@@ -9,8 +9,15 @@ export const handleAudioFileChange = (event, setValue, setSongFileChosen, setAud
         const url = URL.createObjectURL(file);
         const audio = new Audio(url);
 
+        const convertToMMSS = (seconds) => {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.round(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        };
+
         const onMetadataLoaded = () => {
-            setValue('duration', audio.duration);
+            const formattedDuration = convertToMMSS(audio.duration)
+            setValue('duration', formattedDuration);
             setValue('audio', file);
             if (setAudioFront) {
                 setAudioFront(file);

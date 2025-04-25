@@ -81,7 +81,11 @@ export function Song({
                         {song.title}
                     </div>
                     <div className={styles.leftPanel__artist}>
-                        {song.features.map((feat) => feat.name).join(', ')}
+                        {song.features
+                            .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
+                            .map((feat) => feat.name)
+                            .join(', ')
+                            }
                     </div>
                 </div>
             </div>

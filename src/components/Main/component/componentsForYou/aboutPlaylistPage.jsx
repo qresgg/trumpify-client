@@ -11,7 +11,7 @@ import {
   setPrevSong,
   setNextSong,
 } from "../../../../lib/redux/music/musicState";
-import AlbumTrackInfo from "../../../../hooks/albumTrackInfo";
+import PlaylistDuration from "../../../../hooks/playlistDuration";
 import { redirectTo } from "../../../../services/global/functions/redirection";
 import { getLikedSongs } from "../../../../services/user/Actions/userActionsService";
 import OnLikeAlbum from "../../../../services/global/functions/album/likeAlbumHandler";
@@ -68,12 +68,12 @@ export function AboutPlaylistPage() {
       activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying
     );
   }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
-  // useEffect(() => {
-  //     if (selectedPlaylist) {
-  //         const totalDur = new AlbumTrackInfo(selectedPlaylist);
-  //         setTotalDuration(totalDur.totalDuration);
-  //     }
-  // }, [selectedPlaylist]);
+  useEffect(() => {
+      if (selectedPlaylist) {
+          const totalDur = new PlaylistDuration(selectedPlaylist);
+          setTotalDuration(totalDur.totalDuration);
+      }
+  }, [selectedPlaylist]);
 
   const togglePlay = () => {
     if (!selectedPlaylist?.songs?.length) return;
@@ -125,7 +125,7 @@ export function AboutPlaylistPage() {
                     {selectedPlaylist.artist_name}
                   </p>
                   <p className={styles.year}>• {year} •</p>
-                  <p className={styles.trackCount}>{trackCount} songs </p>
+                  <p className={styles.trackCount}>{trackCount} songs, {totalDuration} </p>
                 </div>
               </div>
             </div>

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Play, Pause } from 'lucide-react';
 import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist, setNextSong, setPrevSong } from '../../../../lib/redux/music/musicState';
-import AlbumTrackInfo from '../../../../hooks/albumTrackInfo';
 import ShowPage from '../../../../hooks/showPage';
 import { fetchLikedCollection } from '../../../../services/user/fetchData/fetchLikedCollection';
 import fetchColors from '../../../../hooks/global/colorPalette';

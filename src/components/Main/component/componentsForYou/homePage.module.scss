@@ -34,7 +34,7 @@
                 height: 56px;
 
                 .title{
-                    font-size: 29px;
+                    font-size: 25px;
                     font-weight: bold;
                 }
                 .showall{
@@ -47,10 +47,11 @@
             &__content{
                 display: flex;
                 height: 273px;
+                width: calc(153px - 24px);
                 
                 &__item{
                     padding: 12px;
-                    width: 177px;
+                    width: 100%;
                     border-radius: 5px;
                     position: relative;
 
@@ -88,7 +89,7 @@
                     }
                     .title{
                         margin-top: 8px;
-                        font-size: 22px;
+                        font-size: 18px;
                     }
                     .author{
                         font-size: 14px;
