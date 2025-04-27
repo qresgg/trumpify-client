@@ -51,6 +51,7 @@ export function Selection({ title, fetchFunction }) {
                         <div className={styles.item__container}>
                           <div className={styles.cover} style={{ backgroundImage: `url(${item.song_cover})` }} />
                           <div className={styles.title} title={item.title}>{item.title}</div>
+                          <div className={styles.author}>{item.features.map((feat) => feat.name).join(', ')}</div>
                         </div>
                     </div>
                 );
