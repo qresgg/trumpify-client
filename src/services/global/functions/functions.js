@@ -9,3 +9,4 @@ export const getVolume = () => {
 export const getUserNameRules = () => {
     return `min: 3, max: 16. prohibited: '<>";/\\`
 }
+

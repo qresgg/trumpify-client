@@ -1,5 +1,5 @@
 import { getUserLibrary } from '../../../user/userService';
-import { likeAlbum, unLikeAlbum } from '../../../artist/fetchData/AlbumAction';
+import { likeAlbum, unLikeAlbum } from '../../../artist/data/put/albumAction';
 import { setUserLibrary } from '../../../../lib/redux/data/dataSlice';
 import updateLibrary from './updateLibrary';
 

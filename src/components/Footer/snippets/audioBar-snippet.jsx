@@ -13,7 +13,7 @@ export function AudioBar({
 
     useEffect(() => {
         if(audioRef.current) {
-            audioRef.current.volume = progress / 100;
+            audioRef.current.volume = (progress / 100) * 0.4;
         }
     }, [progress])
 

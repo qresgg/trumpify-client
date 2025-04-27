@@ -1,0 +1,12 @@
+.carousel {
+  
+  li{
+    display: flex;
+    align-items: center;
+    min-width: fit-content !important;
+
+    &:nth-last-child(1){
+      display: none;
+    }
+  }
+}

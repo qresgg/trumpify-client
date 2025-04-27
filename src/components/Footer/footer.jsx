@@ -2,15 +2,17 @@ import styles from './footer.module.scss';
 import { ActiveSong } from './components/activeSong';
 import { SongController } from './components/songController';
 import { AudioController } from './components/audioController';
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef, useEffect, act} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { stopMusic, togglePlayback } from '../../lib/redux/music/musicState'
+import { setActiveSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState'
 
 export function Footer () {
     const dispatch = useDispatch()
     const audioRef = useRef(null);
     const { isMusicPlaying } = useSelector((state) => state.music)
-    const { activeSong } = useSelector((state) => state.music.song)
+    const { activeSong, nextSong } = useSelector((state) => state.music.song)
+    const song = useSelector((state) => state.music.song)
+    console.log(song)
 
     const [currentSong, setCurrentSong] = useState(null)
 
@@ -37,17 +39,25 @@ export function Footer () {
 
     useEffect(() => {
         const audio = audioRef.current;
-
-        const handleTimeUpdate = () => {
-            if (audio.ended) {
+    
+        const handleAudioEnded = () => {
+            if (activeSong && nextSong) {
+                dispatch(setActiveSong({ song: nextSong }));
+            } else {
                 dispatch(stopMusic());
             }
         };
-
+    
         if (audio) {
-            audio.addEventListener('timeupdate', handleTimeUpdate);
+            audio.addEventListener('ended', handleAudioEnded);
         }
-    }, [audioRef]);
+    
+        return () => {
+            if (audio) {
+                audio.removeEventListener('ended', handleAudioEnded);
+            }
+        };
+    }, [audioRef, activeSong, nextSong, dispatch]);
 
     useEffect(() => {
         if (audioRef.current) {

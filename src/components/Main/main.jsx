@@ -5,7 +5,6 @@ import { Library } from './component/library';
 import { Info } from './component/info';
 import { ForYou } from './component/foryou';
 import { useResizable } from '../../hooks/useResizable';
-import { getAlbumData } from '../../services/artist/fetchData/fetchAlbumData';
 
 export function Main() {
     const library = useResizable(370);

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getAccessToken } from "../../global/functions/functions";
-import { SERVER_API_URL } from '../../global/variable';
+import { getAccessToken } from "../../../global/functions/functions";
+import { SERVER_API_URL } from '../../../global/variable';
 
 const AlbumAction = async (url, data) => {
     const token = getAccessToken();
