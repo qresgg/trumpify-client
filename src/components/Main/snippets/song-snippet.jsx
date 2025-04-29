@@ -69,7 +69,7 @@ export function Song({
         style={selectedTemplate}>
             <div className={styles.song__id} onClick={togglePlay}>
                 {isHover || (selectedSong?._id === song?._id) 
-                    ? (isPlaying ? <Pause size={20}/> : <Play size={20}/>) 
+                    ? (isPlaying ? <Pause size={16}/> : <Play size={16}/>) 
                     : <div>{index + 1}</div>}
             </div>
             <div className={styles.leftPanel}>
@@ -81,6 +81,7 @@ export function Song({
                         {song.title}
                     </div>
                     <div className={styles.leftPanel__artist}>
+                        {song.is_explicit && <div className='explicit'>E</div>}
                         {song.features
                             .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
                             .map((feat) => feat.name)

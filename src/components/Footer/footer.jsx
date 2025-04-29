@@ -12,7 +12,6 @@ export function Footer () {
     const { isMusicPlaying } = useSelector((state) => state.music)
     const { activeSong, nextSong } = useSelector((state) => state.music.song)
     const song = useSelector((state) => state.music.song)
-    console.log(song)
 
     const [currentSong, setCurrentSong] = useState(null)
 

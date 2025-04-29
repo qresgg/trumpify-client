@@ -46,7 +46,7 @@ export function AccountConfig() {
                     </div>)}
                     <div className={styles.setting}>
                         <div className={styles.container}>
-                            <div className={styles.title}>Email Adress</div>
+                            <div className={styles.title}>Email address</div>
                             <div className={styles.data}>{user.user_email}</div>
                         </div>
                         <button onClick={() => toggleChange(1)}>Change</button>

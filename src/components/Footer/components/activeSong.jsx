@@ -28,7 +28,12 @@ export function ActiveSong() {
                 </div>
                 <div className={styles.info}>
                     <div className={styles.info__title}>{activeSong.title}</div>
-                    <div className={styles.info__feature}>{activeSong.features.map((feat) => feat.name).join(', ')}</div>
+                    <div className={styles.info__feature}>
+                        {activeSong.features
+                            .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
+                            .map((feat) => feat.name)
+                            .join(', ')
+                        }</div>
                 </div>
                 <div className={styles.likes}>
                     <div className={styles.likes__container} onClick={() => OnLikeSong(activeSong, liked, setLiked, dispatch, data, timerRef)}>

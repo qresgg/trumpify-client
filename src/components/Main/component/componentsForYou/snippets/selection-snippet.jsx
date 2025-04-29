@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Play } from "lucide-react";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { setActiveSong } from "../../../../../lib/redux/music/musicState";
 
 
 export function Selection({ title, fetchFunction }) {
@@ -20,7 +21,6 @@ export function Selection({ title, fetchFunction }) {
             try {
                 setLoading(true);
                 const response = await fetchFunction();
-                console.log(response)
                 setItems(response);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -47,7 +47,7 @@ export function Selection({ title, fetchFunction }) {
             case "Song":
                 return (
                     <div key={index} className={styles.item}>
-                        <div className={styles.playButton}><Play color="black" /></div>
+                        <div className={styles.playButton} onClick={() => dispatch(setActiveSong({ song: item, index: 0 }))}><Play color="black" /></div>
                         <div className={styles.item__container}>
                           <div className={styles.cover} style={{ backgroundImage: `url(${item.song_cover})` }} />
                           <div className={styles.title} title={item.title}>{item.title}</div>
@@ -98,14 +98,14 @@ export function Selection({ title, fetchFunction }) {
                       <Carousel 
                         centerMode={true} 
                         centerSlidePercentage={centerSlidePercentage} 
-                        infiniteLoop={true} 
+                        infiniteLoop={false} 
                         showThumbs={false}
                         // autoPlay={true} 
                         // interval={3000} 
                         stopOnHover={true}
                         swipeable={true} 
                         showIndicators={false}
-                        selectedItem={1}
+                        selectedItem={0}
                         className={styles.carousel}
                         >
                         {Array.isArray(items) && items.map((item, index) => renderItem(item, item.definition, index))}

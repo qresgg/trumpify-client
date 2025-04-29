@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { createSong } from '../../../../../services/artist/artistService';
 import { X } from 'lucide-react';
 import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
+import { handleAudioFileChange } from '../../../../../utils/custom/durationFromFile';
 
 export function SongPageCreate () {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -43,21 +44,6 @@ export function SongPageCreate () {
             return [...prevArtists, { name: artistName, roles: [role] }];
         });
     };
-    
-    const handleAudioFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            const audio = new Audio(url);
-            audio.addEventListener('loadedmetadata', () => {
-                setValue('audio', file)
-                setValue('duration', audio.duration)
-                setSongFileChosen(true);
-            });
-        } else {
-            console.log("File hasn't been chosen.");
-        }
-    };
 
     const removeArtist = (artistIndex) => {
         setArtists((prevArtists) => prevArtists.filter((_, index) => index !== artistIndex));
@@ -83,7 +69,7 @@ export function SongPageCreate () {
                         <p className={styles.green}>new song.</p>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={handleAudioFileChange}/>
+                        <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={(e) => handleAudioFileChange(e, setValue, setSongFileChosen)}/>
                         {!songFileChosen && (
                         <div className={styles.songFile}>
                             <div className={styles.songFile__caption}>

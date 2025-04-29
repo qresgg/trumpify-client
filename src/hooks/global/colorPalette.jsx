@@ -7,8 +7,8 @@ export default async function fetchColors (selectedObject){
         const classifier = new ColorClassifier(selectedObject?.song_cover || selectedObject?.cover || selectedObject?.user_avatar_url);
         const classifiedColors = await classifier.getClassifiedColorsObject();
         colors = ({
-          lightMuted: classifiedColors.light[0] || '#ccc',
-          darkMuted: classifiedColors.dark[0] || '#999',
+          lightMuted: classifiedColors.light[0] || classifiedColors.darkMuted[0] || classifiedColors.dark[0],
+          darkMuted: classifiedColors.dark[1] || '#999',
         });
 
         return {

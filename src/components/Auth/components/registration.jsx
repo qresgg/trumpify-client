@@ -16,6 +16,10 @@ export function Registration ({
     const [passwordValidation, setPasswordValidation] = useState({});
     const [isAdClosed, setIsAdClosed] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [visibility, setVisibility] = useState({
+        input1: false,
+        input2: false,
+    });
 
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
@@ -30,6 +34,13 @@ export function Registration ({
     const handlePasswordCheck = () => {
         !isOpen && setIsOpen(true);
     }
+    const toggleVisibility = (inputName) => {
+        setVisibility((prev) => ({
+            ...prev,
+            [inputName]: !prev[inputName]
+        }));
+    }
+
     return (
         <>
             <div className={styles.auth}>
@@ -55,7 +66,10 @@ export function Registration ({
 
                             <div className={styles.inputData} onFocus={handlePasswordCheck}>
                                 <label>Password</label>
-                                <input onChange={handlePasswordChange} type="password" required/>
+                                <input onChange={handlePasswordChange} type={visibility.input1 ? "text" : "password"} required id='input1'/>
+                                <div className={styles.showButton} 
+                                    onMouseDown={() => toggleVisibility('input1')} 
+                                    onMouseUp={() => toggleVisibility('input1')}>{visibility.input1 ? 'Hide' : 'Show'}</div>
                                 {errors.password && <p>{errors.password.message}</p>}
                             </div>
 
@@ -87,7 +101,10 @@ export function Registration ({
                                         transition={{ duration: 0.4 }}>
                                         <div className={styles.inputData}>
                                             <label>Password Confirmation</label>
-                                            <input {...hookRegister('passwordConfirm', { required: "confirmation is required"})} type="password"/>
+                                            <input {...hookRegister('passwordConfirm', { required: "confirmation is required"})} type={visibility.input2 ? "text" : "password"} id="input2"/>
+                                            <div className={styles.showButton} 
+                                                onMouseDown={() => toggleVisibility('input2')} 
+                                                onMouseUp={() => toggleVisibility('input2')}>{visibility.input2 ? 'Hide' : 'Show'}</div>
                                         </div>
                                     </motion.div>
                                 )}

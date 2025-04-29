@@ -11,6 +11,17 @@ export function Login ({
     const { register, handleSubmit, formState: { errors }} = useForm();
     const { handleLogin, message } = useAuth();
     const [isAdClosed, setIsAdClosed] = useState(false);
+    const [visibility, setVisibility] = useState({
+        input1: false,
+        input2: false,
+    });
+
+    const toggleVisibility = (inputName) => {
+        setVisibility((prev) => ({
+            ...prev,
+            [inputName]: !prev[inputName]
+        }));
+    }
 
     return (
         <>
@@ -31,7 +42,10 @@ export function Login ({
 
                             <div className={styles.inputData}>
                                 <label>Password</label>
-                                <input type="password" {...register('password')}/>
+                                <input {...register('password')} type={visibility.input1 ? "text" : "password"} required id='input1'/>
+                                <div className={styles.showButton} 
+                                    onMouseDown={() => toggleVisibility('input1')} 
+                                    onMouseUp={() => toggleVisibility('input1')}>{visibility.input1 ? 'Hide' : 'Show'}</div>
                                 {errors.password && <p>{errors.password.message}</p>}
                             </div>
 

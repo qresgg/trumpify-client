@@ -73,7 +73,12 @@ export function Info({
                             <div className={styles.title}>
                                 <div className={styles.title__container}>
                                     <div className={styles.title__songName}>{selectedSong.title}</div>
-                                    <div className={styles.title__artists}>{selectedSong.features.map((feat) => feat.name).join(', ')}</div>
+                                    <div className={styles.title__artists}>
+                                    {selectedSong.features
+                                        .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
+                                        .map((feat) => feat.name)
+                                        .join(', ')
+                                    }</div>
                                 </div>
                                 <div className={styles.isLiked} onClick={() => OnLikeSong(selectedSong, liked, setLiked, dispatch, dataRedux, timerRef)}>
                                     {liked 
