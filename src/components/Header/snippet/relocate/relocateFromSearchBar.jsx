@@ -1,6 +1,6 @@
 import styles from './relocateFromSearchBar.module.scss'
 import { findContent } from '../../../../services/search/findService'
-import { setSelectedPlaylist } from '../../../../lib/redux/music/musicState'
+import { setActiveSong, setSelectedPlaylist } from '../../../../lib/redux/music/musicState'
 import ShowPage from '../../../../hooks/showPage'
 import { useDispatch } from 'react-redux'
 
@@ -13,9 +13,19 @@ export function RelocateFromSearchBar({
     const handleClick = async () => {
         ShowPage(result.definition, result._id, dispatch)
     }
+    
+    const playMusic = async (song) => {
+        dispatch(setActiveSong({ song: song, index: 0}))
+    }
 
     return (
-        <div key={index} className={styles.resultData} onClick={handleClick}>
+        <div key={index} className={styles.resultData} onClick={() => {
+            if(result.definition === "Song") {
+                return playMusic(result); 
+            } else {
+                return handleClick();
+            }
+        }} >
             <div className={styles.frame}>
                 <img src={result.song_cover || result.cover || result.url_avatar}/>
             </div>

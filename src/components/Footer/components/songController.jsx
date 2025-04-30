@@ -23,6 +23,15 @@ export function SongController({
         dispatch(togglePlayback())
     }
 
+    const handleLoop = () => {
+        setLoopPressed(prevState => {
+            const newState = !prevState;
+            audioRef.current.loop = newState;
+            return newState;
+        });
+    
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             if (audioRef?.current) {
@@ -43,16 +52,29 @@ export function SongController({
         if (audioRef?.current) {
             audioRef.current.addEventListener('loadedmetadata', updateDuration);
         }
+
+        return () => {
+            if (audioRef?.current) {
+                audioRef.current.removeEventListener('loadedmetadata', updateDuration);
+            }
+        };  
     }, [audioRef]);
 
-    const handleLoop = () => {
-        setLoopPressed(!loopPressed)
-        if (loopPressed) {
-            audioRef.current.loop = false
-        } else {
-            audioRef.current.loop = true
-        }
-    }
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.code === "Space") {
+                handlePause();
+            } else if (event.code === "KeyL") {
+                handleLoop();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [])
     const pressedTemplate = loopPressed ? {
         filter: 'brightness(0) saturate(100%) invert(60%) sepia(57%) saturate(564%) hue-rotate(89deg) brightness(94%) contrast(104%)',
         opacity: 1
@@ -84,10 +106,7 @@ export function SongController({
                         <div className={styles.panel__nextSong} title='next song'>
                             <div onClick={() => (dispatch(setActiveSong({ song: nextSong }),))}></div>
                         </div>
-                        <div className={styles.panel__loop} 
-                            title='loop' 
-                            style={pressedTemplate}
-                            onClick={handleLoop}>
+                        <div className={styles.panel__loop} title='loop' style={pressedTemplate} onClick={handleLoop}>
                             <div></div>
                         </div>
                     </div>

@@ -21,32 +21,51 @@ export function ArtistPageCreate () {
         <>
             <div className={styles.main}>
                 <div className={styles.main__container}>
+                    <div className={styles.main__container__header}>
+                        <p className={styles.white}>Become  </p>
+                        <p className={styles.green}>a new artist.</p>
+                    </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        {message.error && <p style={{ color: 'red' }}>{message.error}</p>}
-                        {message.success && <p style={{ color: 'green' }}>{message.success}</p>}
-                        <div className={styles.section}>Artist creation</div>
-                        <div>
-                            <label>Create your artist name</label>
-                            <input {...register('artistName')}/>
-                            {errors.artistName && <p>{errors.artistName.message}</p>}
+                        {message.error && <p className='error'>{message.error}</p>}
+                        {message.success && <p className='success'>{message.success}</p>}
+                        <div className={styles.artistDetails}>
+                            <div className={styles.artistDetails__rightContainer}>
+                                <div className={styles.albumDetails__rightContainer__data}>
+                                    <label>
+                                        <p>Choose unique artist name</p>
+                                        <p className={styles.red}>*</p>
+                                    </label>
+                                    <input {...register('artistName', { required: "Artist name required" })}/>
+                                    {errors.artistName && <p>{errors.artistName.message}</p>}
+                                </div>
+                                <div className={styles.albumDetails__rightContainer__data}>
+                                    <label>
+                                        <p>Biography</p>
+                                        <p className={styles.red}>*</p>
+                                    </label>
+                                    <textarea 
+                                        {...register("bio", { required: 'Artist must have biography'})} rows='15' cols='50' placeholder='enter your biography' className={styles.tarea}></textarea>
+                                    {errors.bio && <p>{errors.bio.message}</p>}
+                                </div>
+                                <div className={styles.albumDetails__rightContainer__data}>
+                                    <label>
+                                        <p>Enter your actual user password</p>
+                                        <p className={styles.red}>*</p>
+                                    </label>
+                                    <input type="password" {...register('password', { required: 'password is required'})}/>
+                                    {errors.password && <p>{errors.password.message}</p>}
+                                </div>
+                                <div className={styles.albumDetails__rightContainer__data}>
+                                    <label>
+                                        <p>Confirm actual user password</p>
+                                        <p className={styles.red}>*</p>
+                                    </label>
+                                    <input type="password" {...register('confirmPassword', { required: 'password confirmation is required'})}/>
+                                    {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+                                </div>
+                            </div>
+                            <button type='submit'>Submit</button>
                         </div>
-                        <div>
-                            <label>Enter your bio</label>
-                            <textarea 
-                                {...register("bio", { required: 'Artist must have biography'})} rows='20' cols='50' placeholder='enter your biography' className={styles.tarea}></textarea>
-                            {errors.bio && <p>{errors.bio.message}</p>}
-                        </div>
-                        <div>
-                            <label>Enter your actual password</label>
-                            <input type="password" {...register('password', { required: 'password is required'})}/>
-                            {errors.password && <p>{errors.password.message}</p>}
-                        </div>
-                        <div>
-                            <label>Confirm your actual password</label>
-                            <input type="password" {...register('confirmPassword', { required: 'password confirmation is required'})}/>
-                            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-                        </div>
-                        <button type='submit'>Submit</button>
                     </form>
                 </div>
             </div>

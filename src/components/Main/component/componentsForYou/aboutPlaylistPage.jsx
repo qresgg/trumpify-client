@@ -77,7 +77,8 @@ export function AboutPlaylistPage() {
 
   const togglePlay = () => {
     if (!selectedPlaylist?.songs?.length) return;
-    dispatch(setActivePlaylist(selectedPlaylist));
+      dispatch(setActivePlaylist(selectedPlaylist));
+      dispatch(setActiveSong({ song: selectedPlaylist.songs[0], index: 0 })); 
     if (isPlaying) {
       dispatch(togglePlayback());
     }

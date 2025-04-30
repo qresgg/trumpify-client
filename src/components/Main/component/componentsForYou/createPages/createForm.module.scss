@@ -81,7 +81,7 @@
             gap: 16px;
             font-weight: bold;
 
-            .songDetails, .albumDetails{
+            .songDetails, .albumDetails, .artistDetails{
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
@@ -181,8 +181,27 @@
                                 font-size: 12px;
                             }
                         }
+                        .tarea{
+                            font-family: "Arial", sans-serif;
+                            background-color: transparent;
+                            color: white;
+                            border: none;
+                            border-left: 2px solid global.$second-color;
+                            border-right: 2px solid global.$second-color;
+                            border-radius: 5px;
+                            resize: none;
 
-    
+                            &:hover {
+                                outline: none;
+                                border-left: 2px solid global.$bright-selected-color;
+                                border-right: 2px solid global.$bright-selected-color;
+                            }
+                            &:focus {
+                                outline: none;
+                                border-left: 2px solid global.$special-color;
+                                border-right: 2px solid global.$special-color;
+                            }
+                        }
                         input{
                             height: 25px;
                             width: 100%;
@@ -356,10 +375,4 @@
 
 .mainModal{
     position: absolute;
-}
-
-.tarea{
-    font-family: "Arial", sans-serif;
-    background-color: #121212;
-    color: white;
 }

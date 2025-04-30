@@ -1,14 +1,25 @@
 import { useSelector } from 'react-redux';
 import styles from './userArtistProfilePage.module.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import infoChange from './snippet/userInfoChange';
 import { Song } from '../../../snippets/song-snippet';
+import getPopularSongsArtistPage from '../../../../../services/artist/data/get/popularSongsData';
 
 export function UserArtistProfilePage() {
-    const { currentArtistPage, currentUserPage, currentPlaylistPage } = useSelector((state) => state.view)
+    const { currentArtistPage } = useSelector((state) => state.view)
+    const [ songs, setSongs ] = useState([]);
 
-    // const urlImage = selectedPlaylist ? `/album-covers/${formattedArtist}_${formattedTitle}.jpg` : null;
-    // const { data, loading, error } = usePalette(urlImage);
+    console.log(currentArtistPage)
+    useEffect(() => {
+        const fetchPopularSongs = async () => {
+            try{
+                const response = await getPopularSongsArtistPage(currentArtistPage._id);
+            } catch (error) {
+                console.error('Error during fetching data...', error);
+            }
+        }
+        fetchPopularSongs();
+    }, [])
 
     return (
         <div className={styles.profile}>
