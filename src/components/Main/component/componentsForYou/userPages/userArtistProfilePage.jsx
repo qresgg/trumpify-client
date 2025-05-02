@@ -1,26 +1,18 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './userArtistProfilePage.module.scss'
-import { useEffect, useState } from 'react';
-import infoChange from './snippet/userInfoChange';
 import { Song } from '../../../snippets/song-snippet';
-import getPopularSongsArtistPage from '../../../../../services/artist/data/get/popularSongsData';
-
+import { useSongNavigation } from '../../../../../hooks/album/useSongNavigation';
+import { usePopularSongs } from '../../../../../hooks/artist/usePopularSongs';
 export function UserArtistProfilePage() {
     const { currentArtistPage } = useSelector((state) => state.view)
-    const [ songs, setSongs ] = useState([]);
+    const songs = usePopularSongs();
+    const handleSongState = useSongNavigation(songs);
 
-    console.log(currentArtistPage)
-    useEffect(() => {
-        const fetchPopularSongs = async () => {
-            try{
-                const response = await getPopularSongsArtistPage(currentArtistPage._id);
-            } catch (error) {
-                console.error('Error during fetching data...', error);
-            }
-        }
-        fetchPopularSongs();
-    }, [])
-
+    // useEffect(() => {
+    //     dispatch(setActivePlaylist(currentArtistPage));
+    //     dispatch(setSelectedPlaylist(currentArtistPage));
+    // }, [])
+    
     return (
         <div className={styles.profile}>
             <div className={styles.header}></div>
@@ -48,7 +40,11 @@ export function UserArtistProfilePage() {
                                 </div>
                             </div>
                             <div className={styles.songs__plate}>
-                                {/* SONGS POPULAR*/}
+                                {Array.isArray(songs) ? (
+                                    songs.map((song, i) => <Song song={song} index={i} songPrevNext={handleSongState} clear={true}/>)
+                                ) : (
+                                    <div>LOADING...</div>
+                                )}
                             </div>
                         </div>
                     </div>

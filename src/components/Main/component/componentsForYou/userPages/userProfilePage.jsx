@@ -6,7 +6,7 @@ import { UserImage } from '../../../../../hooks/UserImage';
 import { getUserData } from '../../../../../services/user/userService';
 import { setSelectedUserPage } from '../../../../../lib/redux/pages/viewSlice';
 import { isOriginPage } from '../../../../../services/auth/isOriginPage';
-import fetchColors from '../../../../../hooks/global/colorPalette';
+import fetchColors from '../../../../../utils/custom/colorPalette';
 
 export function UserProfilePage() {
     const dispatch = useDispatch();

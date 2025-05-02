@@ -301,9 +301,13 @@
                         }
                         
                     }
-                button{
-                    align-items: center;
-                }
+                    &__button{
+                        width: 100%;
+                        button{
+                            width: 100%;
+                            align-items: center;
+                        }
+                    }
                 }
             }
 

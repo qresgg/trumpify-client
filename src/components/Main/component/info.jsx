@@ -6,8 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
 import { findContent } from '../../../services/search/findService';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
-import ColorClassifier from '../../../hooks/colorThief';
-import fetchColors from '../../../hooks/global/colorPalette';
+import fetchColors from '../../../utils/custom/colorPalette';
 
 export function Info({ 
     width, 

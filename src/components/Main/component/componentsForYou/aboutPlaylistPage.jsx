@@ -1,88 +1,30 @@
 import styles from "./aboutPlaylistPage.module.scss";
 import { Song } from "../../snippets/song-snippet";
-import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Play, Pause, Album } from "lucide-react";
-import {
-  setSelectedSong,
-  setActivePlaylist,
-  togglePlayback,
-  setActiveSong,
-  setPrevSong,
-  setNextSong,
-} from "../../../../lib/redux/music/musicState";
-import PlaylistDuration from "../../../../hooks/playlistDuration";
+import { setSelectedSong, setActivePlaylist } from "../../../../lib/redux/music/musicState";
 import { redirectTo } from "../../../../services/global/functions/redirection";
-import { getLikedSongs } from "../../../../services/user/Actions/userActionsService";
 import OnLikeAlbum from "../../../../services/global/functions/album/likeAlbumHandler";
 import { useRef } from "react";
-import fetchColors from "../../../../hooks/global/colorPalette";
+
+import { useLikedPlaylist } from "../../../../hooks/album/useLikedPlaylist";
+import { useGradient } from "../../../../hooks/album/useGradient";
+import { usePlaylistDuration } from "../../../../hooks/album/usePlaylistDuration";
+import { usePlaybackControl } from "../../../../hooks/global/usePlaybackControl";
+import { useSongNavigation } from "../../../../hooks/album/useSongNavigation";
 
 export function AboutPlaylistPage() {
   const dispatch = useDispatch();
   const timerRef = useRef(null);
   const dataRedux = useSelector((state) => state.data);
-  const user = useSelector((state) => state.data.user);
-  const { isMusicPlaying } = useSelector((state) => state.music);
   const { activePlaylist, selectedPlaylist } = useSelector(
     (state) => state.music.playlist
   );
-  const { activeSong, selectedSong, prevSong } = useSelector(
-    (state) => state.music.song
-  );
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [totalDuration, setTotalDuration] = useState("");
-  const [likedSongs, setLikedSongs] = useState([]);
-  const [isLikedPlaylist, setIsLIkedPlaylist] = useState(false);
-  const [gradient, setGradient] = useState(null);
-  
-  useEffect(() => {
-    if (user.user_library.some((playlist) => playlist._id === selectedPlaylist?._id)) {
-      setIsLIkedPlaylist(true);
-    } else {
-      setIsLIkedPlaylist(false);
-    }
-  }, [selectedPlaylist, user.user_library]);
-
-  useEffect(() => {
-    const fetchLikedSongs = async () => {
-      if (!selectedPlaylist?._id) return;
-      try {
-        const response = await getLikedSongs(selectedPlaylist._id);
-        setLikedSongs(response.likedSongsInAlbum || []);
-      } catch (error) {
-        console.error("Error fetching liked songs:", error);
-      }
-    };
-    fetchLikedSongs();
-  }, [selectedPlaylist]);
-
-  const handleSongState = (index) => {
-    dispatch(setPrevSong(activePlaylist?.songs[index - 1]));
-    dispatch(setNextSong(activePlaylist?.songs[index + 1]));
-  };
-
-  useEffect(() => {
-    setIsPlaying(
-      activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying
-    );
-  }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
-  useEffect(() => {
-      if (selectedPlaylist) {
-          const totalDur = new PlaylistDuration(selectedPlaylist);
-          setTotalDuration(totalDur.totalDuration);
-      }
-  }, [selectedPlaylist]);
-
-  const togglePlay = () => {
-    if (!selectedPlaylist?.songs?.length) return;
-      dispatch(setActivePlaylist(selectedPlaylist));
-      dispatch(setActiveSong({ song: selectedPlaylist.songs[0], index: 0 })); 
-    if (isPlaying) {
-      dispatch(togglePlayback());
-    }
-  };
+  const { isPlaying, togglePlay } = usePlaybackControl(selectedPlaylist, 'album');
+  const totalDuration = usePlaylistDuration();
+  const [isLikedPlaylist, setIsLikedPlaylist] = useLikedPlaylist();
+  const gradient = useGradient();
+  const handleSongState = useSongNavigation();
 
   const selectSong = (song) => {
     dispatch(setSelectedSong(song));
@@ -92,12 +34,6 @@ export function AboutPlaylistPage() {
   const year = selectedPlaylist?.created_at
     ? new Date(selectedPlaylist.created_at).getFullYear()
     : "";
-  useEffect(() => {      
-    const getColors = async () => {
-        setGradient(await fetchColors(selectedPlaylist));
-    }
-    getColors();
-  }, [selectedPlaylist]);
 
   return (
     <div className={styles.foryou}>
@@ -136,7 +72,7 @@ export function AboutPlaylistPage() {
               <button className={styles.button__play} onClick={togglePlay}>
                 {isPlaying ? <Pause size={24} /> : <Play size={24} />}
               </button>
-              <div className={styles.button__like} onClick={() => OnLikeAlbum(selectedPlaylist, isLikedPlaylist, setIsLIkedPlaylist, dispatch, dataRedux, timerRef)}>
+              <div className={styles.button__like} onClick={() => OnLikeAlbum(selectedPlaylist, isLikedPlaylist, setIsLikedPlaylist, dispatch, dataRedux, timerRef)}>
                 {isLikedPlaylist 
                   ? <div className={styles.liked}></div> 
                   : <div className={styles.notliked}></div>}

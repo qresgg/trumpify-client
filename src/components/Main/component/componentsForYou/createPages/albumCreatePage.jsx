@@ -155,7 +155,7 @@ export function AlbumCreatePage() {
                                     </div>
                                 </div>
                             </div>
-                            <div>
+                            <div className={styles.albumDetails__rightContainer__button}>
                                 <button type="submit">Create Album</button>
                             </div>
                         </div>

@@ -8,6 +8,7 @@ import { Play } from "lucide-react";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { setActiveSong } from "../../../../../lib/redux/music/musicState";
+import { useSingleSong } from '../../../../../hooks/song/useSingleSong';
 
 
 export function Selection({ title, fetchFunction }) {
@@ -15,6 +16,7 @@ export function Selection({ title, fetchFunction }) {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [centerSlidePercentage, setCenterSlidePercentage] = useState(15);
+    const { setActiveSingleSong, setSelectedSingleSong } = useSingleSong();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,8 +49,8 @@ export function Selection({ title, fetchFunction }) {
             case "Song":
                 return (
                     <div key={index} className={styles.item}>
-                        <div className={styles.playButton} onClick={() => dispatch(setActiveSong({ song: item, index: 0 }))}><Play color="black" /></div>
-                        <div className={styles.item__container}>
+                        <div className={styles.playButton} onClick={() => setActiveSingleSong(item)}><Play color="black" /></div>
+                        <div className={styles.item__container} onClick={() => setSelectedSingleSong(item)}>
                           <div className={styles.cover} style={{ backgroundImage: `url(${item.song_cover})` }} />
                           <div className={styles.title} title={item.title}>{item.title}</div>
                           <div className={styles.author}>{item.features.map((feat) => feat.name).join(', ')}</div>
@@ -100,8 +102,6 @@ export function Selection({ title, fetchFunction }) {
                         centerSlidePercentage={centerSlidePercentage} 
                         infiniteLoop={false} 
                         showThumbs={false}
-                        // autoPlay={true} 
-                        // interval={3000} 
                         stopOnHover={true}
                         swipeable={true} 
                         showIndicators={false}

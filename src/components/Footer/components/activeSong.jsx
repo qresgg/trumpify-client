@@ -29,7 +29,7 @@ export function ActiveSong() {
                 <div className={styles.info}>
                     <div className={styles.info__title}>{activeSong.title}</div>
                     <div className={styles.info__feature}>
-                        {activeSong.features
+                        {activeSong?.features
                             .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
                             .map((feat) => feat.name)
                             .join(', ')

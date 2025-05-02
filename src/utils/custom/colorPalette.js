@@ -1,4 +1,4 @@
-import ColorClassifier from "../colorThief";
+import ColorClassifier from "../../hooks/colorThief";
 
 export default async function fetchColors (selectedObject){
     let colors = { lightMuted: '#ccc', darkMuted: '#999' };

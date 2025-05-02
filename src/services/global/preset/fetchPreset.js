@@ -39,7 +39,7 @@ export const fetchDataArtist = async (type) => {
 export const fetchDataArtistPARAM = async (type, id) => {
     const token = getAccessToken();
     try {
-        const response = await axios.get(`${SERVER_API_URL}/artist/${type}/:${id}`, {
+        const response = await axios.get(`${SERVER_API_URL}/artist/${type}/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

@@ -1,56 +1,23 @@
 import styles from './aboutPlaylistPage.module.scss';
 import { Song } from '../../snippets/song-snippet';
-import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Play, Pause } from 'lucide-react';
 import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist, setNextSong, setPrevSong } from '../../../../lib/redux/music/musicState';
 import ShowPage from '../../../../hooks/showPage';
 import { fetchLikedCollection } from '../../../../services/user/fetchData/fetchLikedCollection';
-import fetchColors from '../../../../hooks/global/colorPalette';
+import fetchColors from '../../../../utils/custom/colorPalette';
 import Skeleton from 'react-loading-skeleton';
+import { useLikedCollection } from '../../../../hooks/collection/useLikedCollection';
+import { usePlaybackControl } from '../../../../hooks/global/usePlaybackControl';
+import { useSongNavigation } from '../../../../hooks/album/useSongNavigation';
 
 export function LikedSongsPage() {
     const dispatch = useDispatch();
-    const { isMusicPlaying } = useSelector(state => state.music);
-    const { activePlaylist, selectedPlaylist } = useSelector(state => state.music.playlist);
-    const { selectedSong, activeSong } = useSelector(state => state.music.song);
-
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [totalDuration, setTotalDuration] = useState('');
-    const [likedSongs, setLikedSongs] = useState([]);
     const user = useSelector(state => state.data.user)
-
-    const handleSongState = (index) => {
-    }
-    const playlist = useSelector((state) => state.user?.user_likedCollection)
-
-    useEffect(() => {
-        const fetchLiked = async () => {
-            try{
-                const response = await fetchLikedCollection();
-                setLikedSongs(response.songs);
-                dispatch(setSelectedPlaylist(response));
-            } catch (error) {
-                console.error(error);
-                setLikedSongs([]);
-            }
-        }
-        fetchLiked();
-    }, []);
-
-    useEffect(() => {
-        setIsPlaying(activePlaylist?._id === selectedPlaylist?._id && isMusicPlaying);
-    }, [activePlaylist, isMusicPlaying, selectedPlaylist]);
-
-    const togglePlay = () => {
-        if (!selectedPlaylist?.songs?.length) return;
-        dispatch(setActivePlaylist(selectedPlaylist));
-        if (isPlaying) {
-            dispatch(togglePlayback());
-        } else {
-            dispatch(setActiveSong({ song: selectedPlaylist.songs[0], index: 1 }));
-        }
-    };
+    const { selectedPlaylist } = useSelector((state) => state.music.playlist);
+    const { isPlaying, togglePlay, isSelected } = usePlaybackControl(selectedPlaylist, 'album');
+    const likedSongs = useLikedCollection();
+    const handleSongState = useSongNavigation(likedSongs);
 
     const selectSong = (song) => {
         dispatch(setSelectedSong(song));
@@ -75,7 +42,7 @@ export function LikedSongsPage() {
                                 <div className={styles.info__albumName}>Liked Songs</div>
                                 <div className={styles.info__otherInfo}>
                                     <p className={styles.artist} onClick={() => selectArtist(user.user_id)}>{user.user_name}</p>
-                                    <p className={styles.trackCount}>• {user.user_likedSongsCount} songs{totalDuration}</p>
+                                    <p className={styles.trackCount}>• {user.user_likedSongsCount} songs</p>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +67,7 @@ export function LikedSongsPage() {
                                 {likedSongs.length > 0 ? (
                                     likedSongs.map((song, index) => (
                                         <div key={index} onClick={() => selectSong(song)}>
-                                            <Song song={song} index={index} songPrevNext={() => handleSongState} cover={true}/>
+                                            <Song song={song} index={index} songPrevNext={handleSongState} cover={true}/>
                                         </div>
                                     ))
                                 ) : (
