@@ -1,19 +1,19 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setModalState } from "../lib/redux/pages/viewSlice";
+import { setModalStateSongCreate } from "../lib/redux/pages/viewSlice";
 
 export function useModal() {
     const dispatch = useDispatch();
-    const modalState = useSelector((state) => state.view.modal.modalState)
+    const modalState = useSelector((state) => state.view.modal.modalStateSongCreate)
 
     const changeModalState = (state) => {
-        dispatch(setModalState(state));
+        dispatch(setModalStateSongCreate(state));
     }
 
-    const closeModal = () => {
-        changeModalState(false);
+    const closeModal = (type) => {
+        type === 'songCreate' && changeModalState(false);
     }
-    const openModal = () => {
-        changeModalState(true);
+    const openModal = (type) => {
+        type === 'songCreate' && changeModalState(true);
     }
     
     return { closeModal, openModal}

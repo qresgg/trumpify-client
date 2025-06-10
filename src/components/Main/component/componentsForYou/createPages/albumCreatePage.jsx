@@ -11,12 +11,14 @@ import { useSelector } from 'react-redux';
 export function AlbumCreatePage() {
     const { register, handleSubmit, formState: { errors }, setValue, reset} = useForm();
     const modal = useModal();
-    const { modalState } = useSelector((state) => state.view.modal)
+    const { modalStateSongCreate } = useSelector((state) => state.view.modal)
     const [previewImage, setPreviewImage] = useState('');
     const [songs, setSongs] = useState([]);
     const contentRef = useRef();
     const [message, setMessage] = useState({ success: '', error: '' })
     const [ isHover, setIsHover ] = useState(null);
+    const [editingSongIndex, setEditingSongIndex] = useState(null);
+
 
     const onSubmit = async (data) => {
         try {
@@ -29,15 +31,35 @@ export function AlbumCreatePage() {
         }
     }
 
-    const addSong = (song) => {
-        setSongs((prevState) => [...prevState, song]);
+    const addSong = (newSong) => {
+        setSongs((prevState) => {
+            const existingIndex = prevState.findIndex(
+            (song) =>
+                song.title === newSong.title && song.fileName === newSong.fileName
+            );
+
+            if (existingIndex !== -1) {
+            // Замінити існуючу пісню
+            const updatedSongs = [...prevState];
+            updatedSongs[existingIndex] = newSong;
+            return updatedSongs;
+            } else {
+            // Додати нову пісню
+            return [...prevState, newSong];
+            }
+        });
+    };
+
+    const clearEditingSongIndex = () => {
+        setEditingSongIndex(null);
     }
+
     const removeSong = (songIndex) => {
         setSongs((prevSongs) => prevSongs.filter((_, index) => index !== songIndex))
     } 
     return (
         <div className={styles.main}>
-            { modalState && <div className={styles.blackScreen} onClick={() => modal.closeModal()}></div>}
+            { modalStateSongCreate && <div className={styles.blackScreen} onClick={() => modal.closeModal()}></div>}
             <div className={styles.main__container} ref={contentRef}>
                 <div className={styles.main__container__header}>
                     <p className={styles.white}>Album  </p>
@@ -144,13 +166,19 @@ export function AlbumCreatePage() {
                                     {songs.map((song, index) => (
                                         <div key={index} className={styles.song}>
                                             <div className={styles.song__removeButton} onClick={() => removeSong(index)}><X color="black" style={{cursor: 'pointer'}}/></div>
-                                            <div className={styles.song__content}>
+                                            <div className={styles.song__content} onClick={() => {
+                                                setEditingSongIndex(index);
+                                                modal.openModal('songCreate');
+                                            }}>
                                                 <div className={styles.song__content__title}>{song.title}</div>
                                                 <div className={styles.song__content__genre}>{song.genre}</div>
                                             </div>
                                         </div>
                                     ))}
-                                    <div className={styles.addSong} onClick={() => modal.openModal()}>
+                                    <div className={styles.addSong} onClick={() => {
+                                        modal.openModal('songCreate')
+                                        clearEditingSongIndex()
+                                    }}>
                                         <div className={styles.addSong__plus}></div>
                                     </div>
                                 </div>
@@ -162,7 +190,12 @@ export function AlbumCreatePage() {
                     </div>
                 </form>
             </div>
-            { modalState && <CreateSongAlbum sendSong={addSong}/> }
+            { modalStateSongCreate && <CreateSongAlbum 
+                sendSong={addSong} 
+                songToEdit={songs[editingSongIndex]}
+                index={editingSongIndex}
+                clearEditingSongIndex={clearEditingSongIndex}
+                /> }
         </div>
     )
 }

@@ -105,6 +105,7 @@ export function AboutPlaylistPage() {
               <div className={styles.tracks__endInfo}>
                 <div className={styles.tracks__endInfo__releaseDate}>{fullDate}.</div>
                 <div className={styles.tracks__endInfo__labelTitle}>© {year} {selectedPlaylist.record_label}.</div>
+                <div className={styles.tracks__endInfo__labelTitle}>℗ {year} {selectedPlaylist.record_label}.</div>
               </div>
             </div>
           </div>

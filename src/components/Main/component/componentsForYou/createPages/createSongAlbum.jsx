@@ -6,7 +6,7 @@ import { useModal } from '../../../../../hooks/useModal';
 import { removeArtist, removeRoleFromArtist, addArtistWithRole } from '../../../../../services/global/functions/song/createSongServices';
 import { handleAudioFileChange } from '../../../../../utils/custom/durationFromFile';
 
-export function CreateSongAlbum({ sendSong }) {
+export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex }) {
     const modal = useModal();
     const { register, handleSubmit, formState: { errors },   setValue, reset } = useForm();
     const [ message, setMessage ] = useState({ success: '', error: '' });
@@ -14,6 +14,7 @@ export function CreateSongAlbum({ sendSong }) {
     const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
     const [ songFileChosen, setSongFileChosen ] = useState(false);
     const [ audioFront, setAudioFront ] = useState(null);
+    
 
 
     useEffect(() => {
@@ -24,12 +25,20 @@ export function CreateSongAlbum({ sendSong }) {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => { 
+        songToEdit && songToEdit.artists.map((song) => {
+            addArtistWithRole(song.name, song.roles.map(role => role.name));
+        })
+    }, [songToEdit]);
+
     const onSubmit = async (data) => {
         try {
             if(artists.length !== 0) {
                 setMessage({ success: 'Song created successfully', error: ''});
                 sendSong({ ...data, artists });
                 reset();
+                setArtists([])
+                clearEditingSongIndex();
             } else {
                 setMessage({ success: '', error: 'Error song cant be created without artist and role'});
             }
@@ -71,21 +80,21 @@ export function CreateSongAlbum({ sendSong }) {
     return (
         <>
             <div className={styles.mainModal} style={{
-            position: 'fixed',
-            top: '23%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: Math.min(500, windowSize.width * 0.8),
-            height: Math.min(300, windowSize.height * 0.5)
-        }}>
+                position: 'fixed',
+                top: '32%',
+                left: '51%',
+                transform: 'translate(-50%, -50%)',
+                width: Math.min(500, windowSize.width * 0.8),
+                height: Math.min(300, windowSize.height * 0.5)
+            }}>
                 <div className={styles.mainModal__container}>
                     <div className={styles.closeWindow}>
-                        <p>loaded song name = {audioFront?.name}</p>
-                        <X onClick={() => modal.closeModal()} />
+                        <p>loaded song name = {audioFront?.name || songToEdit?.audio.name}</p>
+                        <X onClick={() => modal.closeModal('songCreate')} />
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={(event) => handleAudioFileChange(event, setValue, setSongFileChosen, setAudioFront)}/>
-                        {!songFileChosen && (
+                        {!songFileChosen && !songToEdit && (
                             <div className={styles.songFile}>
                                 <div className={styles.songFile__caption}>
                                     <p className={styles.white}>Upload your </p>
@@ -101,7 +110,7 @@ export function CreateSongAlbum({ sendSong }) {
                                 </div>
                             </div>
                         )}
-                        {songFileChosen && (
+                        {(songFileChosen || songToEdit) && (
                             <div className={styles.songDetails}>
                             <div className={styles.songDetails__rightContainer}>
                                 {message.error && <p className='error'>{message.error}</p>}
@@ -111,7 +120,7 @@ export function CreateSongAlbum({ sendSong }) {
                                         <p>Song title</p>
                                         <p className={styles.red}>*</p>
                                     </label>
-                                    <input {...register('title', { required: 'title is required' })} />
+                                    <input {...register('title', { required: 'title is required' })} value={songToEdit && songToEdit.title} />
                                     {errors.title && <p className='error'>{errors.title.message}</p>}
                                 </div>
                                 <div className={styles.songDetails__rightContainer__data}>
@@ -119,7 +128,7 @@ export function CreateSongAlbum({ sendSong }) {
                                         <p>Song genre</p>
                                         <p className={styles.red}>*</p>
                                     </label>
-                                    <select {...register('genre', { required: 'genre is required' })}>
+                                    <select {...register('genre', { required: 'genre is required' })}  value={songToEdit && songToEdit.genre}>
                                         <option value="">choose genre</option>
                                         <option value="pop">Pop</option>
                                         <option value="rock">Rock</option>
@@ -136,7 +145,7 @@ export function CreateSongAlbum({ sendSong }) {
                                     <label>
                                         <p>Does your song have explicit lyrics?</p>
                                     </label>
-                                    <input type="checkbox" {...register('explicit')} />
+                                    <input type="checkbox" {...register('explicit')}  value={songToEdit && songToEdit.explicit}/>
                                     {errors.explicit && <p className='error'>{errors.explicit.message}</p>}
                                 </div>
                                 <div className={styles.songDetails__rightContainer__data}>

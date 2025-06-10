@@ -9,7 +9,7 @@ const viewSlice = createSlice({
     currentArtistPage: null,
     currentPlaylistPage: null,
     modal: {
-      modalState: false
+      modalStateSongCreate: false
     }
   },
   reducers: {
@@ -28,11 +28,19 @@ const viewSlice = createSlice({
     setSelectedPlaylistPage: (state, action) => {
       state.currentPlaylistPage = action.payload;
     }, 
-    setModalState: (state, action) => {
-      state.modal.modalState = action.payload;
+    
+    setModalStateSongCreate: (state, action) => {
+      state.modal.modalStateSongCreate = action.payload;
     } 
   },
 });
 
-export const { setView, setSettingsView, setSelectedArtistPage, setSelectedPlaylistPage, setSelectedUserPage, setModalState } = viewSlice.actions;
+export const { 
+  setView, 
+  setSettingsView, 
+  setSelectedArtistPage, 
+  setSelectedPlaylistPage, 
+  setSelectedUserPage, 
+  setModalStateSongCreate 
+} = viewSlice.actions;
 export default viewSlice.reducer;

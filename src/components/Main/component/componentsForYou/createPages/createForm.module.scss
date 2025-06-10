@@ -22,7 +22,7 @@
         border-radius: 16px;
     }
     .blackScreen{
-        position: absolute;
+        position: fixed;
         z-index: 98;
         top: 0;
         left: 0;
@@ -81,7 +81,7 @@
             gap: 16px;
             font-weight: bold;
 
-            .songDetails, .albumDetails, .artistDetails{
+            .songDetails, .albumDetails{
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
@@ -174,7 +174,6 @@
                         margin-top: 16px;
                         display: flex;
                         flex-direction: column;
-                        gap: 16px;
 
                         label{
                             p{
@@ -239,7 +238,6 @@
                             margin-top: 16px;
                             display: grid;
                             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                            gap: 16px;
                             
         
                             .song{                        
@@ -256,6 +254,7 @@
                                     top: -5px;
                                     background-color: rgb(66, 211, 9);
                                     border-radius: 50%;
+                                    z-index: 97;
                                 }
                                 &__content{
                                     display: flex;
@@ -264,6 +263,7 @@
                                     justify-content: center;
                                     align-items: center;
                                     word-wrap: break-word;
+                                    height: 100%;
         
                                     &__title{
                                         display: -webkit-box;
