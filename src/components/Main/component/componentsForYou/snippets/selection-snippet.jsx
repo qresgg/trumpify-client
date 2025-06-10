@@ -9,6 +9,9 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { setActiveSong } from "../../../../../lib/redux/music/musicState";
 import { useSingleSong } from '../../../../../hooks/song/useSingleSong';
+import { usePlaybackControl } from '../../../../../hooks/global/usePlaybackControl';
+import { AlbumItem  } from "./items/albumItem";
+import { SongItem  } from "./items/songItem";
 
 
 export function Selection({ title, fetchFunction }) {
@@ -36,27 +39,9 @@ export function Selection({ title, fetchFunction }) {
     const renderItem = (item, type, index) => {
         switch (type) {
             case "Album":
-                return (
-                    <div key={index} className={styles.item}>
-                        <div className={styles.playButton}><Play color="black" /></div>
-                        <div className={styles.item__container} onClick={() => redirectPlaylist(item, 'playlist', dispatch)}>
-                          <div className={styles.cover} style={{ backgroundImage: `url(${item.cover})` }} />
-                          <div className={styles.title} title={item.title}>{item.title}</div>
-                          <div className={styles.author}>{item.artist_name}</div>
-                        </div>
-                    </div>
-                );
+                return <AlbumItem key={index} item={item} />
             case "Song":
-                return (
-                    <div key={index} className={styles.item}>
-                        <div className={styles.playButton} onClick={() => setActiveSingleSong(item)}><Play color="black" /></div>
-                        <div className={styles.item__container} onClick={() => setSelectedSingleSong(item)}>
-                          <div className={styles.cover} style={{ backgroundImage: `url(${item.song_cover})` }} />
-                          <div className={styles.title} title={item.title}>{item.title}</div>
-                          <div className={styles.author}>{item.features.map((feat) => feat.name).join(', ')}</div>
-                        </div>
-                    </div>
-                );
+                return <SongItem key={index} item={item} />
             default:
                 return null;
         }
@@ -89,13 +74,15 @@ export function Selection({ title, fetchFunction }) {
                 </div>
                 <div className={styles.selections__container__content}>
                     {loading 
-                      ? Array.from({ length: 5 }).map((_, index) => (
+                      ? <div className={styles.skeleton}>
+                       {Array.from({ length: 5 }).map((_, index) => (
                         <div key={index} className={styles.item}>
                             <Skeleton height={153} width={153} baseColor="#4B4B4B" highlightColor="#1ED760" />
                             <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />
                             <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />
                         </div>
-                      )) 
+                      ))}
+                      </div> 
                       : 
                       <Carousel 
                         centerMode={true} 

@@ -7,14 +7,17 @@ import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
 import { findContent } from '../../../services/search/findService';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
 import fetchColors from '../../../utils/custom/colorPalette';
+import { NextSong } from '../snippets/nextSong-snippet';
+import { redirectTo } from '../../../services/global/functions/redirection';
 
 export function Info({ 
     width, 
     onResize 
 }) {
     const dispatch = useDispatch();
-    const { selectedSong } = useSelector((state) => state.music.song)
-    const { selectedPlaylist } = useSelector((state) => state.music.playlist)
+    const { selectedSong } = useSelector((state) => state.music.song);
+    const { selectedPlaylist } = useSelector((state) => state.music.playlist);
+    const song = useSelector((state) => state.music.song);
     const [ gradient, setGradient ] = useState(null)
 
     const [albumName, setAlbumName] = useState(null);
@@ -74,10 +77,13 @@ export function Info({
                                     <div className={styles.title__songName}>{selectedSong.title}</div>
                                     <div className={styles.title__artists}>
                                     {selectedSong.features
-                                        .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
-                                        .map((feat) => feat.name)
-                                        .join(', ')
-                                    }</div>
+                                        .filter(feat => feat.roles.some(role => role.role === 'main vocal'))
+                                        .map((feat, index, arr) => (
+                                            <p key={feat.id || index} onClick={() => redirectTo('Artist', feat.name, dispatch)}>
+                                                {feat.name}{index < arr.length - 1 ? ',' : ''}
+                                            </p>
+                                        ))}
+                                    </div>
                                 </div>
                                 <div className={styles.isLiked} onClick={() => OnLikeSong(selectedSong, liked, setLiked, dispatch, dataRedux, timerRef)}>
                                     {liked 
@@ -97,8 +103,8 @@ export function Info({
                                     </div>
                                 </div>
                             </div>
-                            <div className={styles.featuresSong}>
-                                <div className={styles.featuresSong__container}>
+                            <div className={styles.details}>
+                                <div className={styles.details__container}>
                                     <div className={styles.upperTitle}>
                                         <div className={styles.upperTitle__caption}>Credits</div>
                                         <div className={styles.upperTitle__button}>Show all</div>
@@ -113,6 +119,14 @@ export function Info({
                                         ))}
                                 </div>
                             </div>
+                            {song?.nextSong && (<div className={styles.details}>
+                                <div className={styles.details__container}>
+                                    <div className={styles.upperTitle}>
+                                        <div className={styles.upperTitle__caption}>Next song</div>
+                                    </div>
+                                    <NextSong />
+                                </div>
+                            </div>)}
                         </div>
                     </div>
                 </>

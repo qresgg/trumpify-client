@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSettingsView } from '../../../../../lib/redux/pages/viewSlice';
 import { AccountConfig } from './ConfigPanel/accountConfig';
+import { ArtistConfig } from './ConfigPanel/artistConfig';
 
 const SideBarElement = ({name, id, isActive, onClick}) => {
     const transformName = name.toLowerCase().replace(' ', '');
     return (
-        <div className={styles.sideBar__item} onClick={() => onClick(id, transformName)} style={{filter: isActive ? "brightness(1.9)" : 'none'}}>{name}</div>
+        <div className={styles.sideBar__item} onClick={() => onClick(id, transformName)} style={{ borderLeft: isActive ? "2px solid white" : 'none', borderRight: isActive ? "2px solid white" : 'none'}}>{name}</div>
     )
 }
 
@@ -15,6 +16,7 @@ export function SettingsPage() {
     const dispatch = useDispatch();
     const settingsView = useSelector((state) => state.view.settingsView);
     const [activeButton, setActiveButton] = useState(null);
+    const data = useSelector((state) => state.data);
     
     const handleButtonClick = (id, name) => {
         setActiveButton(id);
@@ -22,7 +24,6 @@ export function SettingsPage() {
     }
 
     return (
-        <>
         <div className={styles.settingsPage}>
             <div className={styles.sideBar}>
                 <SideBarElement name="Account" id={1} isActive={activeButton === 1} onClick={handleButtonClick}/>
@@ -32,10 +33,9 @@ export function SettingsPage() {
             </div>
             <div className={styles.fence}></div>
             <div className={styles.configPanel}>
-                {settingsView === 'account' && <AccountConfig/>}
-                
+                {settingsView === 'account' && <AccountConfig />}
+                {settingsView === 'artistprofile' && <ArtistConfig />}
             </div>
         </div>
-        </>
     )
 }

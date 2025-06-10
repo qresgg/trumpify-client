@@ -15,6 +15,9 @@ export function Layout() {
   const dispatch = useDispatch();
   const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
+  const data = useSelector((state) => state.data);
+
+  console.log(data)
 
   useEffect(() => {
     const authenticateUser = async () => {

@@ -70,7 +70,6 @@ export function UserProfilePage() {
                     </div>
                 </div>
                 <div className={styles.statistic}>  
-                    12312
                 </div>
             
             { isOpened &&  <InfoChange onOpened={handleIsOpened}/> }

@@ -42,7 +42,6 @@ export function Header ({
                     <div className={styles.navBar__home__icon}></div>
                 </div>
                 <SearchBar searchBarState={handleSearchDropMenu} menuState={isSearchMenuOpen}/>
-                <button onClick={() => dispatch(setView("artistCreate"))}>Create Artist Profile</button>
                 <button onClick={() => dispatch(setView("songCreate"))}>Create Song</button>
                 <button onClick={() => dispatch(setView("albumCreate"))}>Create Album</button>
             </div>

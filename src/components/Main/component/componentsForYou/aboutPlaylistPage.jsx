@@ -12,6 +12,7 @@ import { useGradient } from "../../../../hooks/album/useGradient";
 import { usePlaylistDuration } from "../../../../hooks/album/usePlaylistDuration";
 import { usePlaybackControl } from "../../../../hooks/global/usePlaybackControl";
 import { useSongNavigation } from "../../../../hooks/album/useSongNavigation";
+import { useTimeStamp } from "../../../../hooks/album/useTimeStamp";
 
 export function AboutPlaylistPage() {
   const dispatch = useDispatch();
@@ -25,15 +26,13 @@ export function AboutPlaylistPage() {
   const [isLikedPlaylist, setIsLikedPlaylist] = useLikedPlaylist();
   const gradient = useGradient();
   const handleSongState = useSongNavigation();
+  const { day, month, year, fullDate} = useTimeStamp(selectedPlaylist.created_at)
 
   const selectSong = (song) => {
     dispatch(setSelectedSong(song));
   };
 
   const trackCount = selectedPlaylist?.songs?.length || 0;
-  const year = selectedPlaylist?.created_at
-    ? new Date(selectedPlaylist.created_at).getFullYear()
-    : "";
 
   return (
     <div className={styles.foryou}>
@@ -102,6 +101,10 @@ export function AboutPlaylistPage() {
                 ) : (
                   <p>No songs available</p>
                 )}
+              </div>
+              <div className={styles.tracks__endInfo}>
+                <div className={styles.tracks__endInfo__releaseDate}>{fullDate}.</div>
+                <div className={styles.tracks__endInfo__labelTitle}>© {year} {selectedPlaylist.record_label}.</div>
               </div>
             </div>
           </div>

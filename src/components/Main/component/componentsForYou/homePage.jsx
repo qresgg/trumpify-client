@@ -7,14 +7,6 @@ import getSongData from "../../../../services/artist/data/get/songData";
 export function HomePage() {
   return (
     <div className={styles.homePage}>
-      <div className={styles.header}>
-        <div className={styles.header__filter}>
-          <div>All</div>
-          <div>Album</div>
-          <div>Song</div>
-          <div>Playlists</div>
-        </div>
-      </div>
       <div className={styles.homePage__container}>
         <Selection title="Latest albums" fetchFunction={getAlbumData}/>
         <Selection title="Latest songs" fetchFunction={getSongData}/>

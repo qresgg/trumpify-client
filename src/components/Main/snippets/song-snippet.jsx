@@ -5,6 +5,7 @@ import { Pause, Play} from 'lucide-react';
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
 import { usePlaybackControl } from '../../../hooks/global/usePlaybackControl';
+import { useSingleSong } from '../../../hooks/song/useSingleSong';
 
 export function Song({
     song,
@@ -15,8 +16,10 @@ export function Song({
 }) {
     const dispatch = useDispatch();
     const { activePlaylist, selectedPlaylist } = useSelector((state) => state.music.playlist);
-    const { activeSong, selectedSong, prevSong } = useSelector((state) => state.music.song);
+    const { activeSong } = useSelector((state) => state.music.song);
     const { isPlaying, togglePlay, isSelected } = usePlaybackControl(song, 'song');
+    const { setActiveSingleSong, setSelectedSingleSong } = useSingleSong();
+    
     
     const [isHover, setIsHover] = useState(false);
     const data = useSelector((state) => state.data)
@@ -45,7 +48,7 @@ export function Song({
         onMouseLeave={() => setIsHover(false)}
         style={selectedTemplate}>
             <div className={styles.song__id} onClick={togglePlay}>
-                {isHover || (selectedSong?._id === song?._id) 
+                {isHover || (setSelectedSingleSong?._id === song?._id) 
                     ? (isPlaying ? <Pause size={16}/> : <Play size={16}/>) 
                     : (isPlaying ? <Pause size={16}/> : <div>{index + 1}</div>) }
             </div>

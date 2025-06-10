@@ -84,6 +84,7 @@
             display: flex;
             flex-direction: column;
             color:white;
+            min-height: 400px;
             
             &__title{
                 color: white;
@@ -121,14 +122,32 @@
                         justify-content: end;
                     }
                 }
+                .songs__plate{
+
+                    &__button{
+                        cursor: pointer;
+                        opacity: 0.7;
+                        font-size: 12px;
+                    }
+                }
             }
         }
         // .artist_chose{
 
         // }
-        // .music{
+        .music{
+            display: flex;
+            flex-direction: column;
 
-        // }
+            &__header{
+                padding: 8px 0;
+                &__title{
+                    color: white;
+                    font-size: 24px;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 }
 

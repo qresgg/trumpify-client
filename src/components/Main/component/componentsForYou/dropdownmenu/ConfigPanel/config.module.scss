@@ -1,0 +1,100 @@
+@use '../../../../../../style/global/collection.module' as global;
+
+.config{
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+    &__container{
+
+        &__item{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .header{
+                color: white;
+                .red{
+                    color: red;
+                }
+                p{
+                    font-size: 12px;
+                    margin: 0;
+                    padding: 0;
+                    display: inline;
+                }
+            }
+            .content{
+                display: flex;
+
+                &__preview{
+                    width: 250px;
+                    height: 150px;
+                    background-color: black;
+                    padding: 8px;
+
+                    .avatar{
+                        height: 100%;
+                        aspect-ratio: 1/1;
+                        background-color: white;
+                        border-radius: 50%;
+                    }
+                }
+                &__change{
+
+                }
+
+                .tarea{
+                    font-family: "Arial", sans-serif;
+                    background-color: transparent;
+                    color: white;
+                    border: none;
+                    border-left: 2px solid global.$second-color;
+                    border-right: 2px solid global.$second-color;
+                    border-radius: 5px;
+                    resize: none;
+                    width: 60%;
+                    min-width: 450px;
+
+                    &:hover {
+                        outline: none;
+                        border-left: 2px solid global.$bright-selected-color;
+                        border-right: 2px solid global.$bright-selected-color;
+                    }
+                    &:focus {
+                        outline: none;
+                        border-left: 2px solid global.$special-color;
+                        border-right: 2px solid global.$special-color;
+                    }
+                }
+                input{
+                    height: 25px;
+                    width: 60%;
+                    min-width: 450px;
+                    background-color: transparent;
+                    border: none;
+                    border-bottom: 2px solid global.$second-color;
+                    transition: 0.3s all;
+                    cursor: pointer;
+
+                    &:hover {
+                        outline: none;
+                        border-bottom: 2px solid global.$bright-selected-color;
+                    }
+                    &:focus {
+                        outline: none;
+                        border-bottom: 2px solid global.$special-color;
+                    }
+                }
+                input[type="file"]{
+                    background: none;
+                    border: none;
+                    height: fit-content;
+                }
+            }
+        }
+    }
+}

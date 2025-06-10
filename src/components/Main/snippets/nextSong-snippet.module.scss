@@ -1,0 +1,72 @@
+.container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .left{
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        .cover{
+            &__image{
+                background: center/contain no-repeat;
+                width: 56px;
+                height: 56px;
+                border-radius: 5px;
+            }
+        }
+        .info{
+            &__title{
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                word-wrap: break-word;
+                overflow-wrap: anywhere;
+                white-space: normal;
+            }
+            &__feature{
+                color: white;
+                opacity: 0.7;
+                font-size: 11px;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                word-wrap: break-word;
+                overflow-wrap: anywhere;
+                white-space: normal;
+            }
+        }
+    }
+    .right{
+        display: flex;
+        justify-content: end;
+        padding: 16px;
+        .likes{
+            &__container{
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+    
+                @mixin like($type) {
+                    background: url("../../../../public/micro-ico/#{$type}.png") center/contain no-repeat;
+                    height: inherit;
+                    width: inherit;
+                }
+        
+                .liked{
+                    @include like("liked");
+                    filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+                }
+                .notliked{
+                    @include like("notliked");
+                    filter: brightness(0.7);
+                }
+            }
+        }
+    }
+}
