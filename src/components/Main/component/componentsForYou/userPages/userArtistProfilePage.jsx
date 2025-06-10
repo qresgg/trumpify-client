@@ -7,7 +7,7 @@ import { useState } from 'react';
 export function UserArtistProfilePage() {
     const { currentArtistPage } = useSelector((state) => state.view)
     const songs = usePopularSongs();
-    const halfSongs = songs.slice(0, 5);
+    const halfSongs = songs ? songs.slice(0, 5) : [];
     const handleSongState = useSongNavigation(songs);
 
     const [isExpanded, setIsExpanded] = useState(false);
