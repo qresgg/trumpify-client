@@ -5,7 +5,8 @@ import { Play, Pause, Album } from "lucide-react";
 import { setSelectedSong, setActivePlaylist } from "../../../../lib/redux/music/musicState";
 import { redirectTo } from "../../../../services/global/functions/redirection";
 import OnLikeAlbum from "../../../../services/global/functions/album/likeAlbumHandler";
-import { useRef } from "react";
+import { useRef, useEffect, useState, use } from "react";
+import { isOriginArtistPage } from "../../../../services/auth/isOriginPage";
 
 import { useLikedPlaylist } from "../../../../hooks/album/useLikedPlaylist";
 import { useGradient } from "../../../../hooks/album/useGradient";
@@ -18,6 +19,8 @@ export function AboutPlaylistPage() {
   const dispatch = useDispatch();
   const timerRef = useRef(null);
   const dataRedux = useSelector((state) => state.data);
+  const artist = useSelector((state) => state.data.artist);
+  const [originArtist, setOriginArtist] = useState(false);
   const { activePlaylist, selectedPlaylist } = useSelector(
     (state) => state.music.playlist
   );
@@ -31,6 +34,11 @@ export function AboutPlaylistPage() {
   const selectSong = (song) => {
     dispatch(setSelectedSong(song));
   };
+
+  useEffect(() => {
+      setOriginArtist(isOriginArtistPage(artist?.artist_id, selectedPlaylist?.artist));
+  }, [selectedPlaylist, artist])
+  
 
   const trackCount = selectedPlaylist?.songs?.length || 0;
 
@@ -56,8 +64,8 @@ export function AboutPlaylistPage() {
                     className={styles.artist}
                     onClick={() =>
                       redirectTo("Artist", selectedPlaylist.artist, dispatch)
-                    }
-                  >
+                    }>
+                    {originArtist ? '(You) ' : ''}
                     {selectedPlaylist.artist_name}
                   </p>
                   <p className={styles.year}>• {year} •</p>

@@ -8,8 +8,12 @@
     gap: 16px;
     width: 100%;
 
-    &__container{
-
+    .headerCont{
+        display: flex;
+        justify-content: space-between;
+        width: 60%;
+    }
+    .container, .headerCont{
         &__item{
             display: flex;
             flex-direction: column;
@@ -27,14 +31,24 @@
                     display: inline;
                 }
             }
+
+            #bannerContent{
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+                background-color: black;
+            }
             .content{
                 display: flex;
 
                 &__preview{
                     width: 250px;
                     height: 150px;
-                    background-color: black;
                     padding: 8px;
+                    display: flex;
+                    justify-content: center;
+                    background: black center/cover no-repeat;
 
                     .avatar{
                         height: 100%;
@@ -49,7 +63,7 @@
 
                 .tarea{
                     font-family: "Arial", sans-serif;
-                    background-color: transparent;
+                    background-color: #121212;
                     color: white;
                     border: none;
                     border-left: 2px solid global.$second-color;
@@ -58,6 +72,7 @@
                     resize: none;
                     width: 60%;
                     min-width: 450px;
+                    transition: 0.3s all;
 
                     &:hover {
                         outline: none;
@@ -74,7 +89,7 @@
                     height: 25px;
                     width: 60%;
                     min-width: 450px;
-                    background-color: transparent;
+                    background-color: #121212;
                     border: none;
                     border-bottom: 2px solid global.$second-color;
                     transition: 0.3s all;
@@ -97,4 +112,58 @@
             }
         }
     }
+    button{
+        width: 60%;
+        background-color: #121212;
+        min-width: 450px;
+    }
+
+    .blackscreen{
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0.6;
+        z-index: 97;
+    }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #121212;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  z-index: 98;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+    .cancelbutton{
+        padding: 8px 16px !important;
+        border-color: #e53e3e;
+        margin-top: 2px;
+    }
+  
+  div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.modalCancel {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }

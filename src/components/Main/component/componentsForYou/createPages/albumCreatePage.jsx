@@ -32,23 +32,28 @@ export function AlbumCreatePage() {
     }
 
     const addSong = (newSong) => {
-        setSongs((prevState) => {
-            const existingIndex = prevState.findIndex(
-            (song) =>
-                song.title === newSong.title && song.fileName === newSong.fileName
+        if (!newSong || !newSong.audio || !newSong.audio.name) {
+            console.error("Invalid song passed to addSong:", newSong);
+            return;
+        }
+
+        setSongs((prevSongs) => {
+            const identifier = newSong.originalFileName || newSong.audio.name;
+
+            const existingIndex = prevSongs.findIndex(
+                (song) => song?.audio?.name === identifier
             );
 
             if (existingIndex !== -1) {
-            // Замінити існуючу пісню
-            const updatedSongs = [...prevState];
-            updatedSongs[existingIndex] = newSong;
-            return updatedSongs;
+                const updatedSongs = [...prevSongs];
+                updatedSongs[existingIndex] = newSong;
+                return updatedSongs;
             } else {
-            // Додати нову пісню
-            return [...prevState, newSong];
+                return [...prevSongs, newSong];
             }
         });
     };
+
 
     const clearEditingSongIndex = () => {
         setEditingSongIndex(null);
@@ -121,8 +126,8 @@ export function AlbumCreatePage() {
                                     <option value="ENG(UK)">English (United Kingdom)</option>
                                     <option value="DEU">German</option>
                                     <option value="POL">Polish</option>
-                                    <option value="NOR">Norway</option>
-                                    <option value="SPA">Spanish</option>
+                                    <option value="NOR">Norwegian</option>
+                                    <option value="ESP">Spanish</option>
                                 </select>
                                 {errors.language && <p className='error'>{errors.language.message}</p>}
                             </div>
@@ -156,6 +161,12 @@ export function AlbumCreatePage() {
                                     <option value="Short-Album">Short-Album</option>
                                 </select>
                                 {errors.type && <p className='error'>{errors.type.message}</p>}
+                            </div>
+                            <div className={styles.albumDetails__rightContainer__data}>
+                                <label>
+                                    <p>Private?</p>
+                                </label>
+                                <input type="checkbox" {...register('privacy')}/>
                             </div>
                             <div className={styles.albumDetails__rightContainer__data}>
                                 <label>

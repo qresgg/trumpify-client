@@ -37,12 +37,12 @@ export function InfoChange({
         <>
             <div className={styles.container}
             style={{
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: Math.min(500, windowSize.width * 0.8),
-                    }}>
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: Math.min(500, windowSize.width * 0.8),
+            }}>
                 <form onSubmit={handleSubmit((data) => changeAvaUserName(data, dataRedux, dispatch, onOpened))}>
                     <div className={styles.title}>
                         <p>Profile's info</p>

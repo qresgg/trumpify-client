@@ -12,16 +12,10 @@ export function UserArtistProfilePage() {
 
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // const data = {
-    //     popular: popularArtist,
-    //     albums: albumsArtist,
-    //     singles: singlesArtist
-    // }
-    
     return (
         <div className={styles.profile}>
             <div className={styles.header}></div>
-            <div className={styles.title}>
+            <div className={styles.title} style={{ backgroundImage: `url(${currentArtistPage.artist_banner})` }}>
                 <div className={styles.addiction}>
                     <div className={styles.info}>
                         <div className={styles.isProfile}>{currentArtistPage.artist_isVerified && <p className={styles.verifiedIco}>Verified</p>} Artist</div>
