@@ -20,6 +20,26 @@ const findData = async (type, id) => {
     }
 }
 
-const findContent = async (type, id) => findData(type, id);
+const searchData = async (type, name) => {
+    const token = getAccessToken();
+    
+    try{
+        const response = await axios.get(`${SERVER_API_URL}/find/${type}`, 
+            { params: { name: name },
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        });
+        
+        return response.data;
+    } catch(err) {
+        throw new Error('Failed to fetch user data');
+    }
+}
 
-export { findContent }
+const findContent = async (type, id) => findData(type, id);
+const searchContent = async (type, name) => searchData(type, name);
+
+export { findContent, searchContent }

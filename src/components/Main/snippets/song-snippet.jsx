@@ -28,7 +28,7 @@ export function Song({
 
     useEffect(() => {
         likeChecker(song, data, setLikedSong)
-    }, [data.user.user_likedSongsList, song, selectedPlaylist])
+    }, [data.user_likedSongsCount])
 
     useEffect(() => {
         if (activeSong?._id === song?._id) {

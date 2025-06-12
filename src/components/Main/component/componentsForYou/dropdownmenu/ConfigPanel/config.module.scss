@@ -48,13 +48,12 @@
                     padding: 8px;
                     display: flex;
                     justify-content: center;
-                    background: black center/cover no-repeat;
+                    background: #121212 center/cover no-repeat;
 
                     .avatar{
                         height: 100%;
                         aspect-ratio: 1/1;
-                        background-color: white;
-                        border-radius: 50%;
+                        background-color: black;
                     }
                 }
                 &__change{

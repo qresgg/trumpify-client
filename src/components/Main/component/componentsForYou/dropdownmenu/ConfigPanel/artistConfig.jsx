@@ -2,33 +2,63 @@ import styles from './config.module.scss';
 import { useForm } from 'react-hook-form';
 import { previewFromFile } from '../../../../../../utils/custom/previewFromFile';
 import { useState, useEffect } from 'react';
-import { changeArtistName } from '../../../../../../utils/custom/changeArtistProfile';
+import { changeArtistInfo } from '../../../../../../utils/custom/changeArtistProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import BannerCropper from '../../../../../../utils/custom/bannerCropper';
+import { useMessage } from '../../../../../../hooks/global/useMessage';
 
 export const ArtistConfig = () => {
     const dispatch = useDispatch();
     const dataRedux = useSelector((state) => state.data);
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();
-    const [ previewImage, setPreviewImage ] = useState(null)
-    const [ message, setMessage ] = useState({ success: '', error: '' })
+    const { message, setMessage } = useMessage()
+    
+    const [ showCropper, setShowCropper ] = useState(false);
+    const [ mode, setMode ] = useState({ avatar: false });
 
-    const [showCropper, setShowCropper] = useState(false);
+    const [ previewImage, setPreviewImage ] = useState({
+        avatar: '',
+        banner: ''
+    });
 
-    const handleBannerSave = (file) => {
+    useEffect(() => {
+        if (dataRedux?.artist) {
+            setPreviewImage({
+                avatar: `url(${dataRedux.artist.artist_avatar})`,
+                banner: `url(${dataRedux.artist.artist_banner})`,
+            });
+        }
+    }, []);
+
+    const handleSave = (file, mode) => {
         setShowCropper(false);
 
         const reader = new FileReader();
         reader.onloadend = () => {
-            setPreviewImage(`url(${reader.result})`);
-            setValue('banner', file);
+            if (mode?.avatar) {
+                setPreviewImage(prev => ({
+                    ...prev,
+                    avatar: `url(${reader.result})`
+                }));
+                setValue('avatar', file)
+            } else {
+                setPreviewImage(prev => ({
+                    ...prev,
+                    banner: `url(${reader.result})`
+                }));
+                setValue('banner', file)
+            }
         };
         reader.readAsDataURL(file);
     };
 
+
+
     return (
         <div className={styles.config}>
-            <form onSubmit={handleSubmit((data) => changeArtistName(data, dataRedux, dispatch))}>
+            <form onSubmit={handleSubmit((data) => changeArtistInfo(data, dataRedux, dispatch, setMessage))}>
+                {message.error && <p className='error'>{message.error}</p>}
+                {message.success && <p className='success'>{message.success}</p>}
                 <div className={styles.headerCont}>
                     <div className={styles.container}>
                         <div className={styles.container__item}>
@@ -37,11 +67,13 @@ export const ArtistConfig = () => {
                                 <p className={styles.red}>*</p>
                             </div>
                             <div className={styles.content}>
-                                <div
-                                className={styles.content__preview}
-                                onClick={() => setShowCropper(true)}
-                                style={{ backgroundImage: previewImage }}
-                                ></div>
+                                <div className={styles.content__preview}
+                                    onClick={() => {
+                                        setShowCropper(true)
+                                        setMode({ avatar: false })
+                                    }}
+                                    style={{ backgroundImage: previewImage?.banner }}>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -53,7 +85,13 @@ export const ArtistConfig = () => {
                             </div>
                             <div className={styles.content}>
                                 <div className={styles.content__preview}>
-                                    <div className={styles.avatar}></div>
+                                    <div className={styles.avatar}
+                                        onClick={() => {
+                                            setShowCropper(true)
+                                            setMode({ avatar: true })
+                                        }}
+                                        style={{ backgroundImage: previewImage?.avatar }}> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +125,7 @@ export const ArtistConfig = () => {
                 <>
                     <div className={styles.blackscreen} onClick={() => setShowCropper(!showCropper)}></div>
                     <div className={styles.modal}>
-                        <BannerCropper onSave={handleBannerSave} />
+                        <BannerCropper onSave={handleSave} mode={mode}/>
                         <button onClick={() => setShowCropper(false)} className={styles.cancelbutton}>Cancel</button>
                     </div>
                 </>

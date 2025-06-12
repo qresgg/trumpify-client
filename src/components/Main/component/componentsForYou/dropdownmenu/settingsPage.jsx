@@ -28,8 +28,8 @@ export function SettingsPage() {
             <div className={styles.sideBar}>
                 <SideBarElement name="Account" id={1} isActive={activeButton === 1} onClick={handleButtonClick}/>
                 <SideBarElement name="Artist Profile" id={2} isActive={activeButton === 2} onClick={handleButtonClick}/>
-                <SideBarElement name="Language" id={3} isActive={activeButton === 3} onClick={handleButtonClick}/>
-                <SideBarElement name="About" id={4} isActive={activeButton === 4} onClick={handleButtonClick}/>
+                {/* <SideBarElement name="Language" id={3} isActive={activeButton === 3} onClick={handleButtonClick}/>
+                <SideBarElement name="About" id={4} isActive={activeButton === 4} onClick={handleButtonClick}/> */}
             </div>
             <div className={styles.fence}></div>
             <div className={styles.configPanel}>

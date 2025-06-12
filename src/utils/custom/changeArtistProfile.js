@@ -1,36 +1,43 @@
 import { setData } from "../../lib/redux/data/dataSlice";
 import { updateArtistName, updateBio, uploadAvatar, uploadBanner } from "../../services/artist/data/put/changeArtist";
-import { isValidUserName } from "../../lib/regexp";
+import { isValidArtistName, isValidBio } from "../../lib/regexp";
 
-const changeArtistName = async (data, dataRedux, dispatch) => {
+const changeArtistInfo = async (data, dataRedux, dispatch, setMessage) => {
     let artist = dataRedux.artist;
-    if (!isValidUserName(data?.username)) {
-        return;
-    }
+    let user = dataRedux.user;
+
     try {
         if (data) {
             const updates = {};
             if (data.avatar) {
-                await uploadAvatar(data.avatar);
-                //updates.art_avatar_url = data.avatar;
+                const res = await uploadAvatar(data.avatar);
+                updates.artist_avatar = data.avatar;
+                setMessage({ success: res.message, error: '' });
             }
             if (data.bio) {
-                await updateBio(data.bio);
-                //updates.user_name = data.username;
+                !isValidBio(data.bio) && setMessage({ success: '', error: 'Invalid biography' });
+
+                const res = await updateBio(data.bio);
+                setMessage({ success: res.message, error: '' });
             }
             if (data.banner) {
-                await uploadBanner(data.banner);
-                //updates.user_name = data.username;
+                const res = await uploadBanner(data.banner);
+                updates.artist_banner = res.bannerUrl;
+                setMessage({ success: res.message, error: '' });
             }
             if (data.artistName) {
-                await updateArtistName(data.artistName);
-                //updates.user_name = data.username;
+                !isValidArtistName(data.artistName) && setMessage({ success: '', error: 'Invalid artist name' });
+                
+                const res = await updateArtistName(data.artistName);
+                updates.artist_name = data.artistName;
+                setMessage({ success: res.message, error: '' });
             }
-            //dispatch(setData({ user, artist: { ...artist, ...updates } }));
+            dispatch(setData({ user, artist: { ...artist, ...updates } }));
         }
     } catch (error) {
-        console.error(error.response ? error.response.data : error);
+        setMessage({ success: '', error: error.message });
+        console.error(error);
     }
 }
 
-export { changeArtistName }
+export { changeArtistInfo }

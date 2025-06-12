@@ -38,12 +38,12 @@ export function Selection({ title, fetchFunction }) {
 
     const renderItem = (item, type, index) => {
         switch (type) {
-            case "Album":
-                return <AlbumItem key={index} item={item} />
-            case "Song":
-                return <SongItem key={index} item={item} />
-            default:
-                return null;
+          case "Album":
+            return <AlbumItem key={index} item={item} />
+          case "Song":
+            return <SongItem key={index} item={item} />
+          default:
+            return null;
         }
     };
 
@@ -67,38 +67,38 @@ export function Selection({ title, fetchFunction }) {
 
     return (
         <div className={styles.selections}>
-            <div className={styles.selections__container}>
-                <div className={styles.selections__container__title}>
-                    <div className={styles.title}>{title}</div>
-                    <div className={styles.showall}>Show all</div>
-                </div>
-                <div className={styles.selections__container__content}>
-                    {loading 
-                      ? <div className={styles.skeleton}>
-                       {Array.from({ length: 5 }).map((_, index) => (
-                        <div key={index} className={styles.item}>
-                            <Skeleton height={153} width={153} baseColor="#4B4B4B" highlightColor="#1ED760" />
-                            <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />
-                            <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />
-                        </div>
-                      ))}
-                      </div> 
-                      : 
-                      <Carousel 
-                        centerMode={true} 
-                        centerSlidePercentage={centerSlidePercentage} 
-                        infiniteLoop={false} 
-                        showThumbs={false}
-                        stopOnHover={true}
-                        swipeable={true} 
-                        showIndicators={false}
-                        selectedItem={0}
-                        className={styles.carousel}
-                        >
-                        {Array.isArray(items) && items.map((item, index) => renderItem(item, item.definition, index))}
-                      </Carousel>}
-                </div>
-            </div>
+          <div className={styles.selections__container}>
+              <div className={styles.selections__container__title}>
+                  <div className={styles.title}>{title}</div>
+                  <div className={styles.showall}>Show all</div>
+              </div>
+              <div className={styles.selections__container__content}>
+                  {loading 
+                    ? <div className={styles.skeleton}>
+                      {Array.from({ length: 5 }).map((_, index) => (
+                      <div key={index} className={styles.item}>
+                          <Skeleton height={153} width={153} baseColor="#4B4B4B" highlightColor="#1ED760" />
+                          <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />
+                          <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />
+                      </div>
+                    ))}
+                    </div> 
+                    : 
+                    <Carousel 
+                      centerMode={true} 
+                      centerSlidePercentage={centerSlidePercentage} 
+                      infiniteLoop={false} 
+                      showThumbs={false}
+                      stopOnHover={true}
+                      swipeable={true} 
+                      showIndicators={false}
+                      selectedItem={0}
+                      className={styles.carousel}
+                      >
+                      {Array.isArray(items) && items.map((item, index) => renderItem(item, item.definition, index))}
+                    </Carousel>}
+              </div>
+          </div>
         </div>
     );
 }

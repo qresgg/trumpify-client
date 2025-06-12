@@ -13,7 +13,10 @@ import { createSlice } from "@reduxjs/toolkit";
     },
     artist: {
       artist_id: null,
-      artist_name: null 
+      artist_name: null,
+      artist_isVerified: null,
+      artist_avatar: null,
+      artist_banner: null,
     }
   };
 

@@ -8,7 +8,7 @@ import { findContent } from '../../../services/search/findService';
 import likeChecker from '../../../services/global/functions/song/likeChecker';
 import fetchColors from '../../../utils/custom/colorPalette';
 import { NextSong } from '../snippets/nextSong-snippet';
-import { redirectTo } from '../../../services/global/functions/redirection';
+import { redirectTo, redirectFromFeature } from '../../../services/global/functions/redirection';
 
 export function Info({ 
     width, 
@@ -47,12 +47,12 @@ export function Info({
         selectedSong && fetchArtist();
     }, [selectedSong])
 
-      useEffect(() => {      
+    useEffect(() => {      
         const getColors = async () => {
             setGradient(await fetchColors(selectedSong));
         }
         getColors();
-      }, [selectedSong]);
+    }, [selectedSong]);
     
     return (
         <>
@@ -79,7 +79,7 @@ export function Info({
                                     {selectedSong.features
                                         .filter(feat => feat.roles.some(role => role.role === 'main vocal'))
                                         .map((feat, index, arr) => (
-                                            <p key={feat.id || index} onClick={() => redirectTo('Artist', feat.name, dispatch)}>
+                                            <p key={feat.id || index} onClick={() => redirectFromFeature('Artist', feat.name, dispatch)}>
                                                 {feat.name}{index < arr.length - 1 ? ',' : ''}
                                             </p>
                                         ))}
@@ -96,7 +96,7 @@ export function Info({
                                     <div className={styles.artist__preview}>
 
                                     </div>
-                                    <div className={styles.artist__details}>
+                                    <div className={styles.artist__details} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
                                         <div className={styles.artist__details__name}>{songArtist.artist_name}</div>
                                         <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div>
                                         <div className={styles.artist__details__bio}>{songArtist.artist_bio}</div>

@@ -39,7 +39,6 @@ export function AboutPlaylistPage() {
       setOriginArtist(isOriginArtistPage(artist?.artist_id, selectedPlaylist?.artist));
   }, [selectedPlaylist, artist])
   
-
   const trackCount = selectedPlaylist?.songs?.length || 0;
 
   return (

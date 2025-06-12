@@ -12,7 +12,8 @@ const updateArtistSetting = async (url, data) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error updating setting:', error);
+    const errorMsg = error.response?.data?.error || error.message;
+    throw new Error(errorMsg);
   }
 };
 
@@ -31,9 +32,11 @@ const uploadArtistImage = async (file, type, name) => {
       },
       withCredentials: true,
     });
+    console.log(response);
     return response.data;
   } catch (error) {
-    console.error('Error uploading avatar:', error);
+    const errorMsg = error.response?.data?.error || error.message;
+    throw new Error(errorMsg);
   }
 };
 
