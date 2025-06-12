@@ -1,22 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, use } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   togglePlayback,
   setActivePlaylist,
   setActiveSong,
+  setSelectedPlaylist,
 } from "../../lib/redux/music/musicState";
+import { setPrevSong, setNextSong } from "../../lib/redux/music/musicState";
 
-export const usePlaybackControl = (entity, type) => {
+export const usePlaybackControl = (entity, type, index = null, isSingle) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
-  const { isMusicPlaying } = useSelector((state) => state.music);
+  const { isMusicPlaying, currentIndex } = useSelector((state) => state.music);
   const { activePlaylist, selectedPlaylist } = useSelector((state) => state.music.playlist);
   const { activeSong, selectedSong } = useSelector((state) => state.music.song);
 
   const isPlaylist = type === "playlist" || type === "album";
-
+  const songs = activePlaylist?.songs;
+  
   useEffect(() => {
     if (isPlaylist) {
       setIsPlaying(activePlaylist?._id === entity?._id && isMusicPlaying);
@@ -43,13 +46,21 @@ export const usePlaybackControl = (entity, type) => {
         dispatch(togglePlayback());
       } else {
         dispatch(setActivePlaylist(entity));
+        dispatch(setSelectedPlaylist(entity));
         dispatch(setActiveSong({ song: entity.songs[0], index: 0 }));
       }
     } else {
       if (activeSong?._id === entity?._id) {
         dispatch(togglePlayback());
       } else {
-        dispatch(setActiveSong({ song: entity }));
+        const i = index ?? 0;
+        dispatch(setActiveSong({ song: entity, index: i }));
+        
+        if (isSingle) {
+          dispatch(setActivePlaylist(null))
+          dispatch(setSelectedPlaylist(null))
+        }
+
         if (activePlaylist !== selectedPlaylist) {
           dispatch(setActivePlaylist(selectedPlaylist));
         }

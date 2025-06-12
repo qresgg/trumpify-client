@@ -9,7 +9,6 @@ import fetchColors from '../../../../utils/custom/colorPalette';
 import Skeleton from 'react-loading-skeleton';
 import { useLikedCollection } from '../../../../hooks/collection/useLikedCollection';
 import { usePlaybackControl } from '../../../../hooks/global/usePlaybackControl';
-import { useSongNavigation } from '../../../../hooks/album/useSongNavigation';
 
 export function LikedSongsPage() {
     const dispatch = useDispatch();
@@ -17,7 +16,6 @@ export function LikedSongsPage() {
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
     const { isPlaying, togglePlay, isSelected } = usePlaybackControl(selectedPlaylist, 'album');
     const likedSongs = useLikedCollection();
-    const handleSongState = useSongNavigation(likedSongs);
 
     const selectSong = (song) => {
         dispatch(setSelectedSong(song));
@@ -67,7 +65,7 @@ export function LikedSongsPage() {
                                 {likedSongs.length > 0 ? (
                                     likedSongs.map((song, index) => (
                                         <div key={index} onClick={() => selectSong(song)}>
-                                            <Song song={song} index={index} songPrevNext={handleSongState} cover={true}/>
+                                            <Song song={song} index={index} cover={true}/>
                                         </div>
                                     ))
                                 ) : (

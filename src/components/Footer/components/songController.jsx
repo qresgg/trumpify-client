@@ -2,7 +2,7 @@ import styles from './songController.module.scss'
 import { ProgressBar } from '../snippets/progressBar-snippet'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveSong, setPrevSong, togglePlayback } from '../../../lib/redux/music/musicState'
+import { setActiveSong, setPrevSong, togglePlayback, setNextSong } from '../../../lib/redux/music/musicState'
 
 export function SongController({
     audioRef
@@ -29,7 +29,6 @@ export function SongController({
             audioRef.current.loop = newState;
             return newState;
         });
-    
     }
 
     useEffect(() => {
@@ -92,7 +91,7 @@ export function SongController({
                             <div></div>
                         </div>
                         <div className={styles.panel__prevSong} title='previous song'>
-                            <div onClick={() => (dispatch(setActiveSong({ song: prevSong }),))}></div>
+                            <div onClick={() => (dispatch(setPrevSong()))}></div>
                         </div>
                         <div onClick={handlePause}>
                             {isMusicPlaying
@@ -104,7 +103,7 @@ export function SongController({
                             </div>}
                         </div>
                         <div className={styles.panel__nextSong} title='next song'>
-                            <div onClick={() => (dispatch(setActiveSong({ song: nextSong }),))}></div>
+                            <div onClick={() => (dispatch(setNextSong()))}></div>
                         </div>
                         <div className={styles.panel__loop} title='loop' style={pressedTemplate} onClick={handleLoop}>
                             <div></div>

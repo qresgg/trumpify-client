@@ -1,16 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './userArtistProfilePage.module.scss'
 import { Song } from '../../../snippets/song-snippet';
-import { useSongNavigation } from '../../../../../hooks/album/useSongNavigation';
 import { usePopularSongs } from '../../../../../hooks/artist/usePopularSongs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { setActivePlaylist } from '../../../../../lib/redux/music/musicState';
 export function UserArtistProfilePage() {
+    const dispatch = useDispatch()
     const { currentArtistPage } = useSelector((state) => state.view)
     const songs = usePopularSongs();
     const halfSongs = songs ? songs.slice(0, 5) : [];
-    const handleSongState = useSongNavigation(songs);
-
     const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        const artistPages = {
+            songs: songs
+        }
+        songs && dispatch(setActivePlaylist(artistPages))
+    }, [songs])
 
     return (
         <div className={styles.profile}>
@@ -46,7 +52,6 @@ export function UserArtistProfilePage() {
                                         <Song
                                             song={song}
                                             index={index}
-                                            songPrevNext={handleSongState}
                                         />
                                     ))) : (
                                         <div>LOADING...</div>
@@ -57,7 +62,6 @@ export function UserArtistProfilePage() {
                                         <Song
                                             song={song}
                                             index={index}
-                                            songPrevNext={handleSongState}
                                         />
                                     ))) : (
                                         <div>LOADING...</div>

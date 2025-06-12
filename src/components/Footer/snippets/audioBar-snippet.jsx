@@ -31,9 +31,17 @@ export function AudioBar({
         SaveAudioVolume( progress, delay )
     }, [progress])
 
-    const handleMouseDown = () => {
+    const handleMouseDown = (event) => {
         setIsDragging(true);
+
+        if (progressRef.current) {
+            let rect = progressRef.current.getBoundingClientRect();
+            let offsetX = event.clientX - rect.left;
+            let newProgress = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
+            setProgress(Math.round(newProgress));
+        }
     };
+
 
     const handleMouseUp = () => {
         setIsDragging(false);

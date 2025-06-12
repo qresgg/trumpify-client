@@ -79,9 +79,10 @@ export function Info({
                                     {selectedSong.features
                                         .filter(feat => feat.roles.some(role => role.role === 'main vocal'))
                                         .map((feat, index, arr) => (
-                                            <p key={feat.id || index} onClick={() => redirectFromFeature('Artist', feat.name, dispatch)}>
-                                                {feat.name}{index < arr.length - 1 ? ',' : ''}
-                                            </p>
+                                            <span key={feat.id || index} onClick={() => redirectFromFeature('Artist', feat.name, dispatch)}>
+                                                {feat.name}
+                                                {index < arr.length - 1 && <span>, </span>}
+                                            </span>
                                         ))}
                                     </div>
                                 </div>

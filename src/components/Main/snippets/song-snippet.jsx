@@ -10,14 +10,13 @@ import { useSingleSong } from '../../../hooks/song/useSingleSong';
 export function Song({
     song,
     index,
-    songPrevNext,
     cover = false,
     clear = false,
 }) {
     const dispatch = useDispatch();
     const { activePlaylist, selectedPlaylist } = useSelector((state) => state.music.playlist);
     const { activeSong } = useSelector((state) => state.music.song);
-    const { isPlaying, togglePlay, isSelected } = usePlaybackControl(song, 'song');
+    const { isPlaying, togglePlay, isSelected } = usePlaybackControl(song, 'song', index);
     const { setActiveSingleSong, setSelectedSingleSong } = useSingleSong();
     
     
@@ -29,12 +28,6 @@ export function Song({
     useEffect(() => {
         likeChecker(song, data, setLikedSong)
     }, [data.user_likedSongsCount])
-
-    useEffect(() => {
-        if (activeSong?._id === song?._id) {
-            songPrevNext(index);
-        }
-    }, [activeSong])
     
     const selectedTemplate = isSelected ? {
         backgroundColor: '#2A2A2A',

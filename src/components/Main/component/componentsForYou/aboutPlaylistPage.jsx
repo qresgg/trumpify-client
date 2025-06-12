@@ -12,13 +12,13 @@ import { useLikedPlaylist } from "../../../../hooks/album/useLikedPlaylist";
 import { useGradient } from "../../../../hooks/album/useGradient";
 import { usePlaylistDuration } from "../../../../hooks/album/usePlaylistDuration";
 import { usePlaybackControl } from "../../../../hooks/global/usePlaybackControl";
-import { useSongNavigation } from "../../../../hooks/album/useSongNavigation";
 import { useTimeStamp } from "../../../../hooks/album/useTimeStamp";
 
 export function AboutPlaylistPage() {
   const dispatch = useDispatch();
   const timerRef = useRef(null);
   const dataRedux = useSelector((state) => state.data);
+  const music = useSelector((state) => state.music)
   const artist = useSelector((state) => state.data.artist);
   const [originArtist, setOriginArtist] = useState(false);
   const { activePlaylist, selectedPlaylist } = useSelector(
@@ -28,16 +28,19 @@ export function AboutPlaylistPage() {
   const totalDuration = usePlaylistDuration();
   const [isLikedPlaylist, setIsLikedPlaylist] = useLikedPlaylist();
   const gradient = useGradient();
-  const handleSongState = useSongNavigation();
-  const { day, month, year, fullDate} = useTimeStamp(selectedPlaylist.created_at)
+  const { day, month, year, fullDate} = useTimeStamp(selectedPlaylist?.created_at)
 
   const selectSong = (song) => {
     dispatch(setSelectedSong(song));
   };
 
   useEffect(() => {
-      setOriginArtist(isOriginArtistPage(artist?.artist_id, selectedPlaylist?.artist));
+    setOriginArtist(isOriginArtistPage(artist?.artist_id, selectedPlaylist?.artist));
   }, [selectedPlaylist, artist])
+
+  useEffect(() => {
+    console.log(music.song)
+  }, [music.song, music.playlist])
   
   const trackCount = selectedPlaylist?.songs?.length || 0;
 
@@ -101,7 +104,6 @@ export function AboutPlaylistPage() {
                       <Song
                         song={song}
                         index={index}
-                        songPrevNext={handleSongState}
                       />
                     </div>
                   ))

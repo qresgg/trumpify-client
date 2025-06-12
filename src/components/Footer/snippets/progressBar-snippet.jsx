@@ -38,9 +38,23 @@ export function ProgressBar({
             }
         }
     };
-    const handleMouseDown = () => {
+    const handleMouseDown = (event) => {
         setIsDragging(true);
+
+        if (progressRef.current && audioRef?.current) {
+            const rect = progressRef.current.getBoundingClientRect();
+            const offsetX = event.clientX - rect.left;
+            const newProgress = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
+
+            setProgress(Math.round(newProgress));
+
+            const newTime = (audioRef.current.duration * newProgress) / 100;
+            if (Number.isFinite(newTime)) {
+                audioRef.current.currentTime = newTime;
+            }
+        }
     };
+
 
     const handleMouseUp = () => {
         setIsDragging(false);

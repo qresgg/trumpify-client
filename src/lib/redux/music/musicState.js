@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isMusicPlaying: false,
+    currentIndex: 0,
     song: {
         selectedSong: null,
         activeSong: null,
@@ -10,7 +11,7 @@ const initialState = {
     },
     playlist: {
         selectedPlaylist: null, 
-        activePlaylist: null
+        activePlaylist: null,
     }
 };
 
@@ -24,13 +25,22 @@ const musicSlice = createSlice({
         },
         setActiveSong: (state, action) => {
             state.song.activeSong = action.payload.song;
+            state.currentIndex = action.payload.index;
             state.isMusicPlaying = true;
         },
         setPrevSong: (state, action) => {
-            state.song.prevSong = action.payload;
+            if (state.currentIndex > 0) {
+                state.currentIndex -= 1;
+                state.song.activeSong = state.playlist.activePlaylist.songs[state.currentIndex];
+            }
         },
         setNextSong: (state, action) => {
-            state.song.nextSong = action.payload;
+            if (state.playlist.activePlaylist?.songs && 
+                state.currentIndex < state.playlist.activePlaylist.songs.length - 1) 
+                {
+                state.currentIndex += 1;
+                state.song.activeSong = state.playlist.activePlaylist.songs[state.currentIndex];
+            }
         },
         setSelectedSong: (state, action ) => {
             state.song.selectedSong = action.payload;
@@ -47,6 +57,7 @@ const musicSlice = createSlice({
         stopMusic: (state) => {
             state.isMusicPlaying = false;
             state.song.activeSong = null;
+            state.currentIndex = 0;
         },
     },
 });
