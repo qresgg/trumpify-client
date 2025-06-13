@@ -113,9 +113,14 @@ export function Info({
                                         {selectedSong.features.map((feat, index) => (
                                             <div className={styles.feature} key={index}>
                                                 <div className={styles.featName}>{feat.name}</div>
-                                                <div className={styles.featRole}>{feat.roles.map((role) => (
-                                                    role.role
-                                                )).join(', ')}</div>
+                                                <div className={styles.featRole}>
+                                                    {feat.roles.map((role, idx, arr) => (
+                                                        <span key={idx} className={styles.roles}>
+                                                            {role.role}
+                                                            {idx < arr.length - 1 && <span>, </span>}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             </div>
                                         ))}
                                 </div>

@@ -8,7 +8,7 @@ export default async function fetchColors (selectedObject){
         const classifiedColors = await classifier.getClassifiedColorsObject();
         colors = ({
           lightMuted: classifiedColors.light[0] || classifiedColors.darkMuted[0] || classifiedColors.dark[0],
-          darkMuted: classifiedColors.dark[1] || '#999',
+          darkMuted: classifiedColors.dark[1] || classifiedColors.lightMuted[0] || classifiedColors.light[1],
         });
 
         return {

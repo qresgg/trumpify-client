@@ -6,6 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Pause, Play } from "lucide-react";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { usePlaybackControl } from '../../../../../../hooks/global/usePlaybackControl';
+import { setSelectedSong } from "../../../../../../lib/redux/music/musicState";
 
 export function SongItem({ item, index}) {
     const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export function SongItem({ item, index}) {
             <div className={styles.playButton} onClick={togglePlay}>
                 {isPlaying ? <Pause color="black" /> : <Play color="black" />}
             </div>
-            <div className={styles.item__container} onClick={togglePlay}>
+            <div className={styles.item__container} onClick={() => dispatch(setSelectedSong(item))}>
                 <div className={styles.cover} style={{ backgroundImage: `url(${item.song_cover})` }} />
                 <div className={styles.title} title={item.title}>{item.title}</div>
                 <div className={styles.author}>{item.features.map((feat) => feat.name).join(', ')}</div>

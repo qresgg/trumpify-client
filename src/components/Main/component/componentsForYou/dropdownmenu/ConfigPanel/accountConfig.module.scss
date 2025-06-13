@@ -17,6 +17,12 @@
     .container{
         display: flex;
         gap: 8px;
+
+        .name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
     button{
         margin: 0;

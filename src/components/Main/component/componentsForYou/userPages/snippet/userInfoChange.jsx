@@ -8,17 +8,19 @@ import { setData } from '../../../../../../lib/redux/data/dataSlice';
 import { useDispatch } from 'react-redux';
 import { getUserNameRules } from '../../../../../../services/global/functions/functions';
 import { previewFromFile } from '../../../../../../utils/custom/previewFromFile';
-import { changeAvaUserName } from '../../../../../../utils/custom/changeProfile';
+import { changeAvaUserName } from '../../../../../../utils/custom/changeUserProfile';
+import { useMessage } from '../../../../../../hooks/global/useMessage';
 
 export function InfoChange({
     onOpened
 }) {
     const dispatch = useDispatch();
+    const { message, setMessage } = useMessage()
+
     const user = useSelector((state) => state.data.user);
     const artist = useSelector((state) => state.data.artist);
     const dataRedux = useSelector((state) => state.data)
     const {register, handleSubmit, formState: { errors }, setValue} = useForm();
-    const [message, setMessage] = useState({ error: "", success: "" });
     const [previewImage, setPreviewImage] = useState(null)
 
     const [isHover, setIsHover] = useState(false)
@@ -43,7 +45,7 @@ export function InfoChange({
                 transform: 'translate(-50%, -50%)',
                 width: Math.min(500, windowSize.width * 0.8),
             }}>
-                <form onSubmit={handleSubmit((data) => changeAvaUserName(data, dataRedux, dispatch, onOpened))}>
+                <form onSubmit={handleSubmit((data) => changeAvaUserName(data, dataRedux, dispatch, onOpened, setMessage ))}>
                     <div className={styles.title}>
                         <p>Profile's info</p>
                         <button>

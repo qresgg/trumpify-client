@@ -5,13 +5,12 @@ import { isValidArtistName, isValidBio } from "../../lib/regexp";
 const changeArtistInfo = async (data, dataRedux, dispatch, setMessage) => {
     let artist = dataRedux.artist;
     let user = dataRedux.user;
-
     try {
         if (data) {
             const updates = {};
             if (data.avatar) {
                 const res = await uploadAvatar(data.avatar);
-                updates.artist_avatar = data.avatar;
+                updates.artist_avatar = res.avatarUrl;
                 setMessage({ success: res.message, error: '' });
             }
             if (data.bio) {

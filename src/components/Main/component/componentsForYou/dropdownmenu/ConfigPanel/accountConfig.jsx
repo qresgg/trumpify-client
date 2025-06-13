@@ -29,7 +29,7 @@ export function AccountConfig() {
             <div className={styles.setting}>
                 <div className={styles.container}>
                     <UserImage width={'48px'} height={'48px'}/>
-                    <div>{user.user_name}</div>
+                    <div className={styles.name}>{user.user_name}</div>
                 </div>
                 <button onClick={() => routePage("userProfile")}>View Profile</button>
             </div>
@@ -41,7 +41,7 @@ export function AccountConfig() {
             ) : (<div className={styles.setting}>
                 <div className={styles.container}>
                     <div className={styles.user_avatar}></div>
-                    <div>{artist.artist_name}</div>
+                    <div className={styles.name}>{artist.artist_name}</div>
                 </div>
                 <button onClick={() => routePage("userArtistProfile")}>View Profile</button>
             </div>)}
