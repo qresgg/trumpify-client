@@ -7,12 +7,15 @@ import { getUserData } from '../../../../../services/user/userService';
 import { setSelectedUserPage } from '../../../../../lib/redux/pages/viewSlice';
 import { isOriginPage } from '../../../../../services/auth/isOriginPage';
 import fetchColors from '../../../../../utils/custom/colorPalette';
+import { useModal } from '../../../../../hooks/useModal';
 
 export function UserProfilePage() {
     const dispatch = useDispatch();
-    const { currentUserPage } = useSelector((state) => state.view)
+    const { currentUserPage } = useSelector((state) => state.view);
+    const { modalStateUserPage } = useSelector((state) => state.view.modal);
+    const modal = useModal();
+
     const user = useSelector((state) => state.data.user)
-    const [isOpened, setIsOpened] = useState(false)
     const [updateInfo, setUpdateInfo] = useState(false);
     const [originUser, setOriginUser] = useState(false);
     const [gradient, setGradient] = useState(null);
@@ -28,24 +31,12 @@ export function UserProfilePage() {
                 console.error();
             }
         }
-
         fetchUserData();
     }, [updateInfo])
 
     useEffect(() => {
         setOriginUser(isOriginPage(user, currentUserPage));
     }, [currentUserPage, user])
-
-    
-    const handleIsOpened = (data) => {
-        setIsOpened(false);
-        if (data){
-            setUpdateInfo(!updateInfo);
-        }
-    }
-    const openModal = () => {
-        originUser && setIsOpened(true);
-    }
 
     useEffect(() => {      
         const getColors = async () => {
@@ -56,9 +47,8 @@ export function UserProfilePage() {
 
     return (
         <div className={styles.profile}>
-                { isOpened && <div className={styles.blackScreen} onClick={handleIsOpened}></div>}
                 <div className={styles.title} style={gradient}>
-                    <div className={styles.addiction} onClick={openModal}>
+                    <div className={styles.addiction} onClick={() => modal.openModal('userPage')}>
                         <div className={styles.image}>
                             <UserImage width={'210px'} height={'210px'} avatar={currentUserPage.user_avatar_url}/>
                         </div>
@@ -69,10 +59,10 @@ export function UserProfilePage() {
                         </div>
                     </div>
                 </div>
-                <div className={styles.statistic}>  
+                <div className={styles.statistic}>
+
                 </div>
-            
-            { isOpened &&  <InfoChange onOpened={handleIsOpened}/> }
+            { modalStateUserPage && <InfoChange /> }
         </div>
     )
 }

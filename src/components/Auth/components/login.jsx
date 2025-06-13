@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { useDispatch } from 'react-redux';
+import { useMessage } from '../../../hooks/global/useMessage';
 
 export function Login ({
     switchAuth
@@ -30,8 +31,8 @@ export function Login ({
                     <div className={styles.contik}>
                         <div className={styles.auth__container__logo}></div>
                         <form onSubmit={handleSubmit(handleLogin)}>
-                            {message?.error && <p style={{ color: 'red' }}>{message?.error}</p>}
-                            {message?.success && <p style={{ color: 'green' }}>{message?.success}</p>}
+                            {message?.error && <p className='error'>{message?.error}</p>}
+                            {message?.success && <p className='success'>{message?.success}</p>}
                             <div className={styles.section}>Log in</div>
 
                             <div className={styles.inputData}>

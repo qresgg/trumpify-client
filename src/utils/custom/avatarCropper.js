@@ -15,8 +15,8 @@ function getCroppedImg(imageSrc, croppedAreaPixels) {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 
-        canvas.width = 1280;
-        canvas.height = 720;
+        canvas.width = 500;
+        canvas.height = 500;
 
         ctx.drawImage(
             image,
@@ -35,13 +35,13 @@ function getCroppedImg(imageSrc, croppedAreaPixels) {
                 reject(new Error("Canvas is empty"));
                 return;
             }
-            blob.name = "banner.png";
+            blob.name = "avatar.png";
             resolve(blob);
         }, "image/png");
     });
 }
 
-export default function BannerCropper({ onSave, mod }) {
+export default function AvatarCropper({ onSave, mod }) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -65,15 +65,15 @@ export default function BannerCropper({ onSave, mod }) {
     const handleSave = async () => {
         try {
             const blob = await getCroppedImg(imageSrc, croppedAreaPixels);
-            const file = new File([blob], "banner.png", { type: "image/png" });
-            onSave(file);
+            const file = new File([blob], "avatar.png", { type: "image/png" });
+            onSave(file, mod);
         } catch (e) {
             console.error(e);
         }
     };
 
     return (
-        <div style={{ width: 640, margin: "0 auto", fontFamily: "sans-serif" }}>
+        <div style={{ width: "100%", margin: "0 auto", fontFamily: "sans-serif" }}>
             <div style={{ marginBottom: 10 }}>
                 <input type='file' accept='image/*' onChange={onFileChange} />
             </div>
@@ -83,7 +83,7 @@ export default function BannerCropper({ onSave, mod }) {
                     <div
                         style={{
                             position: "relative",
-                            width: "640px",
+                            width: "100%",
                             height: "360px",
                             background: "#333",
                             marginBottom: 10,
@@ -93,7 +93,7 @@ export default function BannerCropper({ onSave, mod }) {
                             image={imageSrc}
                             crop={crop}
                             zoom={zoom}
-                            aspect={16 / 9}
+                            aspect={4 / 4}
                             onCropChange={setCrop}
                             onZoomChange={setZoom}
                             onCropComplete={onCropComplete}

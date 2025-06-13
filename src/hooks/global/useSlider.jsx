@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import React from 'react';
+import { useSelector } from "react-redux";
 
 export function useSlider(){
     const containerRef = useRef(null);
     const [ itemsShow, setItemsShow ] = useState(null)
+    const selectedSong = useSelector((state) => state.music.song.selectedSong)
 
     useEffect(() => {
         const updateItemsShow = () => {
@@ -17,13 +20,50 @@ export function useSlider(){
         updateItemsShow();
         window.addEventListener('resize', updateItemsShow);
         return () => window.removeEventListener('resize', updateItemsShow);
-    }, []);
+    }, [selectedSong]);
 
     const settings = {
-      infinite: true,
+      infinite: false,
       speed: 500,
       slidesToShow: itemsShow,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      arrows: false,
+      draggable: true,
+      swipe: true,
+      dots: true,
+      customPaging: i => (
+        <div style={{
+            width: "8px",
+            height: "8px",
+            backgroundColor: "black",
+            borderRadius: "50%"
+        }} />
+        ),
+        appendDots: dots => (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <ul style={{ display: "flex", padding: 0 }}>
+                    {
+                    dots.map((dot, index) => (
+                        <li
+                        key={index}
+                        className={dot.props.className} 
+                        style={{
+                            listStyle: "none"
+                        }}
+                        >
+                        {React.cloneElement(dot.props.children, {
+                            style: {
+                            ...dot.props.children.props.style,
+                            backgroundColor: dot.props.className.includes("slick-active") ? "white" : "black"
+                            }
+                        })}
+                        </li>
+                    ))
+                    }
+                </ul>
+            </div>
+        )
+        
     }
 
     return { settings, containerRef }

@@ -2,7 +2,7 @@ import { setData } from "../../lib/redux/data/dataSlice";
 import { uploadAvatar, updateUserName } from "../../services/user/changeData/userDataChange";
 import { isValidUserName } from "../../lib/regexp";
 
-const changeAvaUserName = async (data, dataRedux, dispatch, onOpened, setMessage) => {
+const changeAvaUserName = async (data, dataRedux, dispatch, setMessage) => {
     let user = dataRedux.user;
     let artist = dataRedux.artist;
     try {
@@ -21,11 +21,10 @@ const changeAvaUserName = async (data, dataRedux, dispatch, onOpened, setMessage
                 setMessage({ success: res.message, error: '' });
             }
             dispatch(setData({ user: { ...user, ...updates }, artist }));
-            onOpened(data);
         }
     } catch (error) {
         setMessage({ success: '', error: error.message });
-        console.error(error);
+        console.error("Server Error");
     }
 }
 

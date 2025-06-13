@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { login, logout, checkAuth, register } from "../services/auth/authService";
-import { fetchUserData } from "../services/user/fetchData/fetchUserData";
 import { useDispatch, useSelector } from "react-redux";
-import { setData as setReduxData } from "../lib/redux/data/dataSlice";
 import { setAuthenticated } from "../lib/redux/data/dataSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "../lib/regexp";
+
+import { useMessage } from "./global/useMessage";
 
 export function useAuth() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.data);
-  const [ message, setMessage ] = useState({ success: "", error: "" });
+  const { message, setMessage } = useMessage();
 
   const handleLogout = async () => {
     try {

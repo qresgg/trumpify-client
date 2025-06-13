@@ -9,9 +9,7 @@ import { useResizable } from '../../hooks/useResizable';
 export function Main() {
     const library = useResizable(370);
     const info = useResizable(370);
-
-    const isResizing = useSelector((state) => state.isResizing);
-    
+    const isResizing = useSelector((state) => state.isResizing);  
 
     return (
         <div className={styles.main} style={{ userSelect: isResizing ? 'none' : 'auto' }}>

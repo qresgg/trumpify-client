@@ -21,7 +21,7 @@ export function UserArtistProfilePage() {
     return (
         <div className={styles.profile}>
             <div className={styles.header}></div>
-            <div className={styles.title} style={{ backgroundImage: `url(${currentArtistPage.artist_banner})` }}>
+            <div className={styles.title} style={{ backgroundImage: `url(${currentArtistPage?.artist_banner})` }}>
                 <div className={styles.addiction}>
                     <div className={styles.info}>
                         <div className={styles.backgroundBlur}></div>

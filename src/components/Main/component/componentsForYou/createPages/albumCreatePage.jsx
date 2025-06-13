@@ -64,7 +64,7 @@ export function AlbumCreatePage() {
     } 
     return (
         <div className={styles.main}>
-            { modalStateSongCreate && <div className={styles.blackScreen} onClick={() => modal.closeModal()}></div>}
+            { modalStateSongCreate && <div className={styles.blackScreen} onClick={() => modal.closeModal('songCreate')}></div>}
             <div className={styles.main__container} ref={contentRef}>
                 <div className={styles.main__container__header}>
                     <p className={styles.white}>Album  </p>

@@ -7,9 +7,7 @@ import { UserImage } from '../../hooks/UserImage';
 import { SearchBar } from './snippet/searchBar-snippet';
 import { useAuth } from '../../hooks/useAuth';
 
-export function Header ({
-    onLogout
-}) {
+export function Header () {
     const dispatch = useDispatch();
     const [isDDMenuOpen, setIsDDMenuOpen] = useState(false);
     const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false);
