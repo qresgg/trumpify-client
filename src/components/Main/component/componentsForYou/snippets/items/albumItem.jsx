@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Pause, Play } from "lucide-react";
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { usePlaybackControl } from '../../../../../../hooks/global/usePlaybackControl';
 import { useSingleSong } from '../../../../../../hooks/song/useSingleSong';
 
