@@ -1,5 +1,5 @@
 import styles from './createForm.module.scss'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { useState, useRef, useEffect } from 'react';
 import { createAlbum } from '../../../../../services/artist/artistService';
 import { CreateSongAlbum } from './createSongAlbum';
@@ -7,28 +7,38 @@ import { X } from 'lucide-react'
 import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
 import { useModal } from '../../../../../hooks/useModal';
 import { useSelector } from 'react-redux';
+import { useMessage } from '../../../../../hooks/global/useMessage'
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export function AlbumCreatePage() {
-    const { register, handleSubmit, formState: { errors }, setValue, reset} = useForm();
+    const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm();
     const modal = useModal();
+    const { message, setMessage } = useMessage();
+
     const { modalStateSongCreate } = useSelector((state) => state.view.modal)
-    const [previewImage, setPreviewImage] = useState('');
+    const [ previewImage, setPreviewImage ] = useState('');
     const [songs, setSongs] = useState([]);
     const contentRef = useRef();
-    const [message, setMessage] = useState({ success: '', error: '' })
     const [ isHover, setIsHover ] = useState(null);
     const [editingSongIndex, setEditingSongIndex] = useState(null);
 
-
     const onSubmit = async (data) => {
         try {
-            await createAlbum(data, songs);
-            setMessage({ success: "Album has been created successfully", error: ''})
-            reset();
+            const res = await createAlbum(data, songs);
+            setMessage({ success: res?.message || "Album has been created successfully" })
+            clearOldData();
         } catch (error) {
-            setMessage({ success: '', success: "Error during creation album!"})
+            setMessage({ success: error.response || "Error during creation album!"})
             console.error(error.response ? error.response.data : error);
         }
+    }
+
+    const clearOldData = () => {
+        reset();
+        setSongs([]);
+        setPreviewImage('')
     }
 
     const addSong = (newSong) => {
@@ -167,6 +177,34 @@ export function AlbumCreatePage() {
                                     <p>Private?</p>
                                 </label>
                                 <input type="checkbox" {...register('privacy')}/>
+                            </div>
+                            <div className={styles.albumDetails__rightContainer__data}>
+                                <label>
+                                    <p>Date</p>
+                                    <p className={styles.red}>*</p>
+                                </label>
+                                <Controller
+                                    name="date"
+                                    control={control}
+                                    defaultValue={null}
+                                    rules={{ required: "Choose date" }}
+                                    render={({ field, fieldState }) => (
+                                        <>
+                                            <DatePicker
+                                                placeholderText="Choose date"
+                                                selected={field.value}
+                                                onChange={(date) => {
+                                                    const iso = date?.toISOString() || "";
+                                                    setValue("date", iso, { shouldValidate: true });
+                                                }}
+                                                dateFormat="yyyy-MM-dd"
+                                            />
+                                            {fieldState.error && (
+                                                <p className='error'>{fieldState.error.message}</p>
+                                            )}
+                                        </>
+                                    )}
+                                />
                             </div>
                             <div className={styles.albumDetails__rightContainer__data}>
                                 <label>

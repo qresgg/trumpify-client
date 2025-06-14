@@ -26,7 +26,7 @@ export function useSlider(){
       infinite: false,
       speed: 500,
       slidesToShow: itemsShow,
-      slidesToScroll: 1,
+      slidesToScroll: itemsShow,
       arrows: false,
       draggable: true,
       swipe: true,
@@ -40,7 +40,7 @@ export function useSlider(){
         }} />
         ),
         appendDots: dots => (
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", bottom: '-35px'}}>
                 <ul style={{ display: "flex", padding: 0 }}>
                     {
                     dots.map((dot, index) => (

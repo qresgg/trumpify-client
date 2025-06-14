@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { useDispatch } from 'react-redux';
-import { useMessage } from '../../../hooks/global/useMessage';
+import { setAuthView } from '../../../lib/redux/pages/viewSlice';
 
 export function Login ({
     switchAuth
@@ -38,7 +38,7 @@ export function Login ({
                             <div className={styles.inputData}>
                                 <label>Email</label>
                                 <input type="email"{...register('email')}/>
-                                {errors.email && <p>{errors.email.message}</p>}
+                                {errors.email && <p className='error'>{errors.email.message}</p>}
                             </div>
 
                             <div className={styles.inputData}>
@@ -47,7 +47,7 @@ export function Login ({
                                 <div className={styles.showButton} 
                                     onMouseDown={() => toggleVisibility('input1')} 
                                     onMouseUp={() => toggleVisibility('input1')}>{visibility.input1 ? 'Hide' : 'Show'}</div>
-                                {errors.password && <p>{errors.password.message}</p>}
+                                {errors.password && <p className='error'>{errors.password.message}</p>}
                             </div>
 
                             <div className={styles.authButton}>
@@ -58,7 +58,7 @@ export function Login ({
                         <div className={styles.breakLine}></div>
                         <div className={styles.loginButton}>
                             <div className={styles.loginButton__text}>Don't have an account?</div>
-                            <div className={styles.loginButton__button} onClick={switchAuth}>Sign up</div>
+                            <div className={styles.loginButton__button} onClick={() => dispatch(setAuthView('register'))}>Sign up</div>
                         </div>
                         <div className={styles.footer}>
                             {!isAdClosed && (

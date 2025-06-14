@@ -1,19 +1,15 @@
 import { Registration } from "./components/registration";
 import { Login } from "./components/login";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
+import { useSelector } from "react-redux";
 
 export function Auth () {
-    const [isLogin, setIsLogin] = useState(true); 
-
-    const switchAuth = () => {
-        setIsLogin(!isLogin);   
-    }
-
+    const auth = useSelector((state) => state.view.auth);
+    
     return (
-        <>
-            {isLogin
-            ? (<Login switchAuth={switchAuth} />)
-            : (<Registration switchAuth={switchAuth} />)}
-        </>
+        <Fragment>
+            {auth.currentView === "login" && <Login />}
+            {auth.currentView === "register" && <Registration />}
+        </Fragment>
     )
 }

@@ -13,6 +13,9 @@ const viewSlice = createSlice({
       modalStateHomePage: false,
       modalStateUserPage: false,
       modalStateShowCropperUserPage: false
+    },
+    auth: {
+      currentView: 'login'
     }
   },
   reducers: {
@@ -43,6 +46,10 @@ const viewSlice = createSlice({
     },
     setModalStateShowCropperUserPage: (state, action) => {
       state.modal.modalStateShowCropperUserPage = action.payload;
+    },
+
+    setAuthView: (state, action) => {
+      state.auth.currentView = action.payload;
     }
   },
 });
@@ -57,6 +64,8 @@ export const {
   setModalStateSongCreate,
   setModalStateHomePage,
   setModalStateUserPage,
-  setModalStateShowCropperUserPage
+  setModalStateShowCropperUserPage,
+
+  setAuthView
 } = viewSlice.actions;
 export default viewSlice.reducer;

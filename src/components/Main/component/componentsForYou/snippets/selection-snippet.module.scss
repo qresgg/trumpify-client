@@ -210,14 +210,3 @@
 .slick-slide{
     min-width: 100%;
 }
-
-.slick-dots li button::before {
-  font-size: 12px;
-  color: white; 
-  opacity: 0.5;
-}
-
-.slick-dots li.slick-active button:before {
-  color: red !important;
-  opacity: 1;
-}

@@ -20,7 +20,7 @@ export function SongItem({ item, index}) {
             <div className={styles.item__container} onClick={() => dispatch(setSelectedSong(item))}>
                 <div className={styles.cover} style={{ backgroundImage: `url(${item.song_cover})` }} />
                 <div className={styles.title} title={item.title}>{item.title}</div>
-                <div className={styles.author}>{item.features.map((feat) => feat.name).join(', ')}</div>
+                <div className={styles.author}>{item.features.filter(feat => feat.roles.some(role => role.role === 'main vocal')).map((feat) => feat.name).join(', ')}</div>
             </div>
         </div>
     );

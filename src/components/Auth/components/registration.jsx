@@ -1,15 +1,13 @@
 import styles from '../auth.module.scss'
 import { useEffect, useState } from 'react';
-import { isValidEmail, isValidPassword, isValidUserName} from '../../../lib/regexp';
 import { Check, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '../../../hooks/useAuth';
+import { setAuthView } from '../../../lib/redux/pages/viewSlice';
 
-export function Registration ({
-    switchAuth
-}) {
+export function Registration () {
     const dispatch = useDispatch();
     const { register: hookRegister, handleSubmit, formState: { errors }, setValue } = useForm();
     const { message, handleRegistration } = useAuth();
@@ -118,7 +116,7 @@ export function Registration ({
                         <div className={styles.breakLine}></div>
                         <div className={styles.loginButton}>
                             <div className={styles.loginButton__text}>Already have an account?</div>
-                            <div className={styles.loginButton__button} onClick={switchAuth}>Log in here</div>
+                            <div className={styles.loginButton__button} onClick={() => dispatch(setAuthView('login'))}>Log in here</div>
                         </div>
                         <div className={styles.footer}>
                             {!isAdClosed && (
