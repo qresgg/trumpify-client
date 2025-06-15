@@ -31,7 +31,8 @@ export function SongPageCreate () {
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
-                const res = await createSong({ data, artists })
+                const formData = { ...data, artists: JSON.stringify(artists)}
+                const res = await createSong(formData)
                 setMessage({ success: res ? res.message : 'Song has been created successfully' })
             } else {
                 setMessage({ error: 'Song must have at least 1 artist'})
