@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useModal } from '../../../../../hooks/useModal';
 import { handleAudioFileChange } from '../../../../../utils/custom/durationFromFile';
+import { useMessage } from '../../../../../hooks/global/useMessage';
+import { useArtistsRoleActions } from '../../../../../hooks/album/useArtistsRoleActions';
 
 export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex }) {
     const modal = useModal();
@@ -17,8 +19,8 @@ export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex })
             audio: songToEdit ? songToEdit.audio : null
         }
     });
-    const [ message, setMessage ] = useState({ success: '', error: '' });
-    const [ artists, setArtists ] = useState([]);
+    const { removeArtist, removeRoleFromArtist, addArtistWithRole, artists, setArtists } = useArtistsRoleActions();
+    const { message, setMessage } = useMessage();
     const [ songFileChosen, setSongFileChosen ] = useState(false);
     const [ audioFront, setAudioFront ] = useState(null);
 
@@ -31,69 +33,42 @@ export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex })
     }, []);
 
     useEffect(() => { 
-        songToEdit && songToEdit.artists.map((song) => {
-            addArtistWithRole(song.name, song.roles.map(role => role.name));
-        })
+        if (songToEdit && Array.isArray(songToEdit.artists)) {
+            songToEdit.artists.forEach((artist) => {
+                if (artist?.name && Array.isArray(artist.roles)) {
+                    const roles = Array.isArray(artist.roles[0])
+                        ? artist.roles[0]
+                        : artist.roles;
+
+                    addArtistWithRole(artist.name, roles);
+                }
+            });
+        }
     }, [songToEdit]);
 
     const onSubmit = async (data) => {
         try {
             if(artists.length !== 0) {
                 // console.log('data', {...data, artists});
+                console.log(artists)
                 sendSong({ ...data, artists });
-                setMessage({ success: 'Song created successfully', error: ''});
+                setMessage({ success: 'Song created successfully' });
                 reset();
                 setArtists([])
                 clearEditingSongIndex();
                 modal.closeModal('songCreate');
             } else {
-                setMessage({ success: '', error: 'Error song cant be created without artist and role'});
+                setMessage({ error: 'Error song cant be created without artist and role'});
             }
         } catch (error) {
-            setMessage({ success: '', error: 'Error during creation song'});
+            setMessage({ error: 'Error during creation song' });
             console.error(error.response ? error.response.data : error);
         }
-    };
-    const removeArtist = (artistIndex) => {
-        setArtists((prevArtists) => prevArtists.filter((_, index) => index !== artistIndex));
-    };
-
-    const removeRoleFromArtist = (artistName, role) => {
-        setArtists((prevArtists) => {
-            return prevArtists.map((artist) => {
-                if (artist.name === artistName) {
-                    return { ...artist, roles: artist.roles.filter((r) => r !== role) };
-                }
-                return artist;
-            }).filter((artist) => artist.roles.length > 0);
-        });
-    };
-    const addArtistWithRole = (artistName, role) => {
-        setArtists((prevArtists) => {
-            const existingArtist = prevArtists.find((artist) => artist.name === artistName);
-            if (existingArtist) {
-                const updatedArtists = prevArtists.map((artist) => {
-                    if (artist.name === artistName && !artist.roles.includes(role)) {
-                        return { ...artist, roles: [...artist.roles, role] };
-                    }
-                    return artist;
-                });
-                return updatedArtists;
-            }
-            return [...prevArtists, { name: artistName, roles: [role] }];
-        });
     };
 
     return (
         <>
-            <div className={styles.mainModal} style={{
-                position: 'fixed',
-                top: '32%',
-                left: '51%',
-                transform: 'translate(-50%, -50%)',
-                width: Math.min(500, windowSize.width * 0.8),
-                height: Math.min(300, windowSize.height * 0.5)
-            }}>
+            <div className={styles.mainModal}>
                 <div className={styles.mainModal__container}>
                     <div className={styles.closeWindow}>
                         <p>loaded song name = {audioFront?.name || songToEdit?.audio.name}</p>
@@ -178,7 +153,7 @@ export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex })
                                             const selectedRole = e.target.value;
                                             if (artists.length > 0) {
                                                 const lastArtist = artists[artists.length - 1];
-                                                addArtistWithRole(lastArtist.name, selectedRole, setArtists); 
+                                                addArtistWithRole(lastArtist.name, selectedRole); 
                                             }
                                         }}>
                                             <option value="" disabled>-_-_-Choose Role-_-_-</option>

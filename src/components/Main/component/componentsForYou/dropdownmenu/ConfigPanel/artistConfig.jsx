@@ -14,7 +14,7 @@ export const ArtistConfig = () => {
     const { message, setMessage } = useMessage()
     
     const [ showCropper, setShowCropper ] = useState(false);
-    const [ mode, setMode ] = useState({ avatar: false });
+    const [ mode, setMode ] = useState({ type: null });
 
     const [ previewImage, setPreviewImage ] = useState({
         avatar: '',
@@ -35,13 +35,13 @@ export const ArtistConfig = () => {
 
         const reader = new FileReader();
         reader.onloadend = () => {
-            if (mode?.avatar) {
+            if (mode?.type === 'avatar') {
                 setPreviewImage(prev => ({
                     ...prev,
                     avatar: `url(${reader.result})`
                 }));
                 setValue('avatar', file)
-            } else {
+            } else if (mode?.type === 'banner'){
                 setPreviewImage(prev => ({
                     ...prev,
                     banner: `url(${reader.result})`
@@ -70,7 +70,7 @@ export const ArtistConfig = () => {
                                 <div className={styles.content__preview}
                                     onClick={() => {
                                         setShowCropper(true)
-                                        setMode({ avatar: false })
+                                        setMode({ type: 'banner' })
                                     }}
                                     style={{ backgroundImage: previewImage?.banner }}>
                                 </div>
@@ -88,7 +88,7 @@ export const ArtistConfig = () => {
                                     <div className={styles.avatar}
                                         onClick={() => {
                                             setShowCropper(true)
-                                            setMode({ avatar: true })
+                                            setMode({ type: 'avatar' })
                                         }}
                                         style={{ backgroundImage: previewImage?.avatar }}> 
                                     </div>

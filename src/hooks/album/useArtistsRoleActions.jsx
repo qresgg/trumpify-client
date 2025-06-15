@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from 'react'
 
 export function useArtistsRoleActions() {
     const dispatch = useDispatch();
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
+    const [ artists, setArtists ] = useState([]);
   
-
     const removeArtist = (artistIndex, setArtists) => {
         setArtists((prevArtists) => prevArtists.filter((_, index) => index !== artistIndex));
     };
 
-    const removeRoleFromArtist = (artistName, role, setArtists) => {
+    const removeRoleFromArtist = (artistName, role) => {
         setArtists((prevArtists) => {
             return prevArtists.map((artist) => {
                 if (artist.name === artistName) {
@@ -19,7 +20,7 @@ export function useArtistsRoleActions() {
             }).filter((artist) => artist.roles.length > 0);
         });
     };
-    const addArtistWithRole = (artistName, role, setArtists) => {
+    const addArtistWithRole = (artistName, role) => {
         setArtists((prevArtists) => {
             const existingArtist = prevArtists.find((artist) => artist.name === artistName);
             if (existingArtist) {
@@ -35,5 +36,5 @@ export function useArtistsRoleActions() {
         });
     };
 
-    return { removeArtist, removeRoleFromArtist, addArtistWithRole };
+    return { removeArtist, removeRoleFromArtist, addArtistWithRole, artists, setArtists };
 }

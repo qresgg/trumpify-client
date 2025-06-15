@@ -3,20 +3,52 @@ import styles from './userArtistProfilePage.module.scss'
 import { Song } from '../../../snippets/song-snippet';
 import { usePopularSongs } from '../../../../../hooks/artist/usePopularSongs';
 import { useEffect, useState } from 'react';
-import { setActivePlaylist } from '../../../../../lib/redux/music/musicState';
+import { setActivePlaylist, setSelectedPlaylist } from '../../../../../lib/redux/music/musicState';
+import getPopularSongsArtistPage from '../../../../../services/artist/data/get/popularSongsData';
+import { Selection } from '../snippets/selection-snippet';
+import getSongData from '../../../../../services/artist/data/get/songData';
+import getArtistReleases from '../../../../../services/artist/data/get/artistReleases';
+
 export function UserArtistProfilePage() {
     const dispatch = useDispatch()
     const { currentArtistPage } = useSelector((state) => state.view)
-    const songs = usePopularSongs();
-    const halfSongs = songs ? songs.slice(0, 5) : [];
+    const [songs, setSongs] = useState({});
+    const [halfSongs, setHalfSongs] = useState()
     const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
-        const artistPages = {
-            songs: songs
+        const getPopSongs = async () => {
+            try {
+                const res = await getPopularSongsArtistPage(currentArtistPage.artist_id);
+                if (res) {
+                    dispatch(setActivePlaylist({ songs: res}));
+                    dispatch(setSelectedPlaylist({ songs: res}));
+                    setSongs(res);
+                } else {
+                    setSongs(null)
+                }
+            } catch (error) {
+                console.error(error)
+            }
         }
-        songs && dispatch(setActivePlaylist(artistPages))
-    }, [songs])
+        const getReleases = async () => {
+            try {
+                const res = await getArtistReleases(currentArtistPage.artist_id);
+                console.log('RESPONSSE', res);
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        getPopSongs();
+        getReleases();
+    }, [currentArtistPage])
+
+    // useEffect(() => {
+    //     const artistPages = {
+    //         songs: songs
+    //     }
+    //     songs && dispatch(setActivePlaylist(artistPages))
+    // }, [currentArtistPage])
 
     return (
         <div className={styles.profile}>
@@ -45,43 +77,38 @@ export function UserArtistProfilePage() {
                                     <div className={styles.tabulation__duration}>Dur</div>
                                 </div>
                             </div>
-                            <div className={styles.songs__plate}>
-                                {isExpanded ? (
-                                    Array.isArray(songs) ? (
-                                        songs.map((song, index) => (
-                                        <Song
-                                            song={song}
-                                            index={index}
-                                        />
-                                    ))) : (
-                                        <div>LOADING...</div>
-                                    )
-                                ) : (
-                                    Array.isArray(halfSongs) ? (
-                                        halfSongs.map((song, index) => (
-                                        <Song
-                                            song={song}
-                                            index={index}
-                                        />
-                                    ))) : (
-                                        <div>LOADING...</div>
-                                    )
-                                )}
-                                <div className={styles.songs__plate__button} onClick={() => setIsExpanded(!isExpanded)}>Show more</div>
-                            </div>
+                            {songs && (
+                                <div className={styles.songs__plate}>
+                                    {isExpanded ? (
+                                        Array.isArray(songs) ? (
+                                            songs.map((song, index) => (
+                                            <Song
+                                                song={song}
+                                                index={index}
+                                            />
+                                        ))) : (
+                                            <div>LOADING...</div>
+                                        )
+                                    ) : (
+                                        Array.isArray(songs) ? (
+                                            songs.map((song, index) => (
+                                            <Song
+                                                song={song}
+                                                index={index}
+                                            />
+                                        ))) : (
+                                            <div>LOADING...</div>
+                                        )
+                                    )}
+                                    <div className={styles.songs__plate__button} onClick={() => setIsExpanded(!isExpanded)}>Show more</div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div className={styles.artist_chose}></div>
                 <div className={styles.music}>
-                    <div className={styles.music__header}>
-                        <div className={styles.music__header__title}>Disk</div>
-                        <div className={styles.music__header__showall}></div>
-                    </div>
-                    <div className={styles.music__tags}></div>
-                    <div className={styles.music__list}>
-
-                    </div>
+                    <Selection title="Discography" fetchFunction={getArtistReleases} id={currentArtistPage.artist_id}/>
                 </div>
             </div>
         </div>

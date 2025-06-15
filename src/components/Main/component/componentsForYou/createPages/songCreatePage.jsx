@@ -1,92 +1,73 @@
 import styles from './createForm.module.scss'
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { createSong } from '../../../../../services/artist/artistService';
 import { X } from 'lucide-react';
-import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
 import { handleAudioFileChange } from '../../../../../utils/custom/durationFromFile';
+import { useMessage } from '../../../../../hooks/global/useMessage';
+import { useArtistsRoleActions } from '../../../../../hooks/album/useArtistsRoleActions';
+import { usePreviewImage } from '../../../../../hooks/global/usePreviewImage';
+import CoverCropper from '../../../../../utils/custom/coverCropper';
+import ModalOverlay from '../../../snippets/ModalOverlay';
+import { useModal } from '../../../../../hooks/useModal';
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export function SongPageCreate () {
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
-    const [ previewImage, setPreviewImage ] = useState(null);
-    const [ artists, setArtists ] = useState([]);
-    const [ message, setMessage ] = useState({ success: '', error: '' })
+    const { register, handleSubmit, formState: { errors }, setValue, control } = useForm();
+    const { removeArtist, removeRoleFromArtist, addArtistWithRole, artists, setArtists } = useArtistsRoleActions();
+    const { handleSave, previewImage, setPreviewImage } = usePreviewImage({ setValue });
+
+    const { modalStateShowCropperCover } = useSelector((state) => state.view.modal);
+
+    const modal = useModal()
+    const [ mode, setMode ] = useState({ type: 'songCover' });
+    const { message, setMessage } = useMessage()
     const [ songFileChosen, setSongFileChosen ] = useState(null)
     const [ isHover, setIsHover ] = useState(null);
 
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
-                const formData = { ...data, artists: JSON.stringify(artists) };
-                await createSong(formData)
-                setMessage({ success: 'Song has been created successfully', error: '' })
+                const res = await createSong({ data, artists })
+                setMessage({ message: res ? res.message : 'Song has been created successfully' })
             } else {
-                setMessage({ success: '', error: 'Song must have at least 1 artist'})
+                setMessage({ error: 'Song must have at least 1 artist'})
             }
         } catch (error) {
-            setMessage({ success: '', error: 'Error during creation song '})
+            setMessage({ error: error.response.data || 'Error during creation song '})
             console.error(error.response ? error.response.data : error);
         }
     }
 
-    const addArtistWithRole = (artistName, role) => {
-        setArtists((prevArtists) => {
-            const existingArtist = prevArtists.find((artist) => artist.name === artistName);
-            if (existingArtist) {
-                const updatedArtists = prevArtists.map((artist) => {
-                    if (artist.name === artistName && !artist.roles.includes(role)) {
-                        return { ...artist, roles: [...artist.roles, role] };
-                    }
-                    return artist;
-                });
-                return updatedArtists;
-            }
-            return [...prevArtists, { name: artistName, roles: [role] }];
-        });
-    };
-
-    const removeArtist = (artistIndex) => {
-        setArtists((prevArtists) => prevArtists.filter((_, index) => index !== artistIndex));
-    };
-
-    const removeRoleFromArtist = (artistName, role) => {
-        setArtists((prevArtists) => {
-            return prevArtists.map((artist) => {
-                if (artist.name === artistName) {
-                    return { ...artist, roles: artist.roles.filter((r) => r !== role) };
-                }
-                return artist;
-            }).filter((artist) => artist.roles.length > 0);
-        });
-    };
-
     return (
-        <>
-            <div className={styles.main}>
-                <div className={styles.main__container}>
-                    <div className={styles.main__container__header}>
-                        <p className={styles.white}>Create a </p>
-                        <p className={styles.green}>new song.</p>
-                    </div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={(e) => handleAudioFileChange(e, setValue, setSongFileChosen)}/>
-                        {!songFileChosen && (
-                        <div className={styles.songFile}>
-                            <div className={styles.songFile__caption}>
-                                <p className={styles.white}>Upload your </p>
-                                <p className={styles.green}>audio file.</p>
-                            </div>
-                            <div className={styles.songFile__description}>Mp3, under 10mb</div>
-                            <div className={styles.songFile__container} onClick={() => document.getElementById("audioFile")?.click()}>
-                                <div className={styles.songFile__container__image}></div>
-                                <div className={styles.songFile__container__caption}></div>
-                                <div className={styles.songFile__container__button}>
-                                    Choose files
-                                </div>
+        <div className={styles.main}>
+            <div className={styles.main__container}>
+                <div className={styles.main__container__header}>
+                    <p className={styles.white}>Create a </p>
+                    <p className={styles.green}>new song.</p>
+                </div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={(e) => handleAudioFileChange(e, setValue, setSongFileChosen)}/>
+                    {!songFileChosen && (
+                    <div className={styles.songFile}>
+                        <div className={styles.songFile__caption}>
+                            <p className={styles.white}>Upload your </p>
+                            <p className={styles.green}>audio file.</p>
+                        </div>
+                        <div className={styles.songFile__description}>Mp3, under 10mb</div>
+                        <div className={styles.songFile__container} onClick={() => document.getElementById("audioFile")?.click()}>
+                            <div className={styles.songFile__container__image}></div>
+                            <div className={styles.songFile__container__caption}></div>
+                            <div className={styles.songFile__container__button}>
+                                Choose files
                             </div>
                         </div>
-                        )}
-                        {songFileChosen && (
+                    </div>
+                    )}
+                    {songFileChosen && (
                         <div className={styles.songDetails}>
                             <div className={styles.upperContainer}>
                                 {message.error && <p className='error'>{message.error}</p>}
@@ -97,19 +78,12 @@ export function SongPageCreate () {
                                     <div className={styles.file}
                                         onMouseEnter={() => setIsHover(true)}
                                         onMouseLeave={() => setIsHover(false)}>
-                                        <input 
-                                            type="file" 
-                                            accept="image/*"
-                                            {...register('cover')} 
-                                            onChange={(e) => previewFromFile(e, setPreviewImage, setValue, 'cover')} 
-                                            style={{ display: 'none'}}
-                                            id="imageFile"/>
                                         <div className={styles.preview}>
-                                            {previewImage && <div className={styles.preview__art} style={{ backgroundImage: previewImage }}></div>}
+                                            {previewImage && <div className={styles.preview__art} style={{ backgroundImage: previewImage?.songCover }}></div>}
                                             {isHover && (
                                                 <>
                                                     <div className={styles.preview__blackscreen}></div>
-                                                    <div className={styles.preview__choose} onClick={() => document.getElementById('imageFile')?.click()}>Choose song cover</div>
+                                                    <div className={styles.preview__choose} onClick={() => modal.closeModal('showCropperCover')}>Choose song cover</div>
                                                 </>
                                             )}
                                         </div>
@@ -143,11 +117,47 @@ export function SongPageCreate () {
                                         {errors.genre && <p>{errors.genre.message}</p>}
                                     </div>
                                     <div className={styles.songDetails__rightContainer__data}>
-                                        <label>
-                                            <p>Does your song have explicit lyrics?</p>
-                                        </label>
-                                        <input type="checkbox" {...register('explicit')} />
-                                        {errors.explicit && <p>{errors.explicit.message}</p>}
+                                        <div className={styles.songDetails__rightContainer__data__double}>
+                                            <div className={styles.double__container}>
+                                                <label className={styles.label}>
+                                                    <p className={styles.double__container__p}>Does your song have explicit lyrics?</p>
+                                                </label>
+                                                <input type="checkbox" {...register('explicit')} />
+                                                {errors.explicit && <p className='error'>{errors.explicit.message}</p>}
+                                            </div>
+                                            <div className={styles.double__container}>
+                                                <label className={styles.label}>
+                                                    <p>Date</p>
+                                                    <p className={styles.red}>*</p>
+                                                </label>
+                                                <Controller
+                                                    name="date"
+                                                    control={control}
+                                                    defaultValue={null}
+                                                    rules={{ required: "Choose date" }}
+                                                    render={({ field, fieldState }) => (
+                                                        <>
+                                                            <DatePicker
+                                                                placeholderText="Choose date"
+                                                                selected={field.value}
+                                                                showMonthDropdown
+                                                                showYearDropdown
+                                                                maxDate={new Date()}
+
+                                                                onChange={(date) => {
+                                                                    const iso = date?.toISOString() || "";
+                                                                    setValue("date", iso, { shouldValidate: true });
+                                                                }}
+                                                                dateFormat="yyyy-MM-dd"
+                                                            />
+                                                            {fieldState.error && (
+                                                                <p className='error'>{fieldState.error.message}</p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className={styles.songDetails__rightContainer__data}>
                                         <label>
@@ -203,7 +213,7 @@ export function SongPageCreate () {
                                         <label>
                                             <p>Preview</p>
                                         </label>
-                                        <div className={styles.previewFeature}>
+                                        <div className={styles.previewFeatScroll}>
                                             {artists.map((artist, index) => (
                                                 <div key={index} className={styles.previewFeature__artistContainer}>
                                                     <div className={styles.artistData}>
@@ -232,10 +242,17 @@ export function SongPageCreate () {
                                 <button type="submit">Create Song</button>
                             </div>
                         </div>
-                        )}
-                    </form>
-                </div>
+                    )}
+                </form>
             </div>
-        </>
+            {modalStateShowCropperCover && (
+                <ModalOverlay onClose={() => modal.closeModal('showCropperCover')}>
+                    <CoverCropper onSave={handleSave} mode={mode} type="showCropperCover" />
+                    <button onClick={() => modal.closeModal('showCropperCover')} className="cancelButton">
+                        Cancel
+                    </button>
+                </ModalOverlay>
+            )}
+        </div>
     )
 }

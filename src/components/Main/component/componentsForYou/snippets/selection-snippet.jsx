@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 
-export function Selection({ title, fetchFunction }) {
+export function Selection({ title, fetchFunction, id = null }) {
     const [ items, setItems] = useState([]);
     const [ loading, setLoading] = useState(true);
     const { settings, containerRef } = useSlider()
@@ -19,7 +19,7 @@ export function Selection({ title, fetchFunction }) {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await fetchFunction();
+                const response = await fetchFunction(id && id);
                 setItems(response);
             } catch (error) {
                 console.error("Error fetching data:", error);

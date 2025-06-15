@@ -16,7 +16,7 @@ export const usePopularSongs = () => {
             }
         }
         fetchPopularSongs();
-    }, [currentArtistPage])
+    }, [currentArtistPage, songs])
 
     return songs;
 }

@@ -4,21 +4,26 @@ import { useState, useRef, useEffect } from 'react';
 import { createAlbum } from '../../../../../services/artist/artistService';
 import { CreateSongAlbum } from './createSongAlbum';
 import { X } from 'lucide-react'
-import { previewFromFile } from '../../../../../utils/custom/previewFromFile';
 import { useModal } from '../../../../../hooks/useModal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMessage } from '../../../../../hooks/global/useMessage'
+import CoverCropper from '../../../../../utils/custom/coverCropper';
+import { usePreviewImage } from '../../../../../hooks/global/usePreviewImage';
+import ModalOverlay from '../../../snippets/ModalOverlay';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export function AlbumCreatePage() {
+    const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm();
     const modal = useModal();
     const { message, setMessage } = useMessage();
 
-    const { modalStateSongCreate } = useSelector((state) => state.view.modal)
-    const [ previewImage, setPreviewImage ] = useState('');
+    const { modalStateSongCreate } = useSelector((state) => state.view.modal);
+    const { modalStateShowCropperCover } = useSelector((state) => state.view.modal);
+    const { handleSave, previewImage, setPreviewImage } = usePreviewImage({ setValue });
+    const [ mode, setMode ] = useState({ type: 'albumCover' });
     const [songs, setSongs] = useState([]);
     const contentRef = useRef();
     const [ isHover, setIsHover ] = useState(null);
@@ -74,7 +79,6 @@ export function AlbumCreatePage() {
     } 
     return (
         <div className={styles.main}>
-            { modalStateSongCreate && <div className={styles.blackScreen} onClick={() => modal.closeModal('songCreate')}></div>}
             <div className={styles.main__container} ref={contentRef}>
                 <div className={styles.main__container__header}>
                     <p className={styles.white}>Album  </p>
@@ -89,19 +93,14 @@ export function AlbumCreatePage() {
                                 <div className={styles.file}
                                         onMouseEnter={() => setIsHover(true)}
                                         onMouseLeave={() => setIsHover(false)}>
-                                        <input 
-                                            type="file" 
-                                            accept="image/*"
-                                            {...register('cover')} 
-                                            onChange={(e) => previewFromFile(e, setPreviewImage, setValue, 'cover')} 
-                                            style={{ display: 'none'}}
-                                            id="imageFile"/>
                                         <div className={styles.preview}>
-                                            {previewImage && <div className={styles.preview__art} style={{ backgroundImage: previewImage }}></div>}
+                                            {previewImage && <div className={styles.preview__art} style={{ backgroundImage: previewImage?.albumCover }}></div>}
                                             {isHover && (
                                                 <>
                                                     <div className={styles.preview__blackscreen}></div>
-                                                    <div className={styles.preview__choose} onClick={() => document.getElementById('imageFile')?.click()}>Choose song cover</div>
+                                                    <div className={styles.preview__choose} onClick={() => {
+                                                        modal.openModal('showCropperCover')
+                                                    }}>Choose album cover</div>
                                                 </>
                                             )}
                                         </div>
@@ -193,6 +192,10 @@ export function AlbumCreatePage() {
                                             <DatePicker
                                                 placeholderText="Choose date"
                                                 selected={field.value}
+                                                showMonthDropdown
+                                                showYearDropdown
+                                                maxDate={new Date()}
+
                                                 onChange={(date) => {
                                                     const iso = date?.toISOString() || "";
                                                     setValue("date", iso, { shouldValidate: true });
@@ -221,6 +224,7 @@ export function AlbumCreatePage() {
                                             }}>
                                                 <div className={styles.song__content__title}>{song.title}</div>
                                                 <div className={styles.song__content__genre}>{song.genre}</div>
+                                                <div className={styles.song__content__duration}>{song.duration}</div>
                                             </div>
                                         </div>
                                     ))}
@@ -239,12 +243,31 @@ export function AlbumCreatePage() {
                     </div>
                 </form>
             </div>
-            { modalStateSongCreate && <CreateSongAlbum 
+            {/* { modalStateSongCreate && <CreateSongAlbum 
                 sendSong={addSong} 
                 songToEdit={songs[editingSongIndex]}
                 index={editingSongIndex}
                 clearEditingSongIndex={clearEditingSongIndex}
-                /> }
+                /> } */}
+
+            {modalStateSongCreate && (
+                <ModalOverlay onClose={() => modal.closeModal('songCreate')}>
+                    <CreateSongAlbum 
+                        sendSong={addSong} 
+                        songToEdit={songs[editingSongIndex]}
+                        index={editingSongIndex}
+                        clearEditingSongIndex={clearEditingSongIndex}
+                        />
+                </ModalOverlay>
+            )}
+            {modalStateShowCropperCover && (
+                <ModalOverlay onClose={() => modal.closeModal('showCropperCover')}>
+                    <CoverCropper onSave={handleSave} mode={mode} type="showCropperCover" />
+                    <button className="cancelButton" onClick={() => modal.closeModal('showCropperCover')}>
+                        Cancel
+                    </button>
+                </ModalOverlay>
+            )}
         </div>
     )
 }

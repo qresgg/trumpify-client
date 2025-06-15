@@ -53,7 +53,6 @@ const refreshAccessToken = async () => {
     try {
         const response = await axios.post(`${SERVER_API_URL}/auth/refresh`, {}, { withCredentials: true });
         if (response.data.access_token) {
-
             console.log('refreshed')
             localStorage.setItem('accessToken', response.data.access_token);
             return response.data.access_token;

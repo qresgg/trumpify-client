@@ -1,19 +1,27 @@
 import styles from './createForm.module.scss'
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { createArtist } from '../../../../../services/artist/artistService';
+import { useMessage } from '../../../../../hooks/global/useMessage';
+import { fetchUserData } from '../../../../../services/user/fetchData/fetchUserData';
+import { setData as setReduxData } from '../../../../../lib/redux/data/dataSlice';
 
 export function ArtistPageCreate () {
+    const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }, reset} = useForm();
-    const [message, setMessage] = useState({ success: '', error: ''});
+    const { message, setMessage } = useMessage();
 
     const onSubmit = async (data) => {
         try {
             const response = await createArtist(data);
-            setMessage({ success: response.message, error: ''})
+            setMessage({ success: response.message });
+            reset();
+
+            const userData = await fetchUserData();
+            dispatch(setReduxData(userData));
         } catch (error) {
-            const errorMessage = error.response?.data?.message || "error during creation artist profile";
-            setMessage({ error: errorMessage, success: "" });
+            const errorMessage = error.response?.data?.message || "Error during creation artist profile";
+            setMessage({ error: errorMessage });
         }
     }
 
