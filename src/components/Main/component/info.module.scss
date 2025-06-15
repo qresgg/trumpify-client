@@ -153,6 +153,10 @@
                 &__preview{
                     height: 260px;
                     width: 100%;
+                    background-size: cover !important;
+                    background-repeat: no-repeat !important;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
                 }
                 &__details{
                     padding: 16px;

@@ -27,6 +27,8 @@ export function Info({
     const [songArtist, setSongArtist] = useState([])
     const user = useSelector((state) => state.data.user)
 
+    console.log(songArtist)
+
     useEffect(() => {
         selectedSong && setAlbumName(selectedPlaylist ? selectedPlaylist.title : 'Liked Songs')
     }, [selectedSong])
@@ -94,9 +96,7 @@ export function Info({
                             </div>
                             <div className={styles.artistAccount}>
                                 <div className={styles.artist}>
-                                    <div className={styles.artist__preview}>
-
-                                    </div>
+                                    <div className={styles.artist__preview} style={{ background: `url(${songArtist.artist_avatar})`}}></div>
                                     <div className={styles.artist__details} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
                                         <div className={styles.artist__details__name}>{songArtist.artist_name}</div>
                                         <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div>
