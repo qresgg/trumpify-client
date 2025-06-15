@@ -102,7 +102,7 @@ export const ArtistConfig = () => {
                             </button>
                         </>
                     ) : <>
-                            <AvatarCropper onSave={handleSave} mode={mode} type="showCropperArtistConfig" />
+                            <BannerCropper onSave={handleSave} mode={mode} type="showCropperArtistConfig" />
                             <button className="cancelButton" onClick={() => modal.closeModal('showCropperArtistConfig')}>
                                 Cancel
                             </button>
