@@ -32,12 +32,12 @@ export function SongPageCreate () {
         try {
             if (artists.length !== 0) {
                 const res = await createSong({ data, artists })
-                setMessage({ message: res ? res.message : 'Song has been created successfully' })
+                setMessage({ success: res ? res.message : 'Song has been created successfully' })
             } else {
                 setMessage({ error: 'Song must have at least 1 artist'})
             }
         } catch (error) {
-            setMessage({ error: error.response.data || 'Error during creation song '})
+            setMessage({ error: error.response || 'Error during creation song '})
             console.error(error.response ? error.response.data : error);
         }
     }
