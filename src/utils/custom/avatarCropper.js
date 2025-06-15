@@ -41,7 +41,7 @@ function getCroppedImg(imageSrc, croppedAreaPixels) {
     });
 }
 
-export default function AvatarCropper({ onSave, mod }) {
+export default function AvatarCropper({ onSave, mod, type }) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -66,7 +66,7 @@ export default function AvatarCropper({ onSave, mod }) {
         try {
             const blob = await getCroppedImg(imageSrc, croppedAreaPixels);
             const file = new File([blob], "avatar.png", { type: "image/png" });
-            onSave(file, mod);
+            onSave(file, mod, type);
         } catch (e) {
             console.error(e);
         }

@@ -37,10 +37,6 @@ export function AboutPlaylistPage() {
   useEffect(() => {
     setOriginArtist(isOriginArtistPage(artist?.artist_id, selectedPlaylist?.artist));
   }, [selectedPlaylist, artist])
-
-  useEffect(() => {
-    console.log(music.song)
-  }, [music.song, music.playlist])
   
   const trackCount = selectedPlaylist?.songs?.length || 0;
 

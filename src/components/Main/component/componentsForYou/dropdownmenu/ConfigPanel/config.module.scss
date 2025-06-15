@@ -54,6 +54,7 @@
                         height: 100%;
                         aspect-ratio: 1/1;
                         background-color: black;
+                        background: center/cover no-repeat;
                     }
                 }
                 &__change{
@@ -70,7 +71,7 @@
                     border-radius: 5px;
                     resize: none;
                     width: 60%;
-                    min-width: 450px;
+                    min-width: 500px;
                     transition: 0.3s all;
 
                     &:hover {
@@ -87,7 +88,7 @@
                 input{
                     height: 25px;
                     width: 60%;
-                    min-width: 450px;
+                    min-width: 500px;
                     background-color: #121212;
                     border: none;
                     border-bottom: 2px solid global.$second-color;
@@ -114,7 +115,7 @@
     button{
         width: 60%;
         background-color: #121212;
-        min-width: 450px;
+        min-width: 500px;
     }
 
     .blackscreen{

@@ -3,7 +3,8 @@ import {
   setModalStateSongCreate,
   setModalStateUserPage,
   setModalStateShowCropperUserPage,
-  setModalStateShowCropperCover
+  setModalStateShowCropperCover,
+  setModalStateShowCropperArtistConfig
 } from "../lib/redux/pages/viewSlice";
 
 export function useModal() {
@@ -14,7 +15,8 @@ export function useModal() {
     songCreate: setModalStateSongCreate,
     userPage: setModalStateUserPage, 
     showCropperUserPage: setModalStateShowCropperUserPage,
-    showCropperCover: setModalStateShowCropperCover
+    showCropperCover: setModalStateShowCropperCover,
+    showCropperArtistConfig: setModalStateShowCropperArtistConfig
   };
 
   const changeModalState = (isOpen, type) => {

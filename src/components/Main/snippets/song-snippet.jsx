@@ -54,12 +54,12 @@ export function Song({
                         {song.title}
                     </div>
                     <div className={styles.leftPanel__artist}>
-                        {song.is_explicit && <div className='explicit'>E</div>}
-                        {song.features
+                        {song?.is_explicit && <div className='explicit'>E</div>}
+                        {song?.features
                             .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
                             .map((feat) => feat.name)
                             .join(', ')
-                            }
+                        }
                     </div>
                 </div>
             </div>

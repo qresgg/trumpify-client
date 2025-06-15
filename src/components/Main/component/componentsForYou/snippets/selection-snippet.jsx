@@ -9,7 +9,6 @@ import Slider from "react-slick"
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-
 export function Selection({ title, fetchFunction, id = null }) {
     const [ items, setItems] = useState([]);
     const [ loading, setLoading] = useState(true);

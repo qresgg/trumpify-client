@@ -34,7 +34,6 @@ export function UserArtistProfilePage() {
         const getReleases = async () => {
             try {
                 const res = await getArtistReleases(currentArtistPage.artist_id);
-                console.log('RESPONSSE', res);
             } catch (error) {
                 console.error(error)
             }

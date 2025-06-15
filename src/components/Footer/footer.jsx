@@ -4,7 +4,7 @@ import { SongController } from './components/songController';
 import { AudioController } from './components/audioController';
 import { useState, useRef, useEffect, act} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveSong, setSelectedSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState'
+import { setActiveSong, setNextSong, setSelectedSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState'
 
 export function Footer () {
     const dispatch = useDispatch()
@@ -41,8 +41,8 @@ export function Footer () {
         const audio = audioRef.current;
     
         const handleAudioEnded = () => {
-            if (activeSong && nextSong) {
-                dispatch(setActiveSong({ song: nextSong }));
+            if (activeSong && audioRef.current.ended) {
+                dispatch(setNextSong());
             } else {
                 dispatch(stopMusic());
             }

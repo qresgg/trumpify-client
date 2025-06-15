@@ -4,7 +4,7 @@ import { useModal } from "../useModal";
 
 export function usePreviewImage({ setValue }) {
     const dispatch = useDispatch();
-    const [previewImage, setPreviewImage] = useState({ avatar: null, banner: null, albumCover: null })
+    const [previewImage, setPreviewImage] = useState({ avatar: null, banner: null, albumCover: null, songCover: null })
     const modal = useModal();
     const artist = useSelector((state) => state.data.artist)
     const user = useSelector((state) => state.data.user)
@@ -13,7 +13,9 @@ export function usePreviewImage({ setValue }) {
         if (user) {
             setPreviewImage((prev) => ({
                 ...prev,
-                avatar: `url(${user.user_avatar_url})`
+                avatar: `url(${user.user_avatar_url})`,
+                banner: `url(${artist.artist_banner})`,
+                artistAvatar: `url(${artist.artist_avatar})`,
             }));
         }
     }, []);
@@ -47,6 +49,12 @@ export function usePreviewImage({ setValue }) {
                     songCover: `url(${reader.result})`
                 }));
                 setValue('cover', file)
+            } else if (mode?.type === 'artistAvatar') {
+                setPreviewImage(prev => ({
+                    ...prev,
+                    artistAvatar: `url(${reader.result})`
+                }));
+                setValue('avatar', file)
             }
         };
         reader.readAsDataURL(file);

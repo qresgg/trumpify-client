@@ -9,14 +9,12 @@ export function SongController({
 }) {
     const [pause, setPause] = useState(false)
     const { isMusicPlaying } = useSelector((state) => state.music)
-    const { prevSong, nextSong } = useSelector((state) => state.music.song)
     const dispatch = useDispatch()
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
 
     const [loopPressed, setLoopPressed] = useState(false)
     const [shufflePressed, setShufflePressed] = useState(false)
-
     
     const handlePause = () => {
         setPause(!pause)

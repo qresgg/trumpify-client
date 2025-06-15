@@ -41,7 +41,7 @@ function getCroppedImg(imageSrc, croppedAreaPixels) {
     });
 }
 
-export default function BannerCropper({ onSave, mod }) {
+export default function BannerCropper({ onSave, mode, type }) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -66,7 +66,7 @@ export default function BannerCropper({ onSave, mod }) {
         try {
             const blob = await getCroppedImg(imageSrc, croppedAreaPixels);
             const file = new File([blob], "banner.png", { type: "image/png" });
-            onSave(file);
+            onSave(file, mode, type);
         } catch (e) {
             console.error(e);
         }

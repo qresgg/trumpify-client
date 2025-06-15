@@ -1,58 +1,29 @@
 import styles from './config.module.scss';
 import { useForm } from 'react-hook-form';
-import { previewFromFile } from '../../../../../../utils/custom/previewFromFile';
 import { useState, useEffect } from 'react';
 import { changeArtistInfo } from '../../../../../../utils/custom/changeArtistProfile';
 import { useDispatch, useSelector } from 'react-redux';
+import CoverCropper from '../../../../../../utils/custom/coverCropper';
 import BannerCropper from '../../../../../../utils/custom/bannerCropper';
+import AvatarCropper from '../../../../../../utils/custom/avatarCropper';
 import { useMessage } from '../../../../../../hooks/global/useMessage';
+import { usePreviewImage } from '../../../../../../hooks/global/usePreviewImage';
+import { useModal } from '../../../../../../hooks/useModal';
+import ModalOverlay from '../../../../snippets/ModalOverlay';
 
 export const ArtistConfig = () => {
     const dispatch = useDispatch();
     const dataRedux = useSelector((state) => state.data);
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();
-    const { message, setMessage } = useMessage()
+    const { message, setMessage } = useMessage();
+    const modal = useModal();
+
+    const { modalStateShowCropperArtistConfig } = useSelector((state) => state.view.modal)
     
     const [ showCropper, setShowCropper ] = useState(false);
-    const [ mode, setMode ] = useState({ type: null });
+    const [ mode, setMode ] = useState({ type: 'null' });
 
-    const [ previewImage, setPreviewImage ] = useState({
-        avatar: '',
-        banner: ''
-    });
-
-    useEffect(() => {
-        if (dataRedux?.artist) {
-            setPreviewImage({
-                avatar: `url(${dataRedux.artist.artist_avatar})`,
-                banner: `url(${dataRedux.artist.artist_banner})`,
-            });
-        }
-    }, []);
-
-    const handleSave = (file, mode) => {
-        setShowCropper(false);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            if (mode?.type === 'avatar') {
-                setPreviewImage(prev => ({
-                    ...prev,
-                    avatar: `url(${reader.result})`
-                }));
-                setValue('avatar', file)
-            } else if (mode?.type === 'banner'){
-                setPreviewImage(prev => ({
-                    ...prev,
-                    banner: `url(${reader.result})`
-                }));
-                setValue('banner', file)
-            }
-        };
-        reader.readAsDataURL(file);
-    };
-
-
+    const { handleSave, previewImage, setPreviewImage } = usePreviewImage({ setValue })
 
     return (
         <div className={styles.config}>
@@ -69,7 +40,7 @@ export const ArtistConfig = () => {
                             <div className={styles.content}>
                                 <div className={styles.content__preview}
                                     onClick={() => {
-                                        setShowCropper(true)
+                                        modal.openModal('showCropperArtistConfig')
                                         setMode({ type: 'banner' })
                                     }}
                                     style={{ backgroundImage: previewImage?.banner }}>
@@ -87,10 +58,10 @@ export const ArtistConfig = () => {
                                 <div className={styles.content__preview}>
                                     <div className={styles.avatar}
                                         onClick={() => {
-                                            setShowCropper(true)
-                                            setMode({ type: 'avatar' })
+                                            modal.openModal('showCropperArtistConfig')
+                                            setMode({ type: 'artistAvatar' })
                                         }}
-                                        style={{ backgroundImage: previewImage?.avatar }}> 
+                                        style={{ backgroundImage: previewImage?.artistAvatar }}> 
                                     </div>
                                 </div>
                             </div>
@@ -121,14 +92,22 @@ export const ArtistConfig = () => {
                 </div>
                 <button type="submit"> Confirm changes </button>
             </form>
-            {showCropper && (
-                <>
-                    <div className={styles.blackscreen} onClick={() => setShowCropper(!showCropper)}></div>
-                    <div className={styles.modal}>
-                        <BannerCropper onSave={handleSave} mode={mode}/>
-                        <button onClick={() => setShowCropper(false)} className={styles.cancelbutton}>Cancel</button>
-                    </div>
-                </>
+            {modalStateShowCropperArtistConfig && (
+                <ModalOverlay onClose={() => modal.closeModal('showCropperArtistConfig')}>
+                    { mode?.type === 'artistAvatar' ? (
+                        <>
+                            <CoverCropper onSave={handleSave} mode={mode} type="showCropperArtistConfig" />
+                            <button className="cancelButton" onClick={() => modal.closeModal('showCropperArtistConfig')}>
+                                Cancel
+                            </button>
+                        </>
+                    ) : <>
+                            <AvatarCropper onSave={handleSave} mode={mode} type="showCropperArtistConfig" />
+                            <button className="cancelButton" onClick={() => modal.closeModal('showCropperArtistConfig')}>
+                                Cancel
+                            </button>
+                        </>}
+                </ModalOverlay>
             )}
         </div>
     )
