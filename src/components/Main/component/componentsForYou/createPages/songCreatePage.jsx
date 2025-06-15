@@ -83,7 +83,7 @@ export function SongPageCreate () {
                                             {isHover && (
                                                 <>
                                                     <div className={styles.preview__blackscreen}></div>
-                                                    <div className={styles.preview__choose} onClick={() => modal.closeModal('showCropperCover')}>Choose song cover</div>
+                                                    <div className={styles.preview__choose} onClick={() => modal.openModal('showCropperCover')}>Choose song cover</div>
                                                 </>
                                             )}
                                         </div>

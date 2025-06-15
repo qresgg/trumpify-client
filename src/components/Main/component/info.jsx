@@ -27,8 +27,6 @@ export function Info({
     const [songArtist, setSongArtist] = useState([])
     const user = useSelector((state) => state.data.user)
 
-    console.log(songArtist)
-
     useEffect(() => {
         selectedSong && setAlbumName(selectedPlaylist ? selectedPlaylist.title : 'Liked Songs')
     }, [selectedSong])
