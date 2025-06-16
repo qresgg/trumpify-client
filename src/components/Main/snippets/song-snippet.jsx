@@ -6,6 +6,7 @@ import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
 import likeChecker from '../../../services/global/functions/song/likeChecker';
 import { usePlaybackControl } from '../../../hooks/global/usePlaybackControl';
 import { useSingleSong } from '../../../hooks/song/useSingleSong';
+import { setSelectedSong } from '../../../lib/redux/music/musicState';
 
 export function Song({
     song,
@@ -39,7 +40,8 @@ export function Song({
         className={styles.song} 
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        style={selectedTemplate}>
+        style={selectedTemplate}
+        onClick={() => dispatch(setSelectedSong(song))}>
             <div className={styles.song__id} onClick={togglePlay}>
                 {isHover || (setSelectedSingleSong?._id === song?._id) 
                     ? (isPlaying ? <Pause size={16}/> : <Play size={16}/>) 

@@ -62,7 +62,7 @@ export function UserProfilePage() {
                 <div className={styles.statistic}>
 
                 </div>
-            { modalStateUserPage && <InfoChange /> }
+            { (modalStateUserPage && originUser)&& <InfoChange /> }
         </div>
     )
 }

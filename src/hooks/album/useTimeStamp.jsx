@@ -6,11 +6,11 @@ export const useTimeStamp = (timestamp) => {
     const year = new Date(timestamp).getFullYear();
 
     const months = [ 
-        "january", "february", "march", "april", "may", "june",
-        "july", "august", "september", "october", "november", "december"
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
     ];
 
-    const fullDate = `${day} ${months[month]} ${year}`;
+    const fullDate = `${months[month]} ${day}, ${year}`;
     
     return { day, month, year, fullDate };
 }

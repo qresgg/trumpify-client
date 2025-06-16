@@ -8,13 +8,17 @@ import getPopularSongsArtistPage from '../../../../../services/artist/data/get/p
 import { Selection } from '../snippets/selection-snippet';
 import getSongData from '../../../../../services/artist/data/get/songData';
 import getArtistReleases from '../../../../../services/artist/data/get/artistReleases';
+import { isOriginArtistPage } from '../../../../../services/auth/isOriginPage';
+import { setView } from '../../../../../lib/redux/pages/viewSlice';
 
 export function UserArtistProfilePage() {
     const dispatch = useDispatch()
     const { currentArtistPage } = useSelector((state) => state.view)
+    const { artist } = useSelector((state) => state.data)
     const [songs, setSongs] = useState({});
     const [halfSongs, setHalfSongs] = useState()
     const [isExpanded, setIsExpanded] = useState(false);
+    const [originArtist, setOriginArtist] = useState(false);
 
     useEffect(() => {
         const getPopSongs = async () => {
@@ -49,6 +53,10 @@ export function UserArtistProfilePage() {
     //     songs && dispatch(setActivePlaylist(artistPages))
     // }, [currentArtistPage])
 
+    useEffect(() => {
+        setOriginArtist(isOriginArtistPage(artist, currentArtistPage));
+    }, [currentArtistPage, artist])
+
     return (
         <div className={styles.profile}>
             <div className={styles.header}></div>
@@ -58,11 +66,17 @@ export function UserArtistProfilePage() {
                         <div className={styles.backgroundBlur}></div>
                         <div className={styles.isProfile}>{currentArtistPage.artist_is_verified && <p className={styles.verifiedIco}>Verified</p>} Artist</div>
                         <div className={styles.userName}>{currentArtistPage.artist_name}</div>
-                        <div className={styles.playlistCount}>0 listeners per month</div>
+                        {/* <div className={styles.playlistCount}>0 listeners per month</div> */}
                     </div>
                 </div>
             </div>
             <div className={styles.statistic}>  
+                {originArtist && (
+                    <>
+                        <button onClick={() => dispatch(setView("songCreate"))}>New Song</button>
+                        <button onClick={() => dispatch(setView("albumCreate"))}>New Album</button>
+                    </>
+                )}
                 <div className={styles.popular_songs}>
                     <div className={styles.popular_songs__title}>Popular songs</div>
                     <div className={styles.popular_songs__list}>

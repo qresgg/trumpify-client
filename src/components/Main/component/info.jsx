@@ -22,10 +22,10 @@ export function Info({
 
     const [albumName, setAlbumName] = useState(null);
     const [liked, setLiked] = useState(false);
-    const dataRedux = useSelector((state) => state.data)
+    const dataRedux = useSelector((state) => state.data);
     const timerRef = useRef(null);
-    const [songArtist, setSongArtist] = useState([])
-    const user = useSelector((state) => state.data.user)
+    const [songArtist, setSongArtist] = useState([]);
+    const user = useSelector((state) => state.data.user);
 
     useEffect(() => {
         selectedSong && setAlbumName(selectedPlaylist ? selectedPlaylist.title : 'Liked Songs')
@@ -97,7 +97,7 @@ export function Info({
                                     <div className={styles.artist__preview} style={{ background: `url(${songArtist.artist_avatar})`}}></div>
                                     <div className={styles.artist__details} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
                                         <div className={styles.artist__details__name}>{songArtist.artist_name}</div>
-                                        <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div>
+                                        {/* <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div> */}
                                         <div className={styles.artist__details__bio}>{songArtist.artist_bio}</div>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@ export function Info({
                                 <div className={styles.details__container}>
                                     <div className={styles.upperTitle}>
                                         <div className={styles.upperTitle__caption}>Credits</div>
-                                        <div className={styles.upperTitle__button}>Show all</div>
+                                        {/* <div className={styles.upperTitle__button}>Show all</div> */}
                                     </div>
                                         {selectedSong.features.map((feat, index) => (
                                             <div className={styles.feature} key={index}>

@@ -35,7 +35,7 @@ export function AboutPlaylistPage() {
   };
 
   useEffect(() => {
-    setOriginArtist(isOriginArtistPage(artist?.artist_id, selectedPlaylist?.artist));
+    setOriginArtist(isOriginArtistPage(artist, selectedPlaylist));
   }, [selectedPlaylist, artist])
   
   const trackCount = selectedPlaylist?.songs?.length || 0;
@@ -96,7 +96,7 @@ export function AboutPlaylistPage() {
               <div className={styles.tracks__trackplate}>
                 {trackCount > 0 ? (
                   selectedPlaylist.songs.map((song, index) => (
-                    <div key={index} onClick={() => selectSong(song)}>
+                    <div key={index}>
                       <Song
                         song={song}
                         index={index}
@@ -108,7 +108,7 @@ export function AboutPlaylistPage() {
                 )}
               </div>
               <div className={styles.tracks__endInfo}>
-                <div className={styles.tracks__endInfo__releaseDate}>{fullDate}.</div>
+                <div className={styles.tracks__endInfo__releaseDate}>{fullDate}</div>
                 <div className={styles.tracks__endInfo__labelTitle}>© {year} {selectedPlaylist.record_label}.</div>
                 <div className={styles.tracks__endInfo__labelTitle}>℗ {year} {selectedPlaylist.record_label}.</div>
               </div>

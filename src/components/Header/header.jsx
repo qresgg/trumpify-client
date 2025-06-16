@@ -40,8 +40,6 @@ export function Header () {
                     <div className={styles.navBar__home__icon}></div>
                 </div>
                 <SearchBar searchBarState={handleSearchDropMenu} menuState={isSearchMenuOpen}/>
-                <button onClick={() => dispatch(setView("songCreate"))}>Create Song</button>
-                <button onClick={() => dispatch(setView("albumCreate"))}>Create Album</button>
             </div>
             <div className={styles.userBar}>
                 {/* <div className={styles.userBar__subscription}>Learn more about Premium</div> */}

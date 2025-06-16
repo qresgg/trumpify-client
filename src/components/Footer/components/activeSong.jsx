@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
 import likeChecker from '../../../services/global/functions/song/likeChecker'
+import { redirectFromFeature } from '../../../services/global/functions/redirection'
 
 export function ActiveSong() {
     const dispatch = useDispatch();
@@ -31,8 +32,12 @@ export function ActiveSong() {
                     <div className={styles.info__feature}>
                         {activeSong?.features
                             .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
-                            .map((feat) => feat.name)
-                            .join(', ')
+                            .map((feat, index, arr) => (
+                                <span key={feat.id || index} onClick={() => redirectFromFeature('Artist', feat.name, dispatch)}>
+                                    {feat.name}
+                                    {index < arr.length - 1 && <span>, </span>}
+                                </span>
+                            ))
                         }
                     </div>
                 </div>
