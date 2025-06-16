@@ -73,8 +73,7 @@ export function UserArtistProfilePage() {
             <div className={styles.statistic}>  
                 {originArtist && (
                     <>
-                        <button onClick={() => dispatch(setView("songCreate"))}>New Song</button>
-                        <button onClick={() => dispatch(setView("albumCreate"))}>New Album</button>
+                        
                     </>
                 )}
                 <div className={styles.popular_songs}>
