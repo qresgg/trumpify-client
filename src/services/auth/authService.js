@@ -7,98 +7,109 @@ const apiClient = axios.create({
     withCredentials: true,
 });
 
-const checkAuth = async (retryCount = 0, maxRetries = 3) => {
-    const token = getAccessToken();
-    if (token) {
-        try {
-            const response = await axios.post(`${SERVER_API_URL}/auth/verify`, {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                withCredentials: true,
-            });
-            return response.status === 200 ? token : await refreshAccessToken();
-        } catch (error) {
-            console.error('Token verification failed:', error);
-            if (error.response && error.response.status === 401) {
-                console.error('Unauthorized access - Invalid token');
-            }
+apiClient.interceptors.request.use(
+    async (config) => {
+        const token = getAccessToken();
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
-            if (retryCount < maxRetries) {
-                await refreshAccessToken();
-                console.log('refreshsed')
-                return await checkAuth(retryCount + 1, maxRetries);
-            } else {
-                console.error('Max retries reached. Unable to verify token.');
-                return null;
-            }
-        }
-    } else {
-        return await refreshAccessToken();
+apiClient.interceptors.response.use(
+  response => {
+    const newToken = response.headers['new-access-token'];
+    if (newToken) {
+      localStorage.setItem('accessToken', newToken);
     }
-};
-apiClient.interceptors.response.use(null, async (error) => {
-    if (error.response && error.response.status === 401) {
-        const newToken = await refreshAccessToken();
-        if (newToken) {
-            console.log('incterceptor');
-        error.config.headers.Authorization = `Bearer ${newToken}`;
-        return apiClient(error.config);
-        }
+    return response;
+  },
+  async error => {
+    const originalRequest = error.config;
+    
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
+      try {
+        const response = await axios.post(`${SERVER_API_URL}/auth/token`, {}, {
+          withCredentials: true
+        });
+        
+        const newToken = response.data.access_token;
+        localStorage.setItem('accessToken', newToken);
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem('accessToken');
+        window.location.href = '/login';
+      }
     }
+    
     return Promise.reject(error);
-});
+  }
+);
 
 const refreshAccessToken = async () => {
     try {
-        const response = await axios.post(`${SERVER_API_URL}/auth/refresh`, {}, { withCredentials: true });
+        const response = await apiClient.post('/auth/refresh', {});
         if (response.data.access_token) {
-            console.log('refreshed')
             localStorage.setItem('accessToken', response.data.access_token);
             return response.data.access_token;
         }
     } catch (error) {
         console.error('Failed to refresh access token:', error);
+        throw error;
     }
     return null;
 };
 
+const checkAuth = async () => {
+    const token = getAccessToken();
+    if (!token) return null;
+
+    try {
+        await apiClient.post('/auth/verify', {});
+        return token;
+    } catch (error) {
+        console.error('Token verification failed:', error);
+        return null;
+    }
+};
+
 const login = async (email, password) => {
-   try {
-        const response = await axios.post(
-            `${SERVER_API_URL}/auth/login`,
-            { email, password },
-            { withCredentials: true } 
-        );
+    try {
+        const response = await apiClient.post('/auth/login', { email, password });
         localStorage.setItem('accessToken', response.data.access_token);
-   } catch (error) {
-        console.log('failed to login', error)
-   }
-}
+        return response.data;
+    } catch (error) {
+        console.error('Login failed:', error);
+        throw error;
+    }
+};
 
 const logout = async () => {
     try {
-        const response = await axios.post(`${SERVER_API_URL}/auth/logout`, {}, { withCredentials: true });
-        localStorage.removeItem("accessToken"); 
-        window.location.reload();
-        return response.data;
-      } catch (error) {
-        console.error("Logout failed:", error.response?.data || error.message);
+        await apiClient.post('/auth/logout', {});
+        localStorage.removeItem("accessToken");
+    } catch (error) {
+        console.error("Logout failed:", error);
         throw error;
     }
-}
+};
 
 const register = async (username, email, password) => {
     try {
-        const response = await axios.post(`${SERVER_API_URL}/auth/register`,
-            { username, email, password },
-            { withCredentials: true}
-        );
+        const response = await apiClient.post('/auth/register', { username, email, password });
         return response.data;
     } catch (error) {
-        console.error("failed to register", error);
-        throw new Error(error.response?.data?.message)
+        console.error("Registration failed:", error);
+        throw error;
     }
-}
+};
 
-export { login, logout, checkAuth, register}
+export { login, logout, checkAuth, register, apiClient };
