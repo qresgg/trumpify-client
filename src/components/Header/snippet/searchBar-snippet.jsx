@@ -3,13 +3,14 @@ import styles from './searchBar-snippet.module.scss'
 import { debounce } from 'lodash'
 import { searchData } from '../../../services/user/userService'
 import { RelocateFromSearchBar } from './relocate/relocateFromSearchBar'
+import { useModal } from '../../../hooks/useModal'
+import { useSelector } from 'react-redux'
 
-export function SearchBar({
-    searchBarState,
-    menuState
-}) {
+export function SearchBar() {
     const [querry, setQuerry] = useState('')
     const [results, setResults] = useState([])
+    const modal = useModal();
+    const { modalStateSearchMenu } = useSelector((state) => state.view.modal);
 
     const debouncedSearch = useCallback(
         debounce(async (value) => {
@@ -34,9 +35,9 @@ export function SearchBar({
 
     return (
         <div className={styles.bar}>
-            <div className={styles.bar__container} onFocus={searchBarState}>
-                <input type="text" onChange={handleChange} value={querry}/>
-                {menuState && Array.isArray(results) && results.length > 0 && (
+            <div className={styles.bar__container}>
+                <input type="text" onChange={handleChange} value={querry} onFocus={() => modal.openModal('searchMenu')}/>
+                {modalStateSearchMenu && Array.isArray(results) && results.length > 0 && (
                     <div className={styles.results}>
                          {results.map((result, index) => (
                              <Fragment key={index}>

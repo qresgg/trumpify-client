@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { fetchLikedCollection } from "../../services/user/fetchData/fetchLikedCollection";
 import { setSelectedPlaylist } from "../../lib/redux/music/musicState";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const useLikedCollection = () => {
     const dispatch = useDispatch();
     const [ likedSongs, setLikedSongs ] = useState([]);
+    const { selectedPlaylist } = useSelector((state) => state.music.playlist)
 
     useEffect(() => {
         const fetchLiked = async () => {

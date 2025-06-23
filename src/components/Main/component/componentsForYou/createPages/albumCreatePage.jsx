@@ -251,7 +251,7 @@ export function AlbumCreatePage() {
                 /> } */}
 
             {modalStateSongCreate && (
-                <ModalOverlay onClose={() => modal.closeModal('songCreate')}>
+                <ModalOverlay onClose={() => modal.closeModal('songCreate')} minWidth={450}>
                     <CreateSongAlbum 
                         sendSong={addSong} 
                         songToEdit={songs[editingSongIndex]}

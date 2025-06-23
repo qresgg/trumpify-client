@@ -7,8 +7,17 @@ export const useLikedPlaylist = () => {
   const user = useSelector((state) => state.data.user);
 
   useEffect(() => {
-    setIsLikedPlaylist(user.user_library.some((playlist) => playlist._id === selectedPlaylist?._id));
-  }, [selectedPlaylist, user.user_library]);
+    if (!selectedPlaylist || !user?.user_library) {
+      setIsLikedPlaylist(false);
+      return;
+    }
+
+    const isLiked = user.user_library.some(
+      (playlist) => playlist._id === selectedPlaylist._id
+    );
+
+    setIsLikedPlaylist(isLiked);
+  }, [selectedPlaylist, user?.user_library]);
 
   return [isLikedPlaylist, setIsLikedPlaylist];
 };

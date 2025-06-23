@@ -10,8 +10,7 @@ export function SongController({
     const [pause, setPause] = useState(false)
     const { isMusicPlaying } = useSelector((state) => state.music)
     const dispatch = useDispatch()
-    const [currentTime, setCurrentTime] = useState(0)
-    const [duration, setDuration] = useState(0)
+   
 
     const [loopPressed, setLoopPressed] = useState(false)
     const [shufflePressed, setShufflePressed] = useState(false)
@@ -28,34 +27,6 @@ export function SongController({
             return newState;
         });
     }
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (audioRef?.current) {
-                setCurrentTime(audioRef.current.currentTime);
-            }
-        }, 500); 
-
-        return () => clearInterval(interval);
-    }, [audioRef]);
-
-    useEffect(() => {
-        const updateDuration = () => {
-            if (audioRef?.current) {
-                setDuration(audioRef.current.duration || 0);
-            }
-        };
-
-        if (audioRef?.current) {
-            audioRef.current.addEventListener('loadedmetadata', updateDuration);
-        }
-
-        return () => {
-            if (audioRef?.current) {
-                audioRef.current.removeEventListener('loadedmetadata', updateDuration);
-            }
-        };  
-    }, [audioRef]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -79,9 +50,7 @@ export function SongController({
 
     return (
         <div className={styles.main}>
-            <div className={styles.currentTime}>
-                {new Date(currentTime * 1000).toISOString().substr(14, 5)}
-            </div>
+            
             <div className={styles.songController}>
                 <div className={styles.upper}>
                     <div className={styles.panel}>
@@ -93,12 +62,9 @@ export function SongController({
                         </div>
                         <div onClick={handlePause}>
                             {isMusicPlaying
-                            ? <div className={styles.panel__pause} title='pause'>
-                                <div></div>
-                            </div>
-                            : <div className={styles.panel__play} title='play'>
-                                <div></div>
-                            </div>}
+                            ? <div className={styles.panel__pause} title='pause'></div>
+                            : <div className={styles.panel__play} title='play'></div>
+                            }
                         </div>
                         <div className={styles.panel__nextSong} title='next song'>
                             <div onClick={() => (dispatch(setNextSong()))}></div>
@@ -112,9 +78,7 @@ export function SongController({
                     <ProgressBar audioRef={audioRef} />
                 </div>
             </div>
-            <div className={styles.duration}>
-                {duration ? new Date(duration * 1000).toISOString().substr(14, 5) : '00:00'}
-            </div>
+            
         </div>
     );
 }

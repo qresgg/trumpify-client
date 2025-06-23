@@ -36,11 +36,9 @@ export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex })
         if (songToEdit && Array.isArray(songToEdit.artists)) {
             songToEdit.artists.forEach((artist) => {
                 if (artist?.name && Array.isArray(artist.roles)) {
-                    const roles = Array.isArray(artist.roles[0])
-                        ? artist.roles[0]
-                        : artist.roles;
+                    const flatRoles = artist.roles.flat();
 
-                    addArtistWithRole(artist.name, roles);
+                    addArtistWithRole(artist.name, flatRoles);
                 }
             });
         }
@@ -53,10 +51,7 @@ export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex })
                 console.log(artists)
                 sendSong({ ...data, artists });
                 setMessage({ success: 'Song created successfully' });
-                reset();
-                setArtists([])
-                clearEditingSongIndex();
-                modal.closeModal('songCreate');
+                clearAll();
             } else {
                 setMessage({ error: 'Error song cant be created without artist and role'});
             }
@@ -65,6 +60,13 @@ export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex })
             console.error(error.response ? error.response.data : error);
         }
     };
+
+    const clearAll = () => {
+        reset();
+        setArtists([])
+        clearEditingSongIndex();
+        modal.closeModal('songCreate');
+    }
 
     return (
         <>

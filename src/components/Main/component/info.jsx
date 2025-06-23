@@ -9,6 +9,7 @@ import likeChecker from '../../../services/global/functions/song/likeChecker';
 import fetchColors from '../../../utils/custom/colorPalette';
 import { NextSong } from '../snippets/nextSong-snippet';
 import { redirectTo, redirectFromFeature } from '../../../services/global/functions/redirection';
+import { Link } from 'react-router-dom';
 
 export function Info({ 
     width, 
@@ -95,11 +96,13 @@ export function Info({
                             <div className={styles.artistAccount}>
                                 <div className={styles.artist}>
                                     <div className={styles.artist__preview} style={{ background: `url(${songArtist.artist_avatar})`}}></div>
-                                    <div className={styles.artist__details} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
-                                        <div className={styles.artist__details__name}>{songArtist.artist_name}</div>
-                                        {/* <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div> */}
-                                        <div className={styles.artist__details__bio}>{songArtist.artist_bio}</div>
-                                    </div>
+                                    <Link to={`page/artist/${songArtist.artist_id}`} className='link-reset'>
+                                        <div className={styles.artist__details} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
+                                            <div className={styles.artist__details__name}>{songArtist.artist_name}</div>
+                                            {/* <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div> */}
+                                            <div className={styles.artist__details__bio}>{songArtist.artist_bio}</div>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                             <div className={styles.details}>

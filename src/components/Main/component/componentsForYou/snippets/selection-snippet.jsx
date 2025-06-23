@@ -45,12 +45,12 @@ export function Selection({ title, fetchFunction, id = null }) {
           <div className={styles.selections__container}>
               <div className={styles.selections__container__title}>
                   <div className={styles.title}>{title}</div>
-                  <div className={styles.showall}>Show all</div>
+                  {/* <div className={styles.showall}>Show all</div> */}
               </div>
               <div className={styles.selections__container__content} ref={containerRef}>
                   {loading 
                     ? <div className={styles.skeleton}>
-                      {Array.from({ length: 6 }).map((_, index) => (
+                      {Array.from({ length: settings.slidesToShow }).map((_, index) => (
                       <div key={index} className={styles.item}>
                           <Skeleton height={153} width={153} baseColor="#4B4B4B" highlightColor="#1ED760" />
                           <Skeleton height={20} width="100%" baseColor="#4B4B4B" highlightColor="#1ED760" />

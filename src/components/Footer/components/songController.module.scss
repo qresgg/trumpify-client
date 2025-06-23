@@ -1,25 +1,11 @@
 .main{
     display: flex;
     
-    .currentTime{
-        display: flex;
-        align-items: end;
-        font-size: 12px;
-        opacity: 0.6;
-    }
-    
-    .duration{
-        display: flex;
-        align-items: end;
-        font-size: 12px;
-        opacity: 0.6;
-    }
-    
     .songController{
         padding: 0 8px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 8px;
         width: 100%;
         box-sizing: border-box;
     
@@ -32,8 +18,8 @@
                 gap: 8px;
 
                 %container {
-                    width: 32px;
-                    height: 32px;
+                    width: 28px;
+                    height: 28px;
                     padding: 8px;
                     box-sizing: border-box;
                 }

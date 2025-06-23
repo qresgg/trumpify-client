@@ -23,18 +23,29 @@ export function useArtistsRoleActions() {
     const addArtistWithRole = (artistName, role) => {
         setArtists((prevArtists) => {
             const existingArtist = prevArtists.find((artist) => artist.name === artistName);
+
+            const rolesToAdd = Array.isArray(role) ? role : [role];
+
             if (existingArtist) {
                 const updatedArtists = prevArtists.map((artist) => {
-                    if (artist.name === artistName && !artist.roles.includes(role)) {
-                        return { ...artist, roles: [...artist.roles, role] };
+                    if (artist.name === artistName) {
+                        const mergedRoles = [...artist.roles];
+                        rolesToAdd.forEach((r) => {
+                            if (!mergedRoles.includes(r)) {
+                                mergedRoles.push(r);
+                            }
+                        });
+                        return { ...artist, roles: mergedRoles };
                     }
                     return artist;
                 });
                 return updatedArtists;
             }
-            return [...prevArtists, { name: artistName, roles: [role] }];
+
+            return [...prevArtists, { name: artistName, roles: rolesToAdd }];
         });
     };
+
 
     return { removeArtist, removeRoleFromArtist, addArtistWithRole, artists, setArtists };
 }

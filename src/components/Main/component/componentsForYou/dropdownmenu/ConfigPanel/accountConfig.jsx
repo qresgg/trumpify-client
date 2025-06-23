@@ -6,6 +6,7 @@ import { ChangeEmail } from './capitalize/changeEmail';
 import { setView } from '../../../../../../lib/redux/pages/viewSlice';
 import { UserImage } from '../../../../../../hooks/UserImage';
 import { setSelectedArtistPage, setSelectedUserPage } from '../../../../../../lib/redux/pages/viewSlice';
+import { Link } from 'react-router-dom';
 
 export function AccountConfig() {
     const user = useSelector((state) => state.data.user);
@@ -17,10 +18,10 @@ export function AccountConfig() {
     const toggleChange = (id) => {
         setActiveChange((prevId) => (prevId === id ? null : id));
     };
-    const routePage = (page) => {
+    const routePage = (view, page) => {
         page == "userArtistProfile" && dispatch(setSelectedArtistPage(artist));
         page == "userProfile" && dispatch(setSelectedUserPage(user));
-        dispatch(setView(page));
+        dispatch(setView({ view, value: page}));
     }
     
     return (
@@ -31,19 +32,25 @@ export function AccountConfig() {
                     <UserImage width={'48px'} height={'48px'}/>
                     <div className={styles.name}>{user.user_name}</div>
                 </div>
-                <button onClick={() => routePage("userProfile")}>View Profile</button>
+                <Link to={`/page/user/${user.user_id}`} className='link-reset'>
+                    <button>View Profile</button>
+                </Link>
             </div>
             {artist == 'none' ? (
                 <div className={styles.setting}>
                     <p>You don't have artist profile</p>
-                    <button onClick={() => routePage("artistCreate")}>Create Artist Profile</button>  
+                    <Link to="/create/artist" className='link-reset'>
+                        <button>Create Artist Profile</button>  
+                    </Link>
                 </div> 
             ) : (<div className={styles.setting}>
                 <div className={styles.container}>
                     <div className={styles.user_avatar}></div>
                     <div className={styles.name}>{artist.artist_name}</div>
                 </div>
-                <button onClick={() => routePage("userArtistProfile")}>View Profile</button>
+                <Link to={`/page/artist/${artist.artist_id}`} className='link-reset'>
+                    <button>View Profile</button>
+                </Link>
             </div>)}
             <div className={styles.setting}>
                 <div className={styles.container}>

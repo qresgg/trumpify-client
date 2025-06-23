@@ -5,9 +5,7 @@ import { useAuth } from '../../../hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { setAuthView } from '../../../lib/redux/pages/viewSlice';
 
-export function Login ({
-    switchAuth
-}) {
+export function Login () {
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }} = useForm();
     const { handleLogin, message } = useAuth();

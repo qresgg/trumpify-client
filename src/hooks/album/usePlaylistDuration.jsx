@@ -7,7 +7,7 @@ export const usePlaylistDuration = () => {
   const { selectedPlaylist } = useSelector((state) => state.music.playlist);
 
   useEffect(() => {
-    if (selectedPlaylist) {
+    if (selectedPlaylist?.artist) {
       const totalDur = new PlaylistDuration(selectedPlaylist);
       setTotalDuration(totalDur.totalDuration);
     }

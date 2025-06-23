@@ -2,18 +2,28 @@ import { setSelectedArtistPage, setView, setSelectedPlaylistPage, setSelectedUse
 import { setSelectedPlaylist } from '../lib/redux/music/musicState';
 import { findContent } from '../services/search/findService';
 
-const actionMap = {
-    'Artist': {
-        view: 'userArtistProfile',
-        action: setSelectedArtistPage,
-    },
-    'User': {
-        view: 'userProfile',
-        action: setSelectedUserPage,
-    },
-    'Album': {
-        view: 'playlist',
-        action: setSelectedPlaylist,
+// const actionMap = {
+//     'Artist': {
+//         view: 'userArtistProfile',
+//         action: setSelectedArtistPage,
+//     },
+//     'User': {
+//         view: 'userProfile',
+//         action: setSelectedUserPage,
+//     },
+//     'Album': {
+//         view: 'playlist',
+//         action: setSelectedPlaylist,
+//     }
+// }
+
+const actionMap = (type, data, dispatch) => {
+    if (type === "Album"){
+        dispatch(setView({ view: "currentView", value: 'playlist'}))
+    } else if (type === "User"){
+        dispatch(setView({ view: "currentUserProfile", value: data}))
+    } else if (type === "Artist"){
+        dispatch(setView({ view: "currentArtistProfile", value: data}))
     }
 }
 
@@ -35,11 +45,10 @@ const ShowPage = async (type, id, dispatch) => {
         return;
     }
 
-    const action = actionMap[type];
+    let action;
     if (action) {
         try {
-            dispatch(action.action(data));
-            dispatch(setView(action.view));
+            action = actionMap(type, data, dispatch);
         } catch (error) {
             console.error('Error dispatching action:', error);
         }

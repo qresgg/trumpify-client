@@ -1,27 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
-  setModalStateSongCreate,
-  setModalStateUserPage,
-  setModalStateShowCropperUserPage,
-  setModalStateShowCropperCover,
-  setModalStateShowCropperArtistConfig
+  setModalView
 } from "../lib/redux/pages/viewSlice";
 
 export function useModal() {
   const dispatch = useDispatch();
   // const modalState = useSelector((state) => state.view.modal.modalStateSongCreate);
+  const modal = useSelector((state) => state.view.modal);
 
   const modalActions = {
-    songCreate: setModalStateSongCreate,
-    userPage: setModalStateUserPage, 
-    showCropperUserPage: setModalStateShowCropperUserPage,
-    showCropperCover: setModalStateShowCropperCover,
-    showCropperArtistConfig: setModalStateShowCropperArtistConfig
+    songCreate: 'modalStateSongCreate',
+    userPage: 'modalStateUserPage', 
+    showCropperUserPage: 'modalStateShowCropperUserPage',
+    showCropperCover: 'modalStateShowCropperCover',
+    showCropperArtistConfig: 'modalStateShowCropperArtistConfig',
+    searchMenu: 'modalStateSearchMenu',
+    dropDownMenu: 'modalStateDropDownMenu'
   };
 
   const changeModalState = (isOpen, type) => {
-    const action = modalActions[type];
-    if (action) dispatch(action(isOpen));
+    dispatch(setModalView({ view: modalActions[type], value: isOpen}))
   };
 
   const openModal = (type) => changeModalState(true, type);

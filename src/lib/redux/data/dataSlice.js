@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
   const initialState = {
     isAuthenticated: false,
     user: {
+      _id: null,
       user_avatar_url: null,
-      user_id: null,
       user_name: null,
       user_email: null,
       user_likedSongsCount: null,
@@ -12,7 +12,7 @@ import { createSlice } from "@reduxjs/toolkit";
       user_library: null
     },
     artist: {
-      artist_id: null,
+      _id: null,
       artist_name: null,
       artist_is_verified: null,
       artist_avatar: null,

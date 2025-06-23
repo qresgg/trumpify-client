@@ -8,6 +8,7 @@ import { usePlaybackControl } from '../../../../../../hooks/global/usePlaybackCo
 import { useSingleSong } from '../../../../../../hooks/song/useSingleSong';
 import { setActivePlaylist, setSelectedPlaylist } from "../../../../../../lib/redux/music/musicState";
 import { setView } from "../../../../../../lib/redux/pages/viewSlice";
+import { Link } from "react-router-dom";
 
 export function AlbumItem({ item, index}) {
     const dispatch = useDispatch();
@@ -18,15 +19,13 @@ export function AlbumItem({ item, index}) {
             <div className={styles.playButton} onClick={togglePlay}>
                 {isPlaying ? <Pause color="black" /> : <Play color="black" />}
             </div>
-            <div className={styles.item__container} onClick={() => {
-                dispatch(setActivePlaylist(null))
-                dispatch(setSelectedPlaylist(item))
-                dispatch(setView('playlist'))
-            }}>
-                <div className={styles.cover} style={{ backgroundImage: `url(${item.cover})` }} />
-                <div className={styles.title} title={item.title}>{item.title}</div>
-                <div className={styles.author}>{item.artist_name}</div>
-            </div>
+            <Link to={`page/album/${item._id}`} className="link-reset">
+                <div className={styles.item__container}>
+                    <div className={styles.cover} style={{ backgroundImage: `url(${item.cover})` }} />
+                    <div className={styles.title} title={item.title}>{item.title}</div>
+                    <div className={styles.author}>{item.artist_name}</div>
+                </div>
+            </Link>
         </div>
     );
 }

@@ -31,6 +31,7 @@ export function SongPageCreate () {
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
+                // console.log(data, artists)
                 const formData = { ...data, artists: JSON.stringify(artists)}
                 const res = await createSong(formData)
                 setMessage({ success: res ? res.message : 'Song has been created successfully' })
@@ -237,10 +238,10 @@ export function SongPageCreate () {
                                             ))}
                                         </div>
                                     </div>
+                                    <div className={styles.songDetails__rightContainer__data}>
+                                        <button type="submit">Create Song</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={styles.lowerContainer}>
-                                <button type="submit">Create Song</button>
                             </div>
                         </div>
                     )}

@@ -9,26 +9,46 @@ import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
 import { AlbumCreatePage } from './componentsForYou/createPages/albumCreatePage';
 import { LikedSongsPage } from './componentsForYou/likedSongsPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export function ForYou() {
     const currentView = useSelector((state) => state.view.currentView)
     console.log(currentView);
     
     return (
-        <Fragment>
-            {currentView === "home" && <HomePage />}
-            {currentView === "settings" && <SettingsPage/>}
-            {currentView === "playlist" && <AboutPlaylistPage/>}
-            {currentView === "likedSongs" && <LikedSongsPage />}
+        // <Fragment>
+        //     {currentView === "home" && <HomePage />}
+        //     {currentView === "settings" && <SettingsPage/>}
+        //     {currentView === "playlist" && <AboutPlaylistPage/>}
+        //     {currentView === "likedSongs" && <LikedSongsPage />}
 
-            {/* PROFILES */}
-            {currentView === "userArtistProfile" && <UserArtistProfilePage />}
-            {currentView === "userProfile" && <UserProfilePage />}
+        //     {/* PROFILES */}
+        //     {currentView === "userArtistProfile" && <UserArtistProfilePage />}
+        //     {currentView === "userProfile" && <UserProfilePage />}
             
-            {/* CREATE */}
-            {currentView === "artistCreate" && <ArtistPageCreate/>}
-            {currentView === "songCreate" && <SongPageCreate/>}
-            {currentView === "albumCreate" && <AlbumCreatePage />}
-        </Fragment>
+        //     {/* CREATE */}
+        //     {currentView === "artistCreate" && <ArtistPageCreate/>}
+        //     {currentView === "songCreate" && <SongPageCreate/>}
+        //     {currentView === "albumCreate" && <AlbumCreatePage />}
+        // </Fragment>
+        <Routes>
+            <Route path='/' element={<HomePage/>} />
+            <Route path='/settings/*' element={<SettingsPage/>} />
+
+            <Route path="/create">
+                <Route path="song" element={<SongPageCreate />} />
+                <Route path="album" element={<AlbumCreatePage />} />
+                <Route path="artist" element={<ArtistPageCreate />} />
+            </Route>
+
+            
+            <Route path="/page">
+                <Route path="likedCollection/:id" element={<LikedSongsPage />} />
+                <Route path="user/:id" element={<UserProfilePage />} />
+                <Route path="album/:id" element={<AboutPlaylistPage />} />
+                <Route path="artist/:id" element={<UserArtistProfilePage />} />
+            </Route>
+
+        </Routes>
     );
 }

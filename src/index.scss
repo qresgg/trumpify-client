@@ -54,21 +54,25 @@ button{
   align-items: center;
 
   .modal{
-      position: relative;
-      z-index: 99;
-      background: #272727;
-      width: fit-content;
-      height: fit-content;
-      color: white;
-      box-sizing: border-box;
-      border-radius: 5px;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    position: relative;
+    z-index: 99;
+    background: #272727;
+    width: fit-content;
+    height: fit-content;
+    color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-      .cancelbutton{
-          padding: 8px 16px !important;
-          border-color: #e53e3e;
-          margin-top: 2px;
-      }
+    .cancelbutton{
+      padding: 8px 16px !important;
+      border-color: #e53e3e;
+      margin-top: 2px;
+    }
   }
-  
+}
+
+.link-reset {
+  text-decoration: none;
+  color: inherit;
 }

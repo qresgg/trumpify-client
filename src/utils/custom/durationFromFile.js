@@ -5,6 +5,10 @@ export const handleAudioFileChange = (event, setValue, setSongFileChosen, setAud
             console.error("Chosen file isn't audio file");
             return;
         }
+        if (file.size > 10400000) {
+            console.error('Audio file is bigger than 10 mB')
+            return;
+        }
 
         const url = URL.createObjectURL(file);
         const audio = new Audio(url);

@@ -54,7 +54,7 @@ export function useSlider(){
                         {React.cloneElement(dot.props.children, {
                             style: {
                             ...dot.props.children.props.style,
-                            backgroundColor: dot.props.className.includes("slick-active") ? "white" : "black"
+                            backgroundColor: dot.props.className.includes("slick-active") ? "#1ED660" : "white"
                             }
                         })}
                         </li>

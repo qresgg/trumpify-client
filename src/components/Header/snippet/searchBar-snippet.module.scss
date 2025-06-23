@@ -1,6 +1,8 @@
 @use "../../../style/mixins/scrollbar.module.scss";
 .bar{
     color: white;
+    position: relative;
+    z-index: 99;
     
     &__container{
         height: 100%;
@@ -31,7 +33,7 @@
         .results{
             position: absolute;
             z-index: 99;
-            height: 400px;
+            height: fit-content;
             width: 300px;
             background-color: #272727;
             overflow-y: scroll;
