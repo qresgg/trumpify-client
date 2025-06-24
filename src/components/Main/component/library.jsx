@@ -9,28 +9,25 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { addToLoadedOne } from "../../../lib/redux/data/loadedSlice";
 
-export function Library({ width, onResize }) {
+export default function Library({ width, onResize }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.data.user);
 
-    useEffect(() => {
-    }, [])
-
     return (
         <>
-            <div className={styles.library} style={{ width: `${width}px` }}>
-                <div className={styles.library__tags}>
-                    <div className={styles.title}>
-                        <div className={styles.mediatek}>
-                            <div className={styles.mediatek__icon}></div>
-                            <div className={styles.mediatek__title}>Your Library</div>
+            <div className={styles['library']} style={{ width: `${width}px` }}>
+                <div className={styles['library__header']}>
+                    <div className={styles['library__title']}>
+                        <div className={styles['library__media']}>
+                            <div className={styles['library__media-icon']}></div>
+                            <div className={styles['library__media-title']}>Your Library</div>
                         </div>
-                        <div className={styles.new__playlist}></div>
-                        <div className={styles.max__resize}></div>
+                        <div className={styles['library__playlist-new']}></div>
+                        <div className={styles['library__resize-max']}></div>
                     </div>
-                    <div className={styles.tag}></div>
+                    <div className={styles['library__tags']}></div>
                 </div>
-                <div className={styles.library__playlists}>
+                <div className={styles['library__playlists']}>
                     <div onClick={() => redirectPage("likedSongs", dispatch)}>
                         <LikedSongsPlaylist />
                     </div>
@@ -43,7 +40,7 @@ export function Library({ width, onResize }) {
                     ))}
                 </div>
             </div>
-            <div className={styles.resizer} onMouseDown={onResize}></div>
+            <div className={styles['resizer']} onMouseDown={onResize}></div>
         </>
     );
 }

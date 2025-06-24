@@ -32,7 +32,7 @@ export function AccountConfig() {
                     <UserImage width={'48px'} height={'48px'}/>
                     <div className={styles.name}>{user.user_name}</div>
                 </div>
-                <Link to={`/page/user/${user.user_id}`} className='link-reset'>
+                <Link to={`/page/user/${user._id}`} className='link-reset'>
                     <button>View Profile</button>
                 </Link>
             </div>
@@ -48,7 +48,7 @@ export function AccountConfig() {
                     <div className={styles.user_avatar}></div>
                     <div className={styles.name}>{artist.artist_name}</div>
                 </div>
-                <Link to={`/page/artist/${artist.artist_id}`} className='link-reset'>
+                <Link to={`/page/artist/${artist._id}`} className='link-reset'>
                     <button>View Profile</button>
                 </Link>
             </div>)}

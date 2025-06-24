@@ -1,44 +1,42 @@
 @use '../../../style/mixins/scrollbar.module.scss';
 
 .library{
-    background-color: #121212;
-    border-radius: 5px;
+  background-color: #121212;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  min-width: 340px;
+
+  &__title{
+
+  }
+
+  &__media{
+    box-sizing: border-box;
+    padding: 8px 16px;
+    height: 40px + (2 * 8px);
     display: flex;
-    flex-direction: column;
-    min-width: 340px;
+    align-items: center;
+    gap: 8px;
+
+    &-icon{
+      filter: brightness(0) saturate(100%) invert(82%) sepia(0%) saturate(90%) hue-rotate(137deg) brightness(91%) contrast(83%);
+      background: url('../../../../public/staff/library.png') center/contain no-repeat;
+      width: 24px;
+      height: 24px;
+    }
+    &-title{
+      color: #B3B3B3;
+      font-weight: bold;
+    }
+  }
+  
+  &__playlists{
+    // overflow-y: scroll;
+    padding: 0 8px;
     
-    &__tags{
-      // height: 108px; in next time when we have possiblity to have playlists
-
-      .title{
-
-        .mediatek{
-          box-sizing: border-box;
-          padding: 8px 16px;
-          height: 40px + (2 * 8px);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-
-          &__icon{
-            filter: brightness(0) saturate(100%) invert(82%) sepia(0%) saturate(90%) hue-rotate(137deg) brightness(91%) contrast(83%);
-            background: url('../../../../public/staff/library.png') center/contain no-repeat;
-            width: 24px;
-            height: 24px;
-          }
-          &__title{
-            color: #B3B3B3;
-            font-weight: bold;
-          }
-        }
-      }
-    }
-    &__playlists{
-      // overflow-y: scroll;
-      padding: 0 8px;
-      
-      @include scrollbar.scrollbar;
-    }
+    @include scrollbar.scrollbar;
+  }
 }
 .resizer {
   min-width: 8px;

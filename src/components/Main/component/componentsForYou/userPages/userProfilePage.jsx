@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import getUserById from '../../../../../services/user/data/get/userData';
 
-export function UserProfilePage() {
+export default function UserProfilePage() {
     const dispatch = useDispatch();
     const { id } = useParams();
     const [ loading, setLoading ] = useState(true);
@@ -71,20 +71,20 @@ export function UserProfilePage() {
     return (
         <>
             {!loading && (
-                <div className={styles.profile}>
-                    <div className={styles.title} style={gradient}>
-                        <div className={styles.addiction} onClick={() => modal.openModal('userPage')}>
-                            <div className={styles.image}>
+                <div className={styles['profile']}>
+                    <div className={styles['profile__title']} style={gradient}>
+                        <div className={styles['profile__addiction']} onClick={() => modal.openModal('userPage')}>
+                            <div className={styles['profile__user-image']}>
                                 <UserImage width={'210px'} height={'210px'} avatar={currentUserPage.user_avatar_url}/>
                             </div>
-                            <div className={styles.info}>
-                                <div className={styles.isProfile}>Profile</div>
-                                <div className={styles.userName}>{currentUserPage.user_name}</div>
-                                <div className={styles.playlistCount}>0 Playlist is public</div>
+                            <div className={styles['profile__info']}>
+                                <div className={styles['profile__info-label']}>Profile</div>
+                                <div className={styles['profile__info-name']}>{currentUserPage.user_name}</div>
+                                <div className={styles['profile__playlist-count']}>0 Playlist is public</div>
                             </div>
                         </div>
                     </div>
-                    <div className={styles.statistic}>
+                    <div className={styles['profile__statistic']}>
 
                     </div>
                     { (modalStateUserPage && originUser)&& <InfoChange /> }

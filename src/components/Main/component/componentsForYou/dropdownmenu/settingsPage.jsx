@@ -14,7 +14,7 @@ const SideBarElement = ({name, id, isActive, onClick}) => {
     )
 }
 
-export function SettingsPage() {
+export default function SettingsPage() {
     const dispatch = useDispatch();
     const settingsView = useSelector((state) => state.view.settingsView);
     const [activeButton, setActiveButton] = useState(null);

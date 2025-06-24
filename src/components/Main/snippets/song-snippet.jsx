@@ -3,10 +3,10 @@ import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
-import likeChecker from '../../../services/global/functions/song/likeChecker';
 import { usePlaybackControl } from '../../../hooks/global/usePlaybackControl';
 import { useSingleSong } from '../../../hooks/song/useSingleSong';
 import { setSelectedSong } from '../../../lib/redux/music/musicState';
+import { useLikeChecker } from '../../../hooks/song/useLikeChecker';
 
 export function Song({
     song,
@@ -19,16 +19,11 @@ export function Song({
     const { activeSong } = useSelector((state) => state.music.song);
     const { isPlaying, togglePlay, isSelected } = usePlaybackControl(song, 'song', index);
     const { setActiveSingleSong, setSelectedSingleSong } = useSingleSong();
-    
+    const { liked, setLiked } = useLikeChecker({ song: song });
     
     const [isHover, setIsHover] = useState(false);
     const data = useSelector((state) => state.data)
-    const [likedSong, setLikedSong] = useState(false)
     const timerRef = useRef(null);
-
-    useEffect(() => {
-        likeChecker(song, data, setLikedSong)
-    }, [data.user_likedSongsCount])
     
     const selectedTemplate = isSelected ? {
         backgroundColor: '#2A2A2A',
@@ -68,8 +63,8 @@ export function Song({
             <div className={styles.rightPanel}>
                 <div 
                     className={styles.song__like} 
-                    onClick={() => OnLikeSong(song, likedSong, setLikedSong, dispatch, data, timerRef)}>
-                    {likedSong 
+                    onClick={() => OnLikeSong(song, liked, setLiked, dispatch, data, timerRef)}>
+                    {liked
                         ? <div className={styles.liked}></div> 
                         : <div className={styles.notliked}></div>}
                 </div>

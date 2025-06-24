@@ -8,6 +8,7 @@ import { SearchBar } from './snippet/searchBar-snippet';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { useModal } from '../../hooks/useModal';
+import { setSelectedPlaylist } from '../../lib/redux/music/musicState';
 
 export function Header () {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export function Header () {
                     <div className={styles.logo}></div>
                 </div>
                 <Link to="/">
-                    <div className={styles.navBar__home}>
+                    <div className={styles.navBar__home} onClick={() => dispatch(setSelectedPlaylist(null))}>
                         <div className={styles.navBar__home__icon}></div>
                     </div>
                 </Link>

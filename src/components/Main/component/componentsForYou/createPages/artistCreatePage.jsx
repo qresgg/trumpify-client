@@ -6,7 +6,7 @@ import { useMessage } from '../../../../../hooks/global/useMessage';
 import { fetchUserData } from '../../../../../services/user/fetchData/fetchUserData';
 import { setData as setReduxData } from '../../../../../lib/redux/data/dataSlice';
 
-export function ArtistPageCreate () {
+export default function ArtistPageCreate () {
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }, reset} = useForm();
     const { message, setMessage } = useMessage();

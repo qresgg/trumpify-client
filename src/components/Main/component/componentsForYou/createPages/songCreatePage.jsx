@@ -15,7 +15,7 @@ import { useModal } from '../../../../../hooks/useModal';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export function SongPageCreate () {
+export default function SongPageCreate () {
     const { register, handleSubmit, formState: { errors }, setValue, control } = useForm();
     const { removeArtist, removeRoleFromArtist, addArtistWithRole, artists, setArtists } = useArtistsRoleActions();
     const { handleSave, previewImage, setPreviewImage } = usePreviewImage({ setValue });

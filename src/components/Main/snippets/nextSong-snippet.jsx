@@ -1,8 +1,6 @@
 import styles from './nextSong-snippet.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
-import likeChecker from '../../../services/global/functions/song/likeChecker'
 
 export function NextSong() {
     const dispatch = useDispatch();
@@ -14,10 +12,6 @@ export function NextSong() {
     const songCover = nextSong ? {
         backgroundImage: `url('${nextSong.song_cover}')`
     } : [];
-
-    useEffect(() => {
-        likeChecker(nextSong, data, setLiked)
-    }, [nextSong, data])
 
     return (
         <>

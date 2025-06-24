@@ -22,7 +22,7 @@ import { usePlaybackControl } from "../../../../hooks/global/usePlaybackControl"
 import { useTimeStamp } from "../../../../hooks/album/useTimeStamp";
 import { addToLoadedOne } from "../../../../lib/redux/data/loadedSlice";
 
-export function AboutPlaylistPage() {
+export default function AboutPlaylistPage() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
@@ -76,46 +76,42 @@ export function AboutPlaylistPage() {
     }
 
     return (
-        <div className={styles.foryou}>
+        <div className={styles['foryou']}>
             {!loading ? (
-                <div className={styles.playlist}>
-                    <div className={styles.playlist__title} style={gradient}>
-                        <div className={styles.playlist__title__container}>
-                            <div
-                                className={styles.image}
+                <div className={styles['playlist']}>
+                    <div className={styles['playlist__title']} style={gradient}>
+                        <div className={styles['playlist__title-container']}>
+                            <div className={styles['playlist__image']}
                                 style={{
                                     backgroundImage: `url(${selectedPlaylist.cover})`,
-                                }}
-                            ></div>
-                            <div className={styles.info}>
-                                <div className={styles.info__type}>{selectedPlaylist.type}</div>
-                                <div className={styles.info__albumName}>
+                                }}>
+                            </div>
+                            <div className={styles['playlist__info']}>
+                                <div className={styles['playlist__info-type']}>{selectedPlaylist.type}</div>
+                                <div className={styles['playlist__info-album-name']}>
                                     {selectedPlaylist.title}
                                 </div>
-                                <div className={styles.info__otherInfo}>
+                                <div className={styles['playlist__info-meta']}>
                                     <Link to={`/page/artist/${selectedPlaylist.artist}`} className="link-reset">
-                                      <p className={styles.artist}>
+                                      <p className={styles['playlist__artist']}>
                                         {originArtist ? "(You) " : ""}
                                         {selectedPlaylist.artist_name}
                                       </p>
                                     </Link>
-                                    <p className={styles.year}>• {year} •</p>
-                                    <p className={styles.trackCount}>
+                                    <p className={styles['playlist__year']}>• {year} •</p>
+                                    <p className={styles['playlist__track-count']}>
                                         {selectedPlaylist?.songs?.length} songs, {totalDuration}{" "}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className={styles.playlist__tracks}>
-                        <div className={styles.nav}>
-                            <button className={styles.button__play} onClick={togglePlay}>
+                    <div className={styles['playlist__tracks']}>
+                        <div className={styles['playlist__nav']}>
+                            <button className={styles['playlist__button--play']} onClick={togglePlay}>
                                 {isPlaying ? <Pause size={24} /> : <Play size={24} />}
                             </button>
-                            <div
-                                className={styles.button__like}
-                                onClick={() =>
-                                    OnLikeAlbum(
+                            <div className={styles['playlist__button--like']} onClick={() => OnLikeAlbum(
                                         selectedPlaylist,
                                         isLikedPlaylist,
                                         setIsLikedPlaylist,
@@ -126,23 +122,23 @@ export function AboutPlaylistPage() {
                                 }
                             >
                                 {isLikedPlaylist ? (
-                                    <div className={styles.liked}></div>
+                                    <div className={styles['playlist__button--like-icon--active']}></div>
                                 ) : (
-                                    <div className={styles.notliked}></div>
+                                    <div className={styles['playlist__button--like-icon--inactive']}></div>
                                 )}
                             </div>
                         </div>
-                        <div className={styles.tracks}>
-                            <div className={styles.tabulation}>
-                                <div className={styles.tabulation__start}>
-                                    <div className={styles.tabulation__id}>#</div>
-                                    <div className={styles.tabulation__name}>Title</div>
+                        <div className={styles['playlist__track-list']}>
+                            <div className={styles['playlist__header']}>
+                                <div className={styles['playlist__header-start']}>
+                                    <div className={styles['playlist__header-id']}>#</div>
+                                    <div className={styles['playlist__header-title']}>Title</div>
                                 </div>
-                                <div className={styles.tabulation__end}>
-                                    <div className={styles.tabulation__duration}>Dur</div>
+                                <div className={styles['playlist__header-end']}>
+                                    <div className={styles['playlist__header-duration']}>Dur</div>
                                 </div>
                             </div>
-                            <div className={styles.tracks__trackplate}>
+                            <div className={styles['playlist__track-plate']}>
                                 {selectedPlaylist?.songs?.length > 0 ? (
                                     selectedPlaylist.songs.map((song, index) => (
                                         <div key={index}>
@@ -153,14 +149,14 @@ export function AboutPlaylistPage() {
                                     <p>No songs available</p>
                                 )}
                             </div>
-                            <div className={styles.tracks__endInfo}>
-                                <div className={styles.tracks__endInfo__releaseDate}>
+                            <div className={styles['playlist__footer']}>
+                                <div className={styles['playlist__footer-release-date']}>
                                     {fullDate}
                                 </div>
-                                <div className={styles.tracks__endInfo__labelTitle}>
+                                <div className={styles['playlist__footer-label']}>
                                     © {year} {selectedPlaylist.record_label}.
                                 </div>
-                                <div className={styles.tracks__endInfo__labelTitle}>
+                                <div className={styles['playlist__footer-label']}>
                                     ℗ {year} {selectedPlaylist.record_label}.
                                 </div>
                             </div>
@@ -168,7 +164,7 @@ export function AboutPlaylistPage() {
                     </div>
                 </div>
             ) : (
-                <div>There is no playlist</div>
+                <div className={styles['playlist--empty']}>There is no playlist</div>
             )}
         </div>
     );

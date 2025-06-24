@@ -2,23 +2,19 @@ import styles from './activeSong.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
-import likeChecker from '../../../services/global/functions/song/likeChecker'
 import { redirectFromFeature } from '../../../services/global/functions/redirection'
+import { useLikeChecker } from '../../../hooks/song/useLikeChecker'
 
 export function ActiveSong() {
     const dispatch = useDispatch();
-    const { activeSong } = useSelector((state) => state.music.song)
-    const [liked, setLiked] = useState(false);
+    const { activeSong, selectedSong } = useSelector((state) => state.music.song)
     const timerRef = useRef(null);
     const data = useSelector((state) => state.data)
+    const { liked, setLiked } = useLikeChecker({ song: activeSong});
 
     const songCover = activeSong ? {
         backgroundImage: `url('${activeSong.song_cover}')`
     } : [];
-
-    useEffect(() => {
-        likeChecker(activeSong, data, setLiked)
-    }, [activeSong, data])
 
     return (
         <>

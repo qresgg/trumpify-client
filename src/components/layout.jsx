@@ -1,7 +1,8 @@
-import { Auth } from "./Auth/auth";
+import Auth from "./Auth/Auth";
 import { Header } from "./Header/header";
-import { Main } from "./Main/main";
+import Main from "./Main/Main";
 import { Footer } from "./Footer/footer";
+
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +11,12 @@ import { checkAuth } from "../services/auth/authService";
 import { fetchUserData } from "../services/user/fetchData/fetchUserData";
 import { setAuthenticated } from "../lib/redux/data/dataSlice";
 import _ from 'lodash';
+import { useNavigate } from "react-router-dom";
 
 export function Layout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
 
@@ -25,9 +29,11 @@ export function Layout() {
           setAuthed(true);
           const userData = await fetchUserData();
           dispatch(setReduxData(userData));
+          navigate('/');
         } else {
           console.log('not authed')
           setAuthed(false);
+          navigate('/login');
         }
       } catch (error) {
         console.error('An error occurred during authentication:', error);

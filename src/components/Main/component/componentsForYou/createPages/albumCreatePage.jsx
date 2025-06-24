@@ -2,7 +2,7 @@ import styles from './createForm.module.scss'
 import { useForm, Controller } from 'react-hook-form'
 import { useState, useRef, useEffect } from 'react';
 import { createAlbum } from '../../../../../services/artist/artistService';
-import { CreateSongAlbum } from './createSongAlbum';
+import CreateSongAlbum from './CreateSongAlbum';
 import { X } from 'lucide-react'
 import { useModal } from '../../../../../hooks/useModal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ import ModalOverlay from '../../../snippets/ModalOverlay';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export function AlbumCreatePage() {
+export default function AlbumCreatePage() {
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm();
     const modal = useModal();

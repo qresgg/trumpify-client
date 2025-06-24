@@ -17,7 +17,7 @@ import { MainContainerSkeleton } from '../../../Loadings/mainContainer-skeleton'
 
 import { findContent } from '../../../../../services/search/findService';
 
-export function UserArtistProfilePage() {
+export default function UserArtistProfilePage() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const [ loading, setLoading ] = useState(true);
@@ -86,72 +86,64 @@ export function UserArtistProfilePage() {
        <>
         {!loading && (
             <div className={styles.profile}>
-                <div className={styles.header}></div>
-                <div className={styles.title} style={{ backgroundImage: `url(${currentArtistPage?.artist_banner})` }}>
-                    <div className={styles.addiction}>
-                        <div className={styles.info}>
-                            <div className={styles.backgroundBlur}></div>
-                            <div className={styles.isProfile}>{currentArtistPage?.artist_is_verified && <p className={styles.verifiedIco}>Verified</p>} Artist</div>
-                            <div className={styles.userName}>{currentArtistPage?.artist_name}</div>
-                            {/* <div className={styles.playlistCount}>0 listeners per month</div> */}
+                <div className={styles['profile__header']}></div>
+                <div className={styles['profile__banner']} style={{ backgroundImage: `url(${currentArtistPage?.artist_banner})` }}>
+                    <div className={styles['profile__content']}>
+                    <div className={styles['profile__info']}>
+                        <div className={styles['profile__blur']}></div>
+                        <div className={styles['profile__verified-label']}>
+                            {currentArtistPage?.artist_is_verified && (
+                                <p className={styles['profile__verified']}>Verified</p>
+                            )} Artist
+                        </div>
+                        <div className={styles['profile__username']}>
+                            {currentArtistPage?.artist_name}
                         </div>
                     </div>
+                    </div>
                 </div>
-                <div className={styles.statistic}>  
-                    {originArtist && (
-                        <>
-                            
-                        </>
-                    )}
-                    <div className={styles.popular_songs}>
-                        <div className={styles.popular_songs__title}>Popular songs</div>
-                        <div className={styles.popular_songs__list}>
-                            <div className={styles.container}>
-                                <div className={styles.tabulation}>
-                                    <div className={styles.tabulation__start}>
-                                        <div className={styles.tabulation__id}>#</div>
-                                        <div className={styles.tabulation__name}>Name</div>
-                                    </div>
-                                    <div className={styles.tabulation__end}>
-                                        <div className={styles.tabulation__duration}>Dur</div>
+
+                <div className={styles['profile__section']}>
+                    <div className={styles.songs}>
+                        <div className={styles['songs__title']}>Popular songs</div>
+
+                        <div className={styles['songs__list']}>
+                            <div className={styles['songs__wrapper']}>
+                            <div className={styles['songs__header']}>
+                                <div className={styles['songs__header-left']}>
+                                <div className={styles['songs__col-id']}>#</div>
+                                <div className={styles['songs__col-name']}>Name</div>
+                                </div>
+                                <div className={styles['songs__header-right']}>
+                                <div className={styles['songs__col-duration']}>Dur</div>
+                                </div>
+                            </div>
+
+                            {songs && (
+                                <div className={styles['songs__plate']}>
+                                {Array.isArray(songs) ? (
+                                    songs.map((song, index) => (
+                                    <Song key={song._id} song={song} index={index} />
+                                    ))
+                                ) : (
+                                    <div>LOADING...</div>
+                                )}
+                                    <div
+                                        className={styles['songs__more-button']}
+                                        onClick={() => setIsExpanded(!isExpanded)}
+                                    >
+                                        Show more
                                     </div>
                                 </div>
-                                {songs && (
-                                    <div className={styles.songs__plate}>
-                                        {isExpanded ? (
-                                            Array.isArray(songs) ? (
-                                                songs.map((song, index) => (
-                                                <Fragment key={song._id}>
-                                                    <Song
-                                                        song={song}
-                                                        index={index}
-                                                    />
-                                                </Fragment>
-                                            ))) : (
-                                                <div>LOADING...</div>
-                                            )
-                                        ) : (
-                                            Array.isArray(songs) ? (
-                                                songs.map((song, index) => (
-                                                <Fragment key={song._id}>
-                                                    <Song
-                                                        song={song}
-                                                        index={index}
-                                                    />
-                                                </Fragment>
-                                            ))) : (
-                                                <div>LOADING...</div>
-                                            )
-                                        )}
-                                        <div className={styles.songs__plate__button} onClick={() => setIsExpanded(!isExpanded)}>Show more</div>
-                                    </div>
-                                )}
+                            )}
                             </div>
                         </div>
                     </div>
-                    <div className={styles.artist_chose}></div>
-                    <div className={styles.music}>
-                        <Selection title="Discography" fetchFunction={getArtistReleases} id={id}/>
+
+                    <div className={styles['profile__suggestions']}></div>
+
+                    <div className={styles['profile__discography']}>
+                        <Selection title="Discography" fetchFunction={getArtistReleases} id={id} />
                     </div>
                 </div>
             </div>

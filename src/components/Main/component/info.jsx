@@ -5,13 +5,13 @@ import { X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
 import { findContent } from '../../../services/search/findService';
-import likeChecker from '../../../services/global/functions/song/likeChecker';
 import fetchColors from '../../../utils/custom/colorPalette';
 import { NextSong } from '../snippets/nextSong-snippet';
 import { redirectTo, redirectFromFeature } from '../../../services/global/functions/redirection';
 import { Link } from 'react-router-dom';
+import { useLikeChecker } from '../../../hooks/song/useLikeChecker';
 
-export function Info({ 
+export default function Info({ 
     width, 
     onResize 
 }) {
@@ -20,9 +20,9 @@ export function Info({
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
     const song = useSelector((state) => state.music.song);
     const [ gradient, setGradient ] = useState(null)
+    const { liked, setLiked } = useLikeChecker({ song: selectedSong });
 
     const [albumName, setAlbumName] = useState(null);
-    const [liked, setLiked] = useState(false);
     const dataRedux = useSelector((state) => state.data);
     const timerRef = useRef(null);
     const [songArtist, setSongArtist] = useState([]);
@@ -31,10 +31,6 @@ export function Info({
     useEffect(() => {
         selectedSong && setAlbumName(selectedPlaylist ? selectedPlaylist.title : 'Liked Songs')
     }, [selectedSong])
-
-    useEffect(() => {
-        likeChecker(selectedSong, dataRedux, setLiked)
-    }, [selectedSong, user])
 
     useEffect(() => {
         const fetchArtist = async () => {
@@ -59,24 +55,24 @@ export function Info({
         <>
             {selectedSong && (
                 <>
-                    <div className={styles.resizer} onMouseDown={onResize}></div>
-                    <div className={styles.song} style={{ width: `${width}px` }}>
-                        <div className={styles.song__albumTitle}>
-                            <div className={styles.albumName}>{albumName}</div>
-                            <div className={styles.closeInfo}><X onClick={() => dispatch(setSelectedSong(null))}/></div>
+                    <div className={styles['resizer']} onMouseDown={onResize}></div>
+
+                    <div className={styles['song']} style={{ width: `${width}px` }}>
+                        <div className={styles['song__header']}>
+                            <div className={styles['song__album-name']}>{albumName}</div>
+                            <div className={styles['song__album-info']}>
+                                <X onClick={() => dispatch(setSelectedSong(null))}/>
+                            </div>
                         </div>
-                        <div
-                            className={styles.song__backcolor}
-                            style={gradient}
-                        ></div>
-                        <div className={styles.song__container}>
-                            <div className={styles.image_container}>
+                        <div className={styles['song__background']} style={gradient}></div>
+                        <div className={styles['song__content']}>
+                            <div className={styles['song__image-wrapper']}>
                                 <img src={selectedSong.song_cover}/>
                             </div>
-                            <div className={styles.title}>
-                                <div className={styles.title__container}>
-                                    <div className={styles.title__songName}>{selectedSong.title}</div>
-                                    <div className={styles.title__artists}>
+                            <div className={styles['song__title']}>
+                                <div className={styles['song__title-content']}>
+                                    <div className={styles['song__name']}>{selectedSong.title}</div>
+                                    <div className={styles['song__artists']}>
                                     {selectedSong.features
                                         .filter(feat => feat.roles.some(role => role.role === 'main vocal'))
                                         .map((feat, index, arr) => (
@@ -87,36 +83,41 @@ export function Info({
                                         ))}
                                     </div>
                                 </div>
-                                <div className={styles.isLiked} onClick={() => OnLikeSong(selectedSong, liked, setLiked, dispatch, dataRedux, timerRef)}>
+                                <div className={styles['song__like-button']} onClick={() => OnLikeSong(selectedSong, liked, setLiked, dispatch, dataRedux, timerRef)}>
                                     {liked 
-                                    ? <div className={styles.liked} title='Unlike song'></div>
-                                    : <div className={styles.notliked} title='Like song'></div>}
+                                    ? <div className={styles['song__liked']} title='Unlike song'></div>
+                                    : <div className={styles['song__not-liked']} title='Like song'></div>}
                                 </div>
                             </div>
-                            <div className={styles.artistAccount}>
-                                <div className={styles.artist}>
-                                    <div className={styles.artist__preview} style={{ background: `url(${songArtist.artist_avatar})`}}></div>
-                                    <Link to={`page/artist/${songArtist.artist_id}`} className='link-reset'>
-                                        <div className={styles.artist__details} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
-                                            <div className={styles.artist__details__name}>{songArtist.artist_name}</div>
-                                            {/* <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div> */}
-                                            <div className={styles.artist__details__bio}>{songArtist.artist_bio}</div>
-                                        </div>
-                                    </Link>
-                                </div>
+                            <div className={styles['song__artist']}>
+                                <div
+                                    className={styles['song__artist-preview']}
+                                    style={
+                                        songArtist.artist_avatar !== 'none'
+                                        ? { background: `url(${songArtist.artist_avatar}) center/cover no-repeat` }
+                                        : undefined
+                                    }
+                                    />
+                                <Link to={`page/artist/${songArtist._id}`} className='link-reset'>
+                                    <div className={styles['song__artist-details']} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
+                                        <div className={styles['song__artist-name']}>{songArtist.artist_name}</div>
+                                        {/* <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div> */}
+                                        <div className={styles['song__artist-bio']}>{songArtist.artist_bio}</div>
+                                    </div>
+                                </Link>
                             </div>
-                            <div className={styles.details}>
-                                <div className={styles.details__container}>
-                                    <div className={styles.upperTitle}>
-                                        <div className={styles.upperTitle__caption}>Credits</div>
+                            <div className={styles['song__details']}>
+                                <div className={styles['song__details-content']}>
+                                    <div className={styles['song__credits-header']}>
+                                        <div className={styles['song__credits-title']}>Credits</div>
                                         {/* <div className={styles.upperTitle__button}>Show all</div> */}
                                     </div>
                                         {selectedSong.features.map((feat, index) => (
-                                            <div className={styles.feature} key={index}>
-                                                <div className={styles.featName}>{feat.name}</div>
-                                                <div className={styles.featRole}>
+                                            <div className={styles['song__feature']} key={index}>
+                                                <div className={styles['song__feature-name']}>{feat.name}</div>
+                                                <div className={styles['song__feature-roles']}>
                                                     {feat.roles.map((role, idx, arr) => (
-                                                        <span key={idx} className={styles.roles}>
+                                                        <span key={idx} className={styles['song__role']}>
                                                             {role.role}
                                                             {idx < arr.length - 1 && <span>, </span>}
                                                         </span>
@@ -126,10 +127,10 @@ export function Info({
                                         ))}
                                 </div>
                             </div>
-                            {song?.nextSong && (<div className={styles.details}>
-                                <div className={styles.details__container}>
-                                    <div className={styles.upperTitle}>
-                                        <div className={styles.upperTitle__caption}>Next song</div>
+                            {song?.nextSong && (<div className={styles['song__details']}>
+                                <div className={styles['song__details-content']}>
+                                    <div className={styles['song__credits-header']}>
+                                        <div className={styles['song__credits-title']}>Next song</div>
                                     </div>
                                     <NextSong />
                                 </div>

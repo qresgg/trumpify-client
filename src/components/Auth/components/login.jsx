@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { useDispatch } from 'react-redux';
-import { setAuthView } from '../../../lib/redux/pages/viewSlice';
+import { Link } from 'react-router-dom';
 
-export function Login () {
+export default function Login () {
     const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }} = useForm();
     const { handleLogin, message } = useAuth();
@@ -56,7 +56,9 @@ export function Login () {
                         <div className={styles.breakLine}></div>
                         <div className={styles.loginButton}>
                             <div className={styles.loginButton__text}>Don't have an account?</div>
-                            <div className={styles.loginButton__button} onClick={() => dispatch(setAuthView('register'))}>Sign up</div>
+                            <Link to="/register" className="link-reset">
+                                <div className={styles.loginButton__button}>Sign up</div>
+                            </Link>
                         </div>
                         <div className={styles.footer}>
                             {!isAdClosed && (

@@ -7,7 +7,7 @@ import { handleAudioFileChange } from '../../../../../utils/custom/durationFromF
 import { useMessage } from '../../../../../hooks/global/useMessage';
 import { useArtistsRoleActions } from '../../../../../hooks/album/useArtistsRoleActions';
 
-export function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex }) {
+export default function CreateSongAlbum({ sendSong, songToEdit, clearEditingSongIndex }) {
     const modal = useModal();
     const [ windowSize, setWindowSize ] = useState({ width: window.innerWidth, height: window.innerHeight });
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm({

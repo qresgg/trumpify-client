@@ -6,7 +6,6 @@ const initialState = {
     song: {
         selectedSong: null,
         activeSong: null,
-        prevSong: null,
         nextSong: null
     },
     playlist: {
@@ -44,6 +43,7 @@ const musicSlice = createSlice({
         },
         setSelectedSong: (state, action ) => {
             state.song.selectedSong = action.payload;
+            state.song.nextSong = state.playlist.activePlaylist?.songs[state.currentIndex + 1];
         },
         setSelectedPlaylist: (state, action ) => {
             state.playlist.selectedPlaylist = action.payload;

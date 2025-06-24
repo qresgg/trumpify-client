@@ -9,6 +9,7 @@ import { setAuthView } from "../lib/redux/pages/viewSlice";
 
 export function useAuth() {
   const dispatch = useDispatch();
+
   const { isAuthenticated } = useSelector((state) => state.data);
   const { message, setMessage } = useMessage();
 
