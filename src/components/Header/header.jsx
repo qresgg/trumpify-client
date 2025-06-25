@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useModal } from '../../hooks/useModal';
 import { setSelectedPlaylist } from '../../lib/redux/music/musicState';
 
-export function Header () {
+export default function Header () {
     const dispatch = useDispatch();
     const { handleLogout } = useAuth();
     const user = useSelector((state) => state.data.user);
@@ -18,26 +18,26 @@ export function Header () {
     const modal = useModal()
 
     return (
-        <div className={styles.header}>
-            {modalStateDropDownMenu && <div className={styles.blackScreen} onClick={() => modal.closeModal('dropDownMenu')}></div>}
-            {modalStateSearchMenu && <div className={styles.blackScreen} onClick={() => modal.closeModal('searchMenu')}></div>}
-            <div className={styles.navBar}>
-                <div className={styles.navBar__logo}>
-                    <div className={styles.logo}></div>
+        <div className={styles['header']}>
+            {modalStateDropDownMenu && <div className={styles['black-screen']} onClick={() => modal.closeModal('dropDownMenu')}></div>}
+            {modalStateSearchMenu && <div className={styles['black-screen']} onClick={() => modal.closeModal('searchMenu')}></div>}
+            <div className={styles['nav-bar']}>
+                <div className={styles['nav-bar__logo']}>
+                    <div className={styles['nav-bar__logotype']}></div>
                 </div>
                 <Link to="/">
-                    <div className={styles.navBar__home} onClick={() => dispatch(setSelectedPlaylist(null))}>
-                        <div className={styles.navBar__home__icon}></div>
+                    <div className={styles['nav-bar__home']} onClick={() => dispatch(setSelectedPlaylist(null))}>
+                        <div className={styles['nav-bar__home-icon']}></div>
                     </div>
                 </Link>
                 <SearchBar/>
                 <Link to="create/song"><button>New Song</button></Link>
                 <Link to="create/album"><button>New Album</button></Link>
             </div>
-            <div className={styles.userBar}>
+            <div className={styles['user-bar']}>
                 {/* <div className={styles.userBar__subscription}>Learn more about Premium</div> */}
-                <div className={styles.pp_dropdown}>
-                    <div className={styles.userBar__profile} onClick={() => modal.openModal('dropDownMenu')} title={user?.user_name}>
+                <div className={styles['user-bar__drop-menu']}>
+                    <div className={styles['user-bar__profile']} onClick={() => modal.openModal('dropDownMenu')} title={user?.user_name}>
                         <UserImage width={'48px'} height={'48px'}/>
                     </div>
                     {modalStateDropDownMenu && <DropdownMenu onLogout={handleLogout}/>}

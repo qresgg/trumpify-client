@@ -30,7 +30,7 @@ $width: 100%;
     background-color: black;
     display: flex;
 
-    .blackScreen{
+    .black-screen{
         color: white;
         background-color: black;
         position: absolute;
@@ -43,8 +43,7 @@ $width: 100%;
     }
 
     
-    .navBar{
-
+    .nav-bar{
         width: 100%;
         display: flex;
         gap: 15px;
@@ -54,11 +53,11 @@ $width: 100%;
         &__logo{
             width: 150px;
             height: 100%;
-            .logo{
-                background: url('../../../public/logomain.png') center/contain no-repeat;
-                width: 100%;
-                height: 100%;
-            }
+        }
+        &__logotype{
+            background: url('../../../public/logomain.png') center/contain no-repeat;
+            width: 100%;
+            height: 100%;
         }
 
         &__home{
@@ -66,7 +65,7 @@ $width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            &__icon{
+            &-icon{
                 background: url('../../../public/staff/home.png') center/contain no-repeat;
                 width: 25px;
                 height: 25px
@@ -99,7 +98,7 @@ $width: 100%;
             }
         }
     }
-    .userBar{
+    .user-bar{
         display: flex;
         justify-content: end;
         gap: 10px;
@@ -125,13 +124,12 @@ $width: 100%;
             color: white;
         }
         &__profile{
-
             @extend %header_container;
             &:hover{
                 filter: none;
             }
         }
-        .pp_dropdown{
+        &__drop-menu{
             position: relative;
         }
     }

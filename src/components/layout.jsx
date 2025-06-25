@@ -1,5 +1,5 @@
 import Auth from "./Auth/Auth";
-import { Header } from "./Header/header";
+import Header from "./Header/Header";
 import Main from "./Main/Main";
 import { Footer } from "./Footer/footer";
 
