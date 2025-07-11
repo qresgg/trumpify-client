@@ -1,16 +1,11 @@
 import styles from './relocateFromSearchBar.module.scss'
-import { findContent } from '../../../../services/search/findService'
 import { setActiveSong, setSelectedPlaylist, setSelectedSong } from '../../../../lib/redux/music/musicState'
-import ShowPage from '../../../../hooks/showPage'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { setView } from '../../../../lib/redux/pages/viewSlice'
 
-export function RelocateFromSearchBar({
-    result,
-    index
-}) {
+export function RelocateFromSearchBar({ result, index }) {
     const dispatch = useDispatch()
 
     const playMusic = async (song) => {

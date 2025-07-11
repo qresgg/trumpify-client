@@ -39,6 +39,8 @@ const viewSlice = createSlice({
     setAuthView: (state, action) => {
       state.auth.currentView = action.payload;
     },
+
+    
   },
 });
 

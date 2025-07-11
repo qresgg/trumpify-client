@@ -1,21 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux';
 import styles from './info.module.scss';
+import NextSong from '../snippets/NextSong-snippet';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedSong } from '../../../lib/redux/music/musicState';
 import { X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
-import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
-import { findContent } from '../../../services/search/findService';
 import fetchColors from '../../../utils/custom/colorPalette';
-import { NextSong } from '../snippets/nextSong-snippet';
-import { redirectTo, redirectFromFeature } from '../../../services/global/functions/redirection';
+import { redirectFromFeature } from '../../../utils/helpful/getRedirection';
 import { Link } from 'react-router-dom';
 import { useLikeChecker } from '../../../hooks/song/useLikeChecker';
+import { useNavigate } from 'react-router-dom';
+
+import OnLikeSong from '../../../services/handlers/handleLikeSong';
+import { findContent } from '../../../services/search/searchService';
 
 export default function Info({ 
     width, 
     onResize 
 }) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { selectedSong } = useSelector((state) => state.music.song);
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
     const song = useSelector((state) => state.music.song);
@@ -76,7 +81,7 @@ export default function Info({
                                     {selectedSong.features
                                         .filter(feat => feat.roles.some(role => role.role === 'main vocal'))
                                         .map((feat, index, arr) => (
-                                            <span key={feat.id || index} onClick={() => redirectFromFeature('Artist', feat.name, dispatch)}>
+                                            <span key={feat.id || index} onClick={() => redirectFromFeature('Artist', feat.name, dispatch, navigate)}>
                                                 {feat.name}
                                                 {index < arr.length - 1 && <span>, </span>}
                                             </span>
@@ -99,7 +104,7 @@ export default function Info({
                                     }
                                     />
                                 <Link to={`page/artist/${songArtist._id}`} className='link-reset'>
-                                    <div className={styles['song__artist-details']} onClick={() => redirectTo('Artist', selectedSong.artist, dispatch)}>
+                                    <div className={styles['song__artist-details']}>
                                         <div className={styles['song__artist-name']}>{songArtist.artist_name}</div>
                                         {/* <div className={styles.artist__details__listeners}>{songArtist.artist_listeners} monthly listeners</div> */}
                                         <div className={styles['song__artist-bio']}>{songArtist.artist_bio}</div>

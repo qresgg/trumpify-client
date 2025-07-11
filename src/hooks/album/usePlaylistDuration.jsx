@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PlaylistDuration from "../../hooks/playlistDuration";
+import PlaylistDuration from "../../utils/helpful/getPlaylistDuration";
 import { useSelector } from "react-redux";
 
 export const usePlaylistDuration = () => {

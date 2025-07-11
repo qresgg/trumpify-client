@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+    import { createStore, combineReducers } from 'redux';
 import musicSlice from './music/musicState'; 
 import resizingReducer from './other/resizer';
 import viewSlice from './pages/viewSlice';

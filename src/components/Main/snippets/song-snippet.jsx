@@ -1,14 +1,15 @@
-import styles from './song-snippet.module.scss'
-import { useEffect, useState, useRef } from 'react'
+import styles from './song-snippet.module.scss';
+import OnLikeSong from '../../../services/handlers/handleLikeSong';
+
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pause, Play} from 'lucide-react';
-import OnLikeSong from '../../../services/global/functions/song/likeSongHandler';
 import { usePlaybackControl } from '../../../hooks/global/usePlaybackControl';
 import { useSingleSong } from '../../../hooks/song/useSingleSong';
 import { setSelectedSong } from '../../../lib/redux/music/musicState';
 import { useLikeChecker } from '../../../hooks/song/useLikeChecker';
 
-export function Song({
+export default function Song({
     song,
     index,
     cover = false,
@@ -32,26 +33,26 @@ export function Song({
 
     return (
         <div 
-        className={styles.song} 
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-        style={selectedTemplate}
-        onClick={() => dispatch(setSelectedSong(song))}>
-            <div className={styles.song__id} onClick={togglePlay}>
+            className={styles['song']} 
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+            style={selectedTemplate}
+            onClick={() => dispatch(setSelectedSong(song))}>
+            <div className={styles['song__state-button']} onClick={togglePlay}>
                 {isHover || (setSelectedSingleSong?._id === song?._id) 
                     ? (isPlaying ? <Pause size={16}/> : <Play size={16}/>) 
                     : (isPlaying ? <Pause size={16}/> : <div>{index + 1}</div>) }
             </div>
-            <div className={styles.leftPanel}>
+            <div className={styles['song__left-panel']}>
                 { cover && <img src={song?.song_cover} width={36} height={36}/>}
-                <div className={styles.leftPanel__title}>
-                    <div 
-                        className={styles.leftPanel__name} 
-                        style={{color: isPlaying ? '#3BE477' : 'white' }}>
+                <div className={styles['song__title']}>
+                    <div className={styles['song__name']} style={{color: isPlaying ? '#3BE477' : 'white' }}>
                         {song.title}
                     </div>
-                    <div className={styles.leftPanel__artist}>
-                        {song?.is_explicit && <div className='explicit'>E</div>}
+                    <div className={styles['song__artist']}>
+                        {song?.is_explicit && (
+                            <div className='explicit'>E</div>
+                        )}
                         {song?.features
                             .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
                             .map((feat) => feat.name)
@@ -60,16 +61,16 @@ export function Song({
                     </div>
                 </div>
             </div>
-            <div className={styles.rightPanel}>
+            <div className={styles['song__right-panel']}>
                 <div 
-                    className={styles.song__like} 
+                    className={styles['song__state-like']} 
                     onClick={() => OnLikeSong(song, liked, setLiked, dispatch, data, timerRef)}>
                     {liked
-                        ? <div className={styles.liked}></div> 
-                        : <div className={styles.notliked}></div>}
+                        ? <div className={styles['song__state-like--liked']}></div> 
+                        : <div className={styles['song__state-like--notliked']}></div>}
                 </div>
-                <div className={styles.song__duration}>
-                    <div className={styles.song__duration__time}>
+                <div className={styles['song__duration']}>
+                    <div className={styles['song__duration-time']}>
                         {song.duration}
                     </div>
                 </div>

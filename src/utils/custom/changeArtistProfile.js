@@ -1,5 +1,5 @@
 import { setData } from "../../lib/redux/data/dataSlice";
-import { updateArtistName, updateBio, uploadAvatar, uploadBanner } from "../../services/artist/data/put/changeArtist";
+import { updateArtistName, updateBio, uploadAvatar, uploadBanner } from "../../services/artist/artistAction";
 import { isValidArtistName, isValidBio } from "../../lib/regexp";
 
 const changeArtistInfo = async (data, dataRedux, dispatch, setMessage) => {

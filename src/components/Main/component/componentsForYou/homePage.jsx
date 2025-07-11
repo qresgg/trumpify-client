@@ -1,8 +1,8 @@
 import styles from "./homePage.module.scss";
 import { Selection } from "./snippets/selection-snippet";
 import { useEffect, useState } from "react";
-import getAlbumData from "../../../../services/artist/data/get/albumData";
-import getSongData from "../../../../services/artist/data/get/songData";
+import getAlbumData from "../../../../services/artist/queries/getAlbumData";
+import getSongData from "../../../../services/artist/queries/getSongData";
 
 export default function HomePage() {
   return (

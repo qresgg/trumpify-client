@@ -2,7 +2,7 @@ import styles from './nextSong-snippet.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
 
-export function NextSong() {
+export default function NextSong() {
     const dispatch = useDispatch();
     const { nextSong } = useSelector((state) => state.music.song)
     const [liked, setLiked] = useState(false);
@@ -16,14 +16,14 @@ export function NextSong() {
     return (
         <>
             {nextSong && (
-                <div className={styles.container}>
-                    <div className={styles.left}>
-                        <div className={styles.cover}>
-                            <div className={styles.cover__image} style={songCover}></div>
+                <div className={styles['container']}>
+                    <div className={styles['container__left']}>
+                        <div className={styles['container__cover']}>
+                            <div className={styles['container__cover-image']} style={songCover}></div>
                         </div>
-                        <div className={styles.info}>
-                            <div className={styles.info__title}>{nextSong.title}</div>
-                            <div className={styles.info__feature}>
+                        <div className={styles['container__info']}>
+                            <div className={styles['container__info-title']}>{nextSong.title}</div>
+                            <div className={styles['container__info-features']}>
                                 {nextSong?.features
                                     .filter((feat) => feat.roles.some(role => role.role === 'main vocal'))
                                     .map((feat) => feat.name)

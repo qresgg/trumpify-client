@@ -5,10 +5,12 @@ import { setAuthenticated } from "../lib/redux/data/dataSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "../lib/regexp";
 
 import { useMessage } from "./global/useMessage";
+import { useNavigate } from "react-router-dom";
 import { setAuthView } from "../lib/redux/pages/viewSlice";
 
 export function useAuth() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isAuthenticated } = useSelector((state) => state.data);
   const { message, setMessage } = useMessage();
@@ -33,6 +35,7 @@ export function useAuth() {
       const response = await login(data.email, data.password);
       dispatch(setAuthenticated(true));
       setMessage({ success: response?.message || "Login successful!" });
+      navigate('/')
     } catch (error) {
       setMessage({ error: "Error during login" });
       console.error(error.response?.data || error);
@@ -53,7 +56,7 @@ export function useAuth() {
         const response = await register(data.userName, data.email, data.password);
         setMessage({ success: response.message || "Registration successful!" });
         setTimeout(() => {
-          dispatch(setAuthView('login'));
+          navigate('/login')
         }, 2000);
     } catch (error) {
         const errorMessage = error.response?.data?.message || "Error during registration";

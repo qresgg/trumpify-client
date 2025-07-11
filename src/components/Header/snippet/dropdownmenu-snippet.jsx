@@ -3,7 +3,7 @@ import { setView } from '../../../lib/redux/pages/viewSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setModalView } from '../../../lib/redux/pages/viewSlice';
-import { useModal } from '../../../hooks/useModal';
+import { useModal } from '../../../hooks/global/useModal';
 
 export function DropdownMenu({onLogout}) {
     const dispatch = useDispatch();

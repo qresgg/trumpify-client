@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { getAccessToken } from '../global/functions/functions';
-import { SERVER_API_URL } from '../global/variable';
+import { getAccessToken } from '../../utils/helpful/getGlobalItems';
+import { SERVER_API_URL } from '../../lib/constants';
 
 const createRecord = async (type, data, songs = []) => {
     const token = getAccessToken();

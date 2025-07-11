@@ -36,12 +36,11 @@
       outline: none;
       border-bottom: 2px solid global.$special-color;
   }
-    option {
-      color: black;
-      backdrop-filter: blur(10px);
-      background: transparent;
-      font-weight: bold;
-      background-color: var(--option-bg);
-    }
+  option {
+    color: black;
+    backdrop-filter: blur(10px);
+    background: transparent;
+    font-weight: bold;
+    background-color: var(--option-bg);
   }
-  
+}

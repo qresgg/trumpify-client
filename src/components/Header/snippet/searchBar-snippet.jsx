@@ -3,7 +3,7 @@ import styles from './searchBar-snippet.module.scss'
 import { debounce } from 'lodash'
 import { searchData } from '../../../services/user/userService'
 import { RelocateFromSearchBar } from './relocate/relocateFromSearchBar'
-import { useModal } from '../../../hooks/useModal'
+import { useModal } from '../../../hooks/global/useModal'
 import { useSelector } from 'react-redux'
 
 export function SearchBar() {

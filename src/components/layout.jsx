@@ -8,14 +8,17 @@ import { useAuth } from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { setData as setReduxData } from "../lib/redux/data/dataSlice";
 import { checkAuth } from "../services/auth/authService";
-import { fetchUserData } from "../services/user/fetchData/fetchUserData";
 import { setAuthenticated } from "../lib/redux/data/dataSlice";
 import _ from 'lodash';
 import { useNavigate } from "react-router-dom";
+import { useClearCachedData } from '../hooks/global/useClearCachedData'
+
+import { fetchUserData } from "../services/user/queries/fetchUserData";
 
 export function Layout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useClearCachedData();
 
   const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
@@ -29,7 +32,6 @@ export function Layout() {
           setAuthed(true);
           const userData = await fetchUserData();
           dispatch(setReduxData(userData));
-          navigate('/');
         } else {
           console.log('not authed')
           setAuthed(false);

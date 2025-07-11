@@ -1,12 +1,14 @@
 import LikedSongsPage from './componentsForYou/LikedSongsPage';
-import SongPageCreate from './componentsForYou/createPages/SongCreatePage'
-import SettingsPage from './componentsForYou/dropdownmenu/SettingsPage';
-import AlbumCreatePage from './componentsForYou/createPages/AlbumCreatePage';
-import ArtistPageCreate from './componentsForYou/createPages/ArtistCreatePage';
+import SongPageCreate from '../../../pages/Create/SongCreatePage'
+import SettingsPage from '../../../pages/Settings/SettingsPage';
+import AlbumCreatePage from '../../../pages/Create/AlbumCreatePage';
+import ArtistPageCreate from '../../../pages/Create/ArtistCreatePage';
 import HomePage from './componentsForYou/HomePage';
 import AboutPlaylistPage from './componentsForYou/AboutPlaylistPage';
-import UserProfilePage from './componentsForYou/userPages/UserProfilePage';
-import UserArtistProfilePage from './componentsForYou/userPages/UserArtistProfilePage';
+import UserProfilePage from '../../../pages/User/UserProfilePage';
+import ArtistProfilePage from '../../../pages/User/ArtistProfilePage';
+import { AccountConfig } from '../../../pages/Settings/ConfigPanel/accountConfig';
+import ArtistSettings from '../../../pages/Settings/Pages/ArtistSettings';
 
 import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
@@ -19,7 +21,11 @@ export default function ForYou() {
     return (
         <Routes>
             <Route path='/' element={<HomePage/>} />
-            <Route path='/settings/*' element={<SettingsPage/>} />
+
+            <Route path="/settings" element={<SettingsPage/>} >
+                <Route path="account" element={<AccountConfig />}/>
+                <Route path="artist" element={<ArtistSettings />}/>
+            </Route>
 
             <Route path="/create">
                 <Route path="song" element={<SongPageCreate />} />
@@ -32,7 +38,7 @@ export default function ForYou() {
                 <Route path="likedCollection/:id" element={<LikedSongsPage />} />
                 <Route path="user/:id" element={<UserProfilePage />} />
                 <Route path="album/:id" element={<AboutPlaylistPage />} />
-                <Route path="artist/:id" element={<UserArtistProfilePage />} />
+                <Route path="artist/:id" element={<ArtistProfilePage />} />
             </Route>
 
         </Routes>

@@ -73,7 +73,7 @@ export default function Registration () {
 
                             <AnimatePresence>
                                 {isOpen && (
-                                    <motion.div
+                                    <motion.div key="passwordCheck"
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: "auto", opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
@@ -93,6 +93,7 @@ export default function Registration () {
                                     )}
                                 {passwordValidation.minLength && passwordValidation.hasUpperCase && passwordValidation.hasNumber && passwordValidation.hasSpecialChar && (
                                     <motion.div
+                                        key="confirmationInput"
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: "auto", opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}

@@ -1,0 +1,146 @@
+@use '../../../style/global/collection.module' as global;
+
+.artist-settings{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    min-width: 550px;
+
+    h1{
+        color: white;
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__container{
+
+    }
+
+    &__item{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        &-header{
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+
+            p{
+                margin: 0;
+                padding: 0;
+                display: inline;
+            }
+        }
+    }
+
+    &__preview{
+        display: flex;
+
+        &-banner{
+            width: 250px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            background: black center/cover no-repeat;
+            position: relative;
+
+        }
+
+        &-avatar{
+            position: relative;
+            height: 150px;
+            aspect-ratio: 1/1;
+            background: black center/cover no-repeat;
+        }
+
+        &-text{
+            text-align: center;
+            position: absolute;
+            cursor: pointer;
+            color:white;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.637);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+    &__bio-area{
+        font-family: "Arial", sans-serif;
+        background-color: black;
+        color: white;
+        border: none;
+        border-left: 2px solid global.$second-color;
+        border-right: 2px solid global.$second-color;
+        padding: 16px;
+        border-radius: 5px;
+        width: 100%;
+
+        &:hover {
+            outline: none;
+            border-left: 2px solid global.$bright-selected-color;
+            border-right: 2px solid global.$bright-selected-color;
+        }
+        &:focus {
+            outline: none;
+            border-left: 2px solid global.$special-color;
+            border-right: 2px solid global.$special-color;
+        }
+    }
+    input{
+        height: 25px;
+        width: 100%;
+        background-color: black;
+        border: none;
+        border-bottom: 2px solid global.$second-color;
+        transition: 0.3s all;
+        cursor: pointer;
+
+        &:hover {
+            outline: none;
+            border-bottom: 2px solid global.$bright-selected-color;
+        }
+        &:focus {
+            outline: none;
+            border-bottom: 2px solid global.$special-color;
+        }
+    }
+    input[type="file"]{
+        background: none;
+        border: none;
+        height: fit-content;
+    }
+
+    &__submit-button{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        button{
+            padding: 8px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            background-color: #1ED760;
+            width: fit-content;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

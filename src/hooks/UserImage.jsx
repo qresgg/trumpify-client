@@ -8,13 +8,6 @@ export function UserImage({
 }) {
     const [urlAvatar, setAvatar] = useState(null);
     const user = useSelector((state) => state.data.user);
-
-    // const refreshAvatar = () => {
-    //     const timestamp = new Date().getTime();
-    //     setAvatar(`${user.user_avatar_url}?t=${timestamp}`);
-    //     console.log('changed avatar')
-    //   };
-
       
     useEffect(() => {
         setAvatar(avatar ? avatar : user?.user_avatar_url);

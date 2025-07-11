@@ -1,10 +1,10 @@
 import styles from "./library.module.scss";
-import { LikedSongsPlaylist } from "../snippets/likedsongs-snippet";
-import { Playlist } from "../snippets/playlist-snippet";
+import Playlist from "../snippets/Playlist-snippet";
+import LikedSongsPlaylist from "../snippets/Likedsongs-snippet";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setView } from "../../../lib/redux/pages/viewSlice";
 import { setSelectedPlaylist } from "../../../lib/redux/music/musicState";
-import { redirectPlaylist, redirectPage } from "../../../services/global/functions/redirection";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { addToLoadedOne } from "../../../lib/redux/data/loadedSlice";
@@ -28,14 +28,14 @@ export default function Library({ width, onResize }) {
                     <div className={styles['library__tags']}></div>
                 </div>
                 <div className={styles['library__playlists']}>
-                    <div onClick={() => redirectPage("likedSongs", dispatch)}>
+                    <Link to={`/page/likedCollection/${user.user_likedSongsId}`} className="link-reset"> 
                         <LikedSongsPlaylist />
-                    </div>
+                    </Link>
                     {user?.user_library?.map((playlist, index) => (
                         <Link to={`/page/album/${playlist._id}`} className="link-reset">
-                          <div key={index}>
-                            <Playlist playlist={playlist} libWidth={width} />
-                          </div>
+                            <div key={index}>
+                                <Playlist playlist={playlist} libWidth={width} />
+                            </div>
                         </Link>
                     ))}
                 </div>

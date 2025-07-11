@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
     isAuthenticated: false,
     user: {
       _id: null,
+      definition: null,
       user_avatar_url: null,
       user_name: null,
       user_email: null,
@@ -13,10 +14,12 @@ import { createSlice } from "@reduxjs/toolkit";
     },
     artist: {
       _id: null,
+      definition: null,
       artist_name: null,
       artist_is_verified: null,
       artist_avatar: null,
       artist_banner: null,
+      artist_bio: null
     }
   };
 

@@ -11,7 +11,7 @@
         cursor: pointer;
     }
     
-    &__id{
+    &__state-button{
         display: flex;
         justify-content: center;
         align-items: center;
@@ -21,7 +21,7 @@
             cursor: pointer;
         }
     }
-    .leftPanel{
+    &__left-panel{
         margin: auto 0;
         width: 100%;
         min-width: 150px;
@@ -33,46 +33,48 @@
         word-wrap: break-word;
         overflow-wrap: anywhere;
         display: flex;
-        gap: 10px;
+        gap: 16px;
 
         img{
             background: center/contain no-repeat;
             width: aspect-ratio(1/1);
             height: 100%;
         }
-        
-
-        &__name{
-            font-size: 16px;
-        }
-        &__artist{
-            font-size: 14px;
-            display: flex;
-            opacity: 0.7;
-            p{
-                span{
-                    display: inline;
-                    font-size: 12px;
-                    padding: 0 5px;
-                    font-weight: bold;
-                    border-radius: 2px;
-                    background-color: #B3B3B3;
-                    color: #121212;
-                    margin-right: 5px;
-                }
-
-                margin: 0;
-                padding: 0;
-                white-space: nowrap;
+    }
+    &__title{
+        display: flex;
+        flex-direction: column;
+    }
+    &__name{
+        font-size: 16px;
+    }
+    &__artist{
+        font-size: 14px;
+        display: flex;
+        opacity: 0.7;
+        p{
+            span{
+                display: inline;
+                font-size: 12px;
+                padding: 0 5px;
+                font-weight: bold;
+                border-radius: 2px;
+                background-color: #B3B3B3;
+                color: #121212;
+                margin-right: 5px;
             }
+
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
         }
     }
-    .rightPanel{
+    &__right-panel{
         display: flex;
         align-items: center;
         gap: 100px;
     }
-    &__like{
+    &__state-like{
         display: flex;
         justify-content: end;
         position: relative;
@@ -90,11 +92,11 @@
             width: inherit;
         }
 
-        .liked{
+        &--liked{
             @include like("liked");
             filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
         }
-        .notliked{
+        &--notliked{
             @include like("notliked");
             filter: brightness(0.7);
         }

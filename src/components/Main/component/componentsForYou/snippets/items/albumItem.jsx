@@ -1,4 +1,4 @@
-import { redirectPlaylist } from "../../../../../../services/global/functions/redirection";
+
 import styles from "../selection-snippet.module.scss";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

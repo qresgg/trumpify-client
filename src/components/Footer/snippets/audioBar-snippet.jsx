@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './audioBar.module.scss';
-import SaveAudioVolume from '../../../services/global/functions/song/saveAudioVolume';
-import { getVolume } from '../../../services/global/functions/functions';
+import SaveAudioVolume from '../../../services/handlers/handleSaveVolume';
+import { getVolume } from '../../../utils/helpful/getGlobalItems';
 import { useProgressBar } from '../../../hooks/global/useProgressBar';
 
 export function AudioBar({ audioRef }) {

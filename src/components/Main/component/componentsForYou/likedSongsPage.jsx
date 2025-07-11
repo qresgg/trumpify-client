@@ -1,46 +1,68 @@
 import styles from './aboutPlaylistPage.module.scss';
-import { Song } from '../../snippets/song-snippet';
+import Song from '../../snippets/Song-snippet';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { Play, Pause } from 'lucide-react';
-import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist, setNextSong, setPrevSong } from '../../../../lib/redux/music/musicState';
-import ShowPage from '../../../../hooks/showPage';
-import { fetchLikedCollection } from '../../../../services/user/fetchData/fetchLikedCollection';
+import { setSelectedSong, setActivePlaylist, togglePlayback, setActiveSong, setSelectedPlaylist, setNextSong, setPrevSong } from '../../../../lib/redux/music/musicState'
+import { fetchLikedCollection } from '../../../../services/user/queries/fetchLikedCollection';
 import fetchColors from '../../../../utils/custom/colorPalette';
 import Skeleton from 'react-loading-skeleton';
+
 import { useLikedCollection } from '../../../../hooks/collection/useLikedCollection';
 import { usePlaybackControl } from '../../../../hooks/global/usePlaybackControl';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { MainContainerSkeleton } from '../../Loadings/mainContainer-skeleton';
 
 export default function LikedSongsPage() {
+    const { id } = useParams();
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+
     const user = useSelector(state => state.data.user)
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
     const { isPlaying, togglePlay, isSelected } = usePlaybackControl(selectedPlaylist, 'album');
-    const likedSongs = useLikedCollection();
+    const [ likedSongs, setLikedSongs ] = useState([]);
 
     const selectSong = (song) => {
         dispatch(setSelectedSong(song));
     };
 
-    const selectArtist = (artistId) => {
-        ShowPage('artist-profile', artistId, dispatch);
-    };
-    
-    const coverImg = {
-        backgroundImage: 'url("/likedsongs.png")'
+    useEffect(() => {
+        const fetchLiked = async () => {
+            if (!id) return;
+            setLoading(true)
+            try{
+                const response = await fetchLikedCollection(id);
+                setLikedSongs(response.songs);
+                dispatch(setSelectedPlaylist(response));
+            } catch (error) {
+                console.error(error);
+                setLikedSongs([]);
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchLiked();
+    }, []);
+
+    if (loading || !selectedPlaylist) {
+        return <MainContainerSkeleton />;
     }
 
     return (
         <div className={styles['foryou']}>
-            <div className={styles['playlist']}>
+            {!loading ? (
+                <div className={styles['playlist']}>
                     <div className={styles['playlist__title']} style={{ background: `linear-gradient(to bottom,rgb(0, 102, 254),rgba(255, 251, 0, 0.6))` }}>
                         <div className={styles['playlist__title-container']}>
-                            <div className={styles['playlist__image']} style={coverImg}></div>
+                            <div className={styles['playlist__image-liked']}></div>
                             <div className={styles['playlist__info']}>
                                 <div className={styles['playlist__info-type']}>Collection</div>
                                 <div className={styles['playlist__info-album-name']}>Liked Songs</div>
                                 <div className={styles['playlist__info-meta']}>
-                                    <p className={styles['playlist__track-count']} onClick={() => selectArtist(user.user_id)}>{user.user_name}</p>
-                                    <p className={styles.trackCount}>• {user.user_likedSongsCount} songs</p>
+                                    <p className={styles['playlist__artist']}>{user.user_name}</p>
+                                    <p className={styles['playlist__track-count']}>• {user.user_likedSongsCount} songs</p>
                                 </div>
                             </div>
                         </div>
@@ -89,6 +111,9 @@ export default function LikedSongsPage() {
                         </div>
                     </div>
                 </div>
+            ) : (
+                <div className={styles['playlist--empty']}>There is no playlist</div>
+            )}
         </div>
     );
 }

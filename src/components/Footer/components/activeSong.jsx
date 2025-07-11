@@ -1,8 +1,8 @@
 import styles from './activeSong.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import OnLikeSong from '../../../services/global/functions/song/likeSongHandler'
-import { redirectFromFeature } from '../../../services/global/functions/redirection'
+import OnLikeSong from '../../../services/handlers/handleLikeSong'
+import { redirectFromFeature } from '../../../utils/helpful/getRedirection'
 import { useLikeChecker } from '../../../hooks/song/useLikeChecker'
 
 export function ActiveSong() {

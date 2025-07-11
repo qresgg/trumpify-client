@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { fetchLikedSong } from "../../services/user/fetchData/fetchLikedSong";
+import { fetchLikedSong } from "../../services/user/queries/fetchLikedSong";
 
 export function useLikeChecker({ song }){
     const data = useSelector((state) => state.data);

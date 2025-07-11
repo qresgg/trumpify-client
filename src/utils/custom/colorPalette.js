@@ -1,4 +1,4 @@
-import ColorClassifier from "../../hooks/colorThief";
+import ColorClassifier from "../helpful/getColorThief";
 
 export default async function fetchColors(selectedObject) {
   let colors = {

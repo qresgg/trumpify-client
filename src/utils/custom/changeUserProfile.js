@@ -1,5 +1,5 @@
 import { setData } from "../../lib/redux/data/dataSlice";
-import { uploadAvatar, updateUserName } from "../../services/user/changeData/userDataChange";
+import { uploadAvatar, updateUserName } from "../../services/user/userDataChange";
 import { isValidUserName } from "../../lib/regexp";
 
 const changeAvaUserName = async (data, dataRedux, dispatch, setMessage) => {

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { getVolume } from "../../services/global/functions/functions";
-import SaveAudioVolume from "../../services/global/functions/song/saveAudioVolume";
+import { getVolume } from "../../utils/helpful/getGlobalItems";
+import SaveAudioVolume from "../../services/handlers/handleSaveVolume";
 
 export function useProgressBar({ audioRef, mode }){
     const [isDragging, setIsDragging] = useState(false);

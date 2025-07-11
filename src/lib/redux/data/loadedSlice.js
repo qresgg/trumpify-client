@@ -17,7 +17,21 @@ const loadedSlice = createSlice({
 
       const alreadyExists = targetArray.some(item => item._id === value._id);
       if (!alreadyExists) {
-        targetArray.push(value);
+        targetArray.push({ data: value, lastUpdated: Date.now()});
+      }
+    },
+    clearOldData: (state) => {
+      const FIVE_MIN = 15 * 1000;
+      const now = Date.now();
+
+      for (const key of Object.keys(state)) {
+        const arr = state[key];
+        if (!Array.isArray(arr)) continue;
+
+        state[key] = arr.filter(item => {
+          if (!item.lastUpdated) return true;
+          return now - item.lastUpdated <= FIVE_MIN;
+        });
       }
     },
     addToLoadedMany: (state, action) => {
@@ -26,14 +40,14 @@ const loadedSlice = createSlice({
       if (!targetArray) return;
 
       values.forEach(item => {
-        const alreadyExists = targetArray.some(i => i._id === item._id);
+        const alreadyExists = targetArray.some(i => i.data._id === item._id);
         if (!alreadyExists) {
-          targetArray.push(item);
+          targetArray.push({ data: item, lastUpdated: Date.now() });
         }
       });
     },
   },
 });
 
-export const { addToLoadedOne, addToLoadedMany } = loadedSlice.actions;
+export const { addToLoadedOne, addToLoadedMany, clearOldData } = loadedSlice.actions;
 export default loadedSlice.reducer;

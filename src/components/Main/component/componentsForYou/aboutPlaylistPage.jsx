@@ -1,16 +1,16 @@
 import styles from "./aboutPlaylistPage.module.scss";
-import { Song } from "../../snippets/song-snippet";
+import Song from "../../snippets/Song-snippet";
+
 import { Play, Pause, Album } from "lucide-react";
 import { setSelectedPlaylist } from "../../../../lib/redux/music/musicState";
-import { redirectTo } from "../../../../services/global/functions/redirection";
-import OnLikeAlbum from "../../../../services/global/functions/album/likeAlbumHandler";
-import { isOriginArtistPage } from "../../../../services/auth/isOriginPage";
+import OnLikeAlbum from "../../../../services/handlers/handleLikeAlbum";
+import { isOriginArtistPage } from "../../../../utils/helpful/getOriginPage";
 import { Link } from "react-router-dom";
 import { MainContainerSkeleton } from "../../Loadings/mainContainer-skeleton";
 
-import getAlbumById from "../../../../services/artist/data/get/albumById";
+import getAlbumById from "../../../../services/artist/queries/getAlbumById";
 import { selectAlbumById, albumAdded } from "../../../../lib/redux/data/albumSlice";
-import { findContent } from "../../../../services/search/findService";
+import { findContent } from "../../../../services/search/searchService";
 
 import { useRef, useEffect, useState, use } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -56,9 +56,9 @@ export default function AboutPlaylistPage() {
     };
 
     useEffect(() => {
-      const album = albums?.find(album => album._id === id);
+      const album = albums?.find(album => album.data._id === id);
       if (album) {
-        dispatch(setSelectedPlaylist(album));
+        dispatch(setSelectedPlaylist(album.data));
         setLoading(false);
       } else {
         fetchAlbum();

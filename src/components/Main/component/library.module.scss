@@ -1,7 +1,7 @@
 @use '../../../style/mixins/scrollbar.module.scss';
 
 .library{
-  background-color: #121212;
+  background: linear-gradient(-45deg, #141414, #131313, #181818);
   border-radius: 5px;
   display: flex;
   flex-direction: column;

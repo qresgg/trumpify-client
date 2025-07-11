@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { useModal } from "../useModal";
+import { useModal } from "./useModal";
 
 export function usePreviewImage({ setValue }) {
     const dispatch = useDispatch();
