@@ -18,7 +18,7 @@ export function DropdownMenu({onLogout}) {
         page == "userProfile" && dispatch(setView({ view: 'currentUserPage', value: data.user }))
         modal.closeModal('dropDownMenu');
     }
-return (
+    return (
         <div className={styles.dropdownMenu}>
             <Link to={`/page/user/${user_id}`} className='link-reset'>
                 <div className={styles.dropdownMenu__Item} onClick={() => routePage("userProfile")}>
@@ -32,7 +32,7 @@ return (
                     </div>
                 </Link>
             )}
-            <Link to={`/settings`} className='link-reset'>
+            <Link to={`/settings/general`} className='link-reset'>
                 <div className={styles.dropdownMenu__Item} onClick={() => routePage("userArtistProfile")}>
                     Settings
                 </div>

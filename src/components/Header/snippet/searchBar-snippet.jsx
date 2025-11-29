@@ -1,10 +1,11 @@
-import { useState, useCallback, Fragment } from 'react'
 import styles from './searchBar-snippet.module.scss'
 import { debounce } from 'lodash'
-import { searchData } from '../../../services/user/userService'
+import { searchData } from '../../../services/search.service'
 import { RelocateFromSearchBar } from './relocate/relocateFromSearchBar'
+
 import { useModal } from '../../../hooks/global/useModal'
 import { useSelector } from 'react-redux'
+import { useState, useCallback, Fragment } from 'react'
 
 export function SearchBar() {
     const [querry, setQuerry] = useState('')

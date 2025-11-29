@@ -1,9 +1,16 @@
-import { getUserLibrary } from '../user/userService';
-import { likeAlbum, unLikeAlbum } from '../artist/albumAction';
+import { fetchUserLibrary } from '../api.service';
+import { handleLikeAlbum, handleUnLikeAlbum } from '../user.service';
 import { setUserLibrary } from '../../lib/redux/data/dataSlice';
-import updateLibrary from '../user/updateLibrary';
+import updateLibrary from '../shared/updateLibrary';
 
-const OnLikeAlbum = async (album, likedAlbum, setLikedAlbum, dispatch, data, timerRef) => {
+const OnLikeAlbum = async ({
+    album, 
+    likedAlbum, 
+    setLikedAlbum, 
+    dispatch, 
+    data, 
+    timerRef
+}) => {
     clearTimeout(timerRef.current);
 
     const prevLikeRef = likedAlbum;
@@ -13,11 +20,11 @@ const OnLikeAlbum = async (album, likedAlbum, setLikedAlbum, dispatch, data, tim
     timerRef.current = setTimeout(async () => {
         try {
             if (prevLikeRef) {
-                await unLikeAlbum(album);
+                await handleUnLikeAlbum(album._id);
             } else {
-                await likeAlbum(album);
+                await handleLikeAlbum(album._id);
             }
-            const response = await getUserLibrary();
+            const response = await fetchUserLibrary();
             updateLibrary(dispatch, data.user, data.artist, response.libraryItems);
         } catch (error) {
             console.error(error.response ? error.response.data : error);

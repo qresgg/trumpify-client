@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import styles from './progressBar.module.scss';
+import styles from '../footer.module.scss';
 import { useProgressBar } from '../../../hooks/global/useProgressBar';
 
 export function ProgressBar({
@@ -15,17 +15,17 @@ export function ProgressBar({
     } = useProgressBar({ audioRef, mode: 'progressBar' })
 
     return (
-        <div className={styles.progress}>
+        <>
             <div className={styles.currentTime}>
                 {new Date(currentTime * 1000).toISOString().substr(14, 5)}
             </div>
             <div className={styles.progressContainer} ref={progressRef} onMouseDown={handleMouseDown}>
-                <div className={styles.progressBar} style={{ width: `${progress}%`, backgroundColor: isDragging && "#1ED760" }}></div>
-                <div className={styles.slider} style={{ left: `calc(${progress}% - 5px)`, display: isDragging && "block" }}></div>
+                <div className={styles.progressContainer__bar} style={{ width: `${progress}%`, backgroundColor: isDragging && "#1ED760" }}></div>
+                <div className={styles.progressContainer__slider} style={{ left: `calc(${progress}% - 5px)`, display: isDragging && "block" }}></div>
             </div>
-            <div className={styles.duration}>
+            <div className={styles.durationTime}>
                 {duration ? new Date(duration * 1000).toISOString().substr(14, 5) : '00:00'}
             </div>
-        </div>
+        </>
     );
 }

@@ -1,4 +1,4 @@
-@use '../../../style/global/variables.module' as global;
+@use '../../../style/global/variables' as global;
 
 .progress{
     display: flex;
@@ -19,7 +19,7 @@
             background: global.$special-color;
             border-radius: 5px;
         }
-        
+
         .slider {
             position: absolute;
             display: none;

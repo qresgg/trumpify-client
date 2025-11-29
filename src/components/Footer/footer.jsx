@@ -94,7 +94,7 @@ export function Footer () {
             <div className={styles.activeSong}>
                 <ActiveSong />
             </div>
-            <div className={styles.controller}>
+            <div className={styles.songController}>
                 <SongController audioRef={audioRef}/>
             </div>
             <div className={styles.audioMixer}>

@@ -1,3 +1,6 @@
+@import "../../style/global/variables";
+
+// PC
 .footer{
     background-color: black;
     min-height: 72px;
@@ -9,10 +12,175 @@
     box-sizing: border-box;
     
     .activeSong{
-        width: 100%;
+      width: 100%;
+
+      &__container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      &__cover {
+        .coverImage {
+          background: center/contain no-repeat;
+          width: 56px;
+          height: 56px;
+          border-radius: 5px;
+        }
+      }
+
+      &__info {
+
+      }
+
+      &__feature {
+        color: white;
+        opacity: 0.7;
+        font-size: 11px;
+        cursor: pointer;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+
+      &__likeState{
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+
+        @mixin like($type) {
+          background: url("../../assets/icons/#{$type}.png") center/contain no-repeat;
+          height: inherit;
+          width: inherit;
+        }
+        .liked{
+          @include like("liked");
+          filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+        }
+        .notLiked{
+          @include like("notliked");
+          filter: brightness(0.7);
+        }
+      }
     }
-    .controller{
+    .songController {
+      display: flex;
+      width: 100%;
+
+      &__container {
+        padding: 0 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
         width: 100%;
+        box-sizing: border-box;
+      }
+
+      &__buttons {
+        margin: 0 auto;
+        display: flex;
+        width: fit-content;
+        gap: 8px;
+
+        %container {
+          width: 28px;
+          height: 28px;
+          padding: 8px;
+          box-sizing: border-box;
+        }
+
+        @mixin controlButton($type) {
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+          background-image: url('../../../public/audio-player/#{$type}.png');
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          opacity: 0.6;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+        @each $name, $type in (
+          shuffle: 'loopButton',
+          prevSong: 'prevButton',
+          pause: 'pauseButton',
+          play: 'playButton',
+          nextSong: 'nextButton',
+          loop: 'loopButton'
+        ) {
+          .button__#{$name} {
+            @extend %container;
+
+            @if $name == 'pause' or $name == 'play' {
+              @include controlButton($type);
+              width: 35px;
+              opacity: 1;
+            } @else {
+              div {
+                @include controlButton($type);
+                @media(max-width: $mobile_width) {
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &__bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        .progressContainer{
+          width: 100%;
+          height: 4px;
+          background: $bright-selected-color;
+          border-radius: 5px;
+          position: relative;
+          cursor: pointer;
+
+          &__bar{
+            width: 50%;
+            height: 100%;
+            background: $special-color;
+            border-radius: 5px;
+
+            &:hover{
+              background-color: $second-color;
+            }
+          }
+          &__slider{
+            position: absolute;
+            display: none;
+            z-index: 10;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translateY(-50%);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+            &:hover{
+              display: block;
+            }
+          }
+        }
+
+          .currentTime, .durationTime{
+            display: flex;
+            align-items: end;
+            font-size: 11px;
+            opacity: 0.6;
+          }
+      }
     }
     .audioMixer{
         width: 100%;
@@ -20,4 +188,22 @@
         align-items: center;
         justify-content: end;
     }
+}
+
+// Mobile
+.footer{
+  position: relative;
+  z-index: 99;
+  @media(max-width: $mobile_width) {
+    .audioMixer{
+      display: none;
+    }
+    .songController{
+      &__bar{
+        .currentTime, .durationTime{
+          display: none;
+        }
+      }
+    }
+  }
 }

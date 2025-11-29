@@ -20,7 +20,7 @@
         cursor: pointer;
     }
 
-    &__user-image{
+    &__userImage{
         height: 210px;
         width: 210px;
         min-width: 210px;
@@ -35,10 +35,10 @@
         color: white;
         width: 80%;
 
-        &-label{
+        &Label{
             font-size: 14px;
         }
-        &-name{
+        &Name{
             display: -webkit-box;
             -webkit-box-orient: vertical;
             overflow: hidden;
@@ -52,7 +52,7 @@
             overflow-wrap: anywhere;
             white-space: normal;
         }
-        &-playlist-count{
+        &PlaylistsCount{
             opacity: 0.7;
             font-weight: bold;
         }

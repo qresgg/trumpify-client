@@ -1,24 +1,31 @@
-import styles from './createForm.module.scss'
-import { useForm, Controller } from 'react-hook-form'
-import { useState, useRef, useEffect } from 'react';
-import { createAlbum } from '../../services/artist/artistService';
+import styles from './AlbumCreatePage.module.scss'
 import CreateSongAlbum from './CreateSongAlbum';
 import { X } from 'lucide-react'
+import CoverCropper from '../../utils/custom/coverCropper';
+import ModalOverlay from '../../shared/ModalOverlay';
+import createAlbum from '../../services/artist/actions/createAlbum';
+import InputField from './shared/inputField';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { albumHandler } from './utils/albumHandler';
+
+
+import useRegions from '../../hooks/global/useRegions';
 import { useModal } from '../../hooks/global/useModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMessage } from '../../hooks/global/useMessage'
-import CoverCropper from '../../utils/custom/coverCropper';
+import { useForm, Controller } from 'react-hook-form'
+import { useState, useRef, useEffect } from 'react';
 import { usePreviewImage } from '../../hooks/global/usePreviewImage';
-import ModalOverlay from '../../components/Main/snippets/ModalOverlay';
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 export default function AlbumCreatePage() {
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm();
     const modal = useModal();
     const { message, setMessage } = useMessage();
+    const { regions, loading: regionsLoading, error: regionsError } = useRegions();
+
+    // const mutation = useCreateAlbum()
 
     const { modalStateSongCreate } = useSelector((state) => state.view.modal);
     const { modalStateShowCropperCover } = useSelector((state) => state.view.modal);
@@ -28,23 +35,7 @@ export default function AlbumCreatePage() {
     const contentRef = useRef();
     const [ isHover, setIsHover ] = useState(null);
     const [editingSongIndex, setEditingSongIndex] = useState(null);
-
-    const onSubmit = async (data) => {
-        try {
-            const res = await createAlbum(data, songs);
-            setMessage({ success: res?.message || "Album has been created successfully" })
-            clearOldData();
-        } catch (error) {
-            setMessage({ success: error.response || "Error during creation album!"})
-            console.error(error.response ? error.response.data : error);
-        }
-    }
-
-    const clearOldData = () => {
-        reset();
-        setSongs([]);
-        setPreviewImage('')
-    }
+    const onSubmit = albumHandler(setMessage, reset, setPreviewImage, setSongs, songs);
 
     const addSong = (newSong) => {
         if (!newSong || !newSong.audio || !newSong.audio.name) {
@@ -69,7 +60,6 @@ export default function AlbumCreatePage() {
         });
     };
 
-
     const clearEditingSongIndex = () => {
         setEditingSongIndex(null);
     }
@@ -78,55 +68,53 @@ export default function AlbumCreatePage() {
         setSongs((prevSongs) => prevSongs.filter((_, index) => index !== songIndex))
     } 
     return (
-        <div className={styles.main}>
-            <div className={styles.main__container} ref={contentRef}>
-                <div className={styles.main__container__header}>
-                    <p className={styles.white}>Album  </p>
-                    <p className={styles.green}>creation.</p>
+        <div className={styles['createAlbum']}>
+            <div className={styles['createAlbum__container']} ref={contentRef}>
+                <div className={styles['createAlbum__header']}>
+                    <p className='white-label'>Album  </p>
+                    <p className='green-label'>creation.</p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {message.error && <p className='error'>{message.error}</p>}
                     {message.success && <p className='success'>{message.success}</p>}
-                    <div className={styles.albumDetails}>
-                        <div className={styles.albumDetails__rightContainer}>
-                            <div className={styles.albumDetails__leftContainer}>
-                                <div className={styles.file}
-                                        onMouseEnter={() => setIsHover(true)}
-                                        onMouseLeave={() => setIsHover(false)}>
-                                        <div className={styles.preview}>
-                                            {previewImage && <div className={styles.preview__art} style={{ backgroundImage: previewImage?.albumCover }}></div>}
-                                            {isHover && (
-                                                <>
-                                                    <div className={styles.preview__blackscreen}></div>
-                                                    <div className={styles.preview__choose} onClick={() => {
-                                                        modal.openModal('showCropperCover')
-                                                    }}>Choose album cover</div>
-                                                </>
-                                            )}
-                                        </div>
-                                        {errors.cover && <p className='error'>{errors.cover.message}</p>}
+                    <div className={styles['createAlbum__details']}>
+                        <div className={styles['createAlbum__detailsContainer']}>
+                            <div className={styles['createAlbum__coverUpload']}>
+                                <div className={styles['createAlbum__coverFile']}
+                                    onMouseEnter={() => setIsHover(true)}
+                                    onMouseLeave={() => setIsHover(false)}>
+                                    <div className={styles['createAlbum__coverFile--preview']}>
+                                        {previewImage && <div className={styles['preview__art']} style={{ backgroundImage: previewImage?.albumCover }}></div>}
+                                        {isHover && (
+                                            <>
+                                                <div className={styles['preview__blackScreen']}></div>
+                                                <div className={styles['preview__choose']} onClick={() => {
+                                                    modal.openModal('showCropperCover')
+                                                }}>Choose album cover</div>
+                                            </>
+                                        )}
+                                    </div>
+                                    {errors.cover && <p className='error'>{errors.cover.message}</p>}
                                 </div>
                             </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
-                                <label>
-                                    <p>Album title</p>
-                                    <p className={styles.red}>*</p>
-                                </label>
-                                <input {...register("albumTitle", { required: "Album name required" })} />
-                                {errors.albumTitle && <p className='error'>{errors.albumTitle.message}</p>}
-                            </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
-                                <label>
-                                    <p>Label name</p>
-                                    <p className={styles.red}>*</p>
-                                </label>
-                                <input {...register("recordLabel", { required: "Record Label required" })} />
-                                {errors.recordLabel && <p className='error'>{errors.recordLabel.message}</p>}
-                            </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
+                            <InputField 
+                                label={'Album title'}
+                                className={styles['createAlbum__item']}
+                                required={'Album name is required'}
+                                register={register}
+                                name={'albumTitle'}
+                                errors={errors} />
+                            <InputField 
+                                label={'Record label'}
+                                className={styles['createAlbum__item']}
+                                required={'Record label is required'}
+                                register={register}
+                                name={'recordLabel'}
+                                errors={errors} />
+                            <div className={styles['createAlbum__item']}>
                                 <label>
                                     <p>Main language of album</p>
-                                    <p className={styles.red}>*</p>
+                                    <p className='error'>*</p>
                                 </label>
                                 <select {...register('language', { required: 'language is required'})}>
                                     <option value="">choose language</option>
@@ -140,10 +128,10 @@ export default function AlbumCreatePage() {
                                 </select>
                                 {errors.language && <p className='error'>{errors.language.message}</p>}
                             </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
+                            <div className={styles['createAlbum__item']}>
                                 <label>
                                     <p>Main genre of album</p>
-                                    <p className={styles.red}>*</p>
+                                    <p className='error'>*</p>
                                 </label>
                                 <select {...register('genre', { required: 'genre is required'})}>
                                     <option value="">choose genre</option>
@@ -159,10 +147,10 @@ export default function AlbumCreatePage() {
                                 </select>
                                 {errors.genre && <p className='error'>{errors.genre.message}</p>}
                             </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
+                            <div className={styles['createAlbum__item']}>
                                 <label>
                                     <p>Album type</p>
-                                    <p className={styles.red}>*</p>
+                                    <p className='error'>*</p>
                                 </label>
                                 <select {...register('type', { required: 'Choose Type' })}>
                                     <option value="">choose album type</option>
@@ -171,72 +159,77 @@ export default function AlbumCreatePage() {
                                 </select>
                                 {errors.type && <p className='error'>{errors.type.message}</p>}
                             </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
-                                <label>
-                                    <p>Private?</p>
-                                </label>
-                                <input type="checkbox" {...register('privacy')}/>
-                            </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
-                                <label>
-                                    <p>Date</p>
-                                    <p className={styles.red}>*</p>
-                                </label>
-                                <Controller
-                                    name="date"
-                                    control={control}
-                                    defaultValue={null}
-                                    rules={{ required: "Choose date" }}
-                                    render={({ field, fieldState }) => (
-                                        <>
-                                            <DatePicker
-                                                placeholderText="Choose date"
-                                                selected={field.value}
-                                                showMonthDropdown
-                                                showYearDropdown
-                                                maxDate={new Date()}
+                            <InputField 
+                                label={'Privacy type'}
+                                className={styles['createAlbum__item']}
+                                register={register}
+                                type={'checkbox'}
+                                name={'privacy'}
+                                errors={errors} />
+                            <InputField 
+                                label={'Choose date'}
+                                className={styles['createAlbum__item']}
+                                register={register}
+                                required={'Choose date'}
+                                name={'date'}
+                                component={
+                                    <Controller
+                                        name="date"
+                                        control={control}
+                                        defaultValue={null}
+                                        rules={{ required: "Choose date" }}
+                                        render={({ field, fieldState }) => (
+                                            <>
+                                                <DatePicker
+                                                    placeholderText="Choose date"
+                                                    selected={field.value}
+                                                    showMonthDropdown
+                                                    showYearDropdown
+                                                    maxDate={new Date()}
 
-                                                onChange={(date) => {
-                                                    const iso = date?.toISOString() || "";
-                                                    setValue("date", iso, { shouldValidate: true });
-                                                }}
-                                                dateFormat="yyyy-MM-dd"
-                                            />
-                                            {fieldState.error && (
-                                                <p className='error'>{fieldState.error.message}</p>
-                                            )}
-                                        </>
-                                    )}
-                                />
-                            </div>
-                            <div className={styles.albumDetails__rightContainer__data}>
-                                <label>
-                                    <p>Songs list:</p>
-                                    <p className={styles.red}>*</p>
-                                </label>
-                                <div className={styles.songs}>
+                                                    onChange={(date) => {
+                                                        const iso = date?.toISOString() || "";
+                                                        setValue("date", iso, { shouldValidate: true });
+                                                    }}
+                                                    dateFormat="yyyy-MM-dd"
+                                                />
+                                                {fieldState.error && (
+                                                    <p className='error'>{fieldState.error.message}</p>
+                                                )}
+                                            </>
+                                        )}
+                                    />
+                                }
+                                errors={errors} />
+                            <InputField 
+                                label={'Privacy type'}
+                                className={styles['createAlbum__item']}
+                                register={register}
+                                required={'Album must have at least 3 songs'}
+                                name={'songs'}
+                                errors={errors} 
+                                component={<div className={styles['songs']}>
                                     {songs.map((song, index) => (
-                                        <div key={index} className={styles.song}>
-                                            <div className={styles.song__removeButton} onClick={() => removeSong(index)}><X color="black" style={{cursor: 'pointer'}}/></div>
-                                            <div className={styles.song__content} onClick={() => {
+                                        <div key={index} className={styles['song']}>
+                                            <div className={styles['song__removeButton']} onClick={() => removeSong(index)}><X color="black" style={{cursor: 'pointer'}}/></div>
+                                            <div className={styles['song__content']} onClick={() => {
                                                 setEditingSongIndex(index);
                                                 modal.openModal('songCreate');
                                             }}>
-                                                <div className={styles.song__content__title}>{song.title}</div>
-                                                <div className={styles.song__content__genre}>{song.genre}</div>
-                                                <div className={styles.song__content__duration}>{song.duration}</div>
+                                                <div className={styles['song__contentTitle']}>{song.title}</div>
+                                                <div className={styles['song__contentGenre']}>{song.genre.map((genr) => genr.name)}</div>
+                                                <div className={styles['song__contentDuration']}>{song.duration}</div>
                                             </div>
                                         </div>
                                     ))}
-                                    <div className={styles.addSong} onClick={() => {
+                                    <div className={styles['songs__addSongs']} onClick={() => {
                                         modal.openModal('songCreate')
                                         clearEditingSongIndex()
                                     }}>
-                                        <div className={styles.addSong__plus}></div>
+                                        <div className={styles['songs__addSongs--icon']}></div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className={styles.albumDetails__rightContainer__button}>
+                                </div>}/>
+                            <div className={styles['createAlbum__submitButton']}>
                                 <button type="submit">Create Album</button>
                             </div>
                         </div>

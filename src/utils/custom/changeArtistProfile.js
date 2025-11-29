@@ -1,6 +1,7 @@
 import { setData } from "../../lib/redux/data/dataSlice";
 import { updateArtistName, updateBio, uploadAvatar, uploadBanner } from "../../services/artist/artistAction";
 import { isValidArtistName, isValidBio } from "../../lib/regexp";
+import { setGlobalMessage } from "../../lib/redux/pages/viewSlice";
 
 const changeArtistInfo = async (data, dataRedux, dispatch, setMessage) => {
     let artist = dataRedux.artist;
@@ -8,33 +9,35 @@ const changeArtistInfo = async (data, dataRedux, dispatch, setMessage) => {
     try {
         if (data) {
             const updates = {};
-            if (data.avatar) {
+            if (data.avatar && data.avatar.length > 0) {
                 const res = await uploadAvatar(data.avatar);
                 updates.artist_avatar = res.avatarUrl;
-                setMessage({ success: res.message, error: '' });
+                dispatch(setGlobalMessage({ type: "success" , message: res.message }))
             }
-            if (data.bio) {
+            if (data.bio && data.bio !== artist.artist_bio) {
                 !isValidBio(data.bio) && setMessage({ success: '', error: 'Invalid biography' });
 
                 const res = await updateBio(data.bio);
-                setMessage({ success: res.message, error: '' });
+                dispatch(setGlobalMessage({ type: "success" , message: res.message }))
             }
-            if (data.banner) {
+            if (data.banner && data.banner.length > 0) {
                 const res = await uploadBanner(data.banner);
                 updates.artist_banner = res.bannerUrl;
-                setMessage({ success: res.message, error: '' });
+                dispatch(setGlobalMessage({ type: "success" , message: res.message }))
+
             }
-            if (data.artistName) {
+            if (data.artistName && data.artistName !== artist.artist_name) {
                 !isValidArtistName(data.artistName) && setMessage({ success: '', error: 'Invalid artist name' });
                 
                 const res = await updateArtistName(data.artistName);
                 updates.artist_name = data.artistName;
-                setMessage({ success: res.message, error: '' });
+                dispatch(setGlobalMessage({ type: "success" , message: res.message }))
             }
             dispatch(setData({ user, artist: { ...artist, ...updates } }));
         }
     } catch (error) {
-        setMessage({ success: '', error: error.message });
+        dispatch(setGlobalMessage({ type: "error" , message: error.message }))
+
         console.error(error);
     }
 }

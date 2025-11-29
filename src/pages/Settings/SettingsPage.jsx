@@ -2,19 +2,10 @@ import styles from './SettingsPage.module.scss';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setView } from '../../lib/redux/pages/viewSlice';
-import { AccountConfig } from './ConfigPanel/accountConfig';
 import ArtistSettings from './Pages/ArtistSettings.module.scss';
 import { Outlet, Link } from 'react-router-dom';
 import { UserImage } from '../../hooks/UserImage';
 import { Settings } from 'lucide-react';
-
-// const SideBarElement = ({name, id, isActive, onClick}) => {
-//     const transformName = name.toLowerCase().replace(' ', '');
-//     return (
-//         <div className={styles['side-bar__item']} onClick={() => onClick(id, transformName)} style={{ borderLeft: isActive ? "2px solid white" : 'none', borderRight: isActive ? "2px solid white" : 'none'}}>{name}</div>
-//         // <div className={styles.sideBar__item} style={{ borderLeft: isActive ? "2px solid white" : 'none', borderRight: isActive ? "2px solid white" : 'none'}}>{name}</div>
-//     )
-// }
 
 export default function SettingsPage() {
     const dispatch = useDispatch();
@@ -25,7 +16,7 @@ export default function SettingsPage() {
     return (
         <div className={styles['settings-page']}>
             <div className={styles['settings-page__header']}>
-                <Link to="/settings/account" className="link-reset">
+                <Link to="/settings/general" className="link-reset">
                     <div className={styles['settings-page__container']}>
                         <div className={styles['settings-page__container-icon']}>
                             <Settings />

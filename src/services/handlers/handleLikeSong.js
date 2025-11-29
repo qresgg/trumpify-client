@@ -1,4 +1,4 @@
-import { unLikeSong, likeSong } from '../user/userActions';
+import { handleLikeSong, handleUnLikeSong } from '../user.service';
 import { updateLikedSongsCount } from '../media/updateLikedSongsCount';
 
 const OnLikeSong = (() => {
@@ -13,8 +13,8 @@ const OnLikeSong = (() => {
     timeoutId = setTimeout(async () => {
       try {
         const response = newLikeState
-          ? await likeSong(song)
-          : await unLikeSong(song);
+          ? await handleLikeSong(song._id)
+          : await handleUnLikeSong(song._id);
 
         updateLikedSongsCount(dispatch, data.user, data.artist, response.likedSongs, song._id);
       } catch (error) {

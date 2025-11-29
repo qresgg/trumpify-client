@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchLikedCollection } from "../../services/user/queries/fetchLikedCollection";
+import { fetchLikedCollectionById } from "../../services/userService";
 import { setSelectedPlaylist } from "../../lib/redux/music/musicState";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,7 +11,7 @@ export const useLikedCollection = ({ id }) => {
     useEffect(() => {
         const fetchLiked = async () => {
             try{
-                const response = await fetchLikedCollection(id);
+                const response = await fetchLikedCollectionById(id);
                 setLikedSongs(response.songs);
                 dispatch(setSelectedPlaylist(response));
             } catch (error) {

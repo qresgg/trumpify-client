@@ -1,4 +1,5 @@
 @use './style/global/collection.module' as *;
+@import './style/mixins/scrollbar.module.scss';
 
 body {
   margin: 0;
@@ -36,6 +37,7 @@ button{
 
 .success{
   color: $success-color;
+  text-align: center;
 }
 .explicit{
   padding: 1px 6px;
@@ -82,4 +84,21 @@ button{
 .link-reset {
   text-decoration: none;
   color: inherit;
+}
+.green-label{
+  color: $additional-color;
+}
+.white-label{
+  color: $special-color;
+}
+.red-label{
+  color: $error-color;
+}
+
+h1{
+  color: white;
+  font-size: 35px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
 }

@@ -1,24 +1,34 @@
-import styles from './createForm.module.scss'
+import styles from './SongCreatePage.module.scss'
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { createSong } from '../../services/artist/artistService';
+import { useDispatch, useSelector } from 'react-redux';
 import { X } from 'lucide-react';
-import { handleAudioFileChange } from '../../utils/custom/durationFromFile';
+import { audioHandle } from '../../utils/global/audioUtils';
 import { useMessage } from '../../hooks/global/useMessage';
 import { useArtistsRoleActions } from '../../hooks/album/useArtistsRoleActions';
 import { usePreviewImage } from '../../hooks/global/usePreviewImage';
 import CoverCropper from '../../utils/custom/coverCropper';
-import ModalOverlay from '../../components/Main/snippets/ModalOverlay';
 import { useModal } from '../../hooks/global/useModal';
 
+import createSong from '../../services/artist/actions/createSong';
+import ModalOverlay from '../../shared/ModalOverlay';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import Select from 'react-select'
+import InputField from './shared/inputField';
+import { customTheme, customOptionGenre, customSingleValueGenre } from './shared/func/customRenderItem';
+import useGenres from '../../hooks/global/useGenres';
+import { customSelectStyles } from './shared/func/customStyles';
+
+import FileDropPreview from './shared/fileDropzone';
+
 export default function SongPageCreate () {
+    const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }, setValue, control } = useForm();
     const { removeArtist, removeRoleFromArtist, addArtistWithRole, artists, setArtists } = useArtistsRoleActions();
     const { handleSave, previewImage, setPreviewImage } = usePreviewImage({ setValue });
+    const { genres, loading: genresLoading, error: genresError } = useGenres();
 
     const { modalStateShowCropperCover } = useSelector((state) => state.view.modal);
 
@@ -26,14 +36,14 @@ export default function SongPageCreate () {
     const [ mode, setMode ] = useState({ type: 'songCover' });
     const { message, setMessage } = useMessage()
     const [ songFileChosen, setSongFileChosen ] = useState(null)
+    const [ audioFront, setAudioFront ] = useState(null);
     const [ isHover, setIsHover ] = useState(null);
 
     const onSubmit = async (data) => {
         try {
             if (artists.length !== 0) {
-                // console.log(data, artists)
-                const formData = { ...data, artists: JSON.stringify(artists)}
-                const res = await createSong(formData)
+                console.log(data, artists)
+                const res = await createSong({ ...data, artists})
                 setMessage({ success: res ? res.message : 'Song has been created successfully' })
             } else {
                 setMessage({ error: 'Song must have at least 1 artist'})
@@ -45,39 +55,32 @@ export default function SongPageCreate () {
     }
 
     return (
-        <div className={styles.main}>
-            <div className={styles.main__container}>
-                <div className={styles.main__container__header}>
-                    <p className={styles.white}>Create a </p>
-                    <p className={styles.green}>new song.</p>
+        <div className={styles['createSong']}>
+            <div className={styles['createSong__container']}>
+                <div className={styles['createSong__header']}>
+                    <p className={'white-label'}>Create a </p>
+                    <p className={'green-label'}>new song.</p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={(e) => handleAudioFileChange(e, setValue, setSongFileChosen)}/>
+                    <input type="file" accept='audio/*' id="audioFile" style={{ display: 'none' }} onChange={(e) => audioHandle(e, setValue, setSongFileChosen, setAudioFront)}/>
                     {!songFileChosen && (
-                    <div className={styles.songFile}>
-                        <div className={styles.songFile__caption}>
-                            <p className={styles.white}>Upload your </p>
-                            <p className={styles.green}>audio file.</p>
-                        </div>
-                        <div className={styles.songFile__description}>Mp3, under 10mb</div>
-                        <div className={styles.songFile__container} onClick={() => document.getElementById("audioFile")?.click()}>
-                            <div className={styles.songFile__container__image}></div>
-                            <div className={styles.songFile__container__caption}></div>
-                            <div className={styles.songFile__container__button}>
-                                Choose files
-                            </div>
-                        </div>
-                    </div>
+                    <FileDropPreview 
+                        title={'Upload your audio file'}
+                        description={'Mp3, wav, odd, mpeg, under 10mb'}
+                        setValue={setValue}
+                        setSongFileChosen={setSongFileChosen}
+                        setAudioFront={setAudioFront}/>
                     )}
                     {songFileChosen && (
-                        <div className={styles.songDetails}>
-                            <div className={styles.upperContainer}>
+                        <div className={styles['songDetails']}>
+                            <div className={styles['songDetails__audioName']}>{audioFront.name}</div>
+                            <div className={styles['songDetails__message']}>
                                 {message.error && <p className='error'>{message.error}</p>}
                                 {message.success && <p className='success'>{message.success}</p>}
                             </div>
-                            <div className={styles.mainContainer}>
-                                <div className={styles.songDetails__leftContainer}>
-                                    <div className={styles.file}
+                            <div className={styles['songDetails__container']}>
+                                <div className={styles['songDetails__left']}>
+                                    <div className={styles['songDetails__file']}
                                         onMouseEnter={() => setIsHover(true)}
                                         onMouseLeave={() => setIsHover(false)}>
                                         <div className={styles.preview}>
@@ -92,46 +95,71 @@ export default function SongPageCreate () {
                                     </div>
                                     {errors.cover && <p>{errors.cover.message}</p>}
                                 </div>
-                                <div className={styles.songDetails__rightContainer}>
-                                    <div className={styles.songDetails__rightContainer__data}>
-                                        <label>
-                                            <p>Song title</p>
-                                            <p className={styles.red}>*</p>
-                                        </label>
-                                        <input {...register('title', { required: 'title is required'})} />
-                                        {errors.songTitle && <p>{errors.songTitle.message}</p>}
-                                    </div>
-                                    <div className={styles.songDetails__rightContainer__data}>
-                                        <label>
-                                            <p>Choose genre of song</p>
-                                        </label>
-                                        <select {...register('genre', { required: 'genre is required'})}>
-                                            <option value="" disabled>-_-_-Choose-_-_-</option>
-                                            <option value="pop">Pop</option>
-                                            <option value="rock">Rock</option>
-                                            <option value="hip-hop">Hip-Hop</option>
-                                            <option value="electronic">Electronic</option>
-                                            <option value="jazz">Jazz</option>
-                                            <option value="r&b">R&B</option>
-                                            <option value="country">Country</option>
-                                            <option value="metal">Metal</option>
-                                        </select>
-                                        {errors.genre && <p>{errors.genre.message}</p>}
-                                    </div>
-                                    <div className={styles.songDetails__rightContainer__data}>
-                                        <div className={styles.songDetails__rightContainer__data__double}>
-                                            <div className={styles.double__container}>
-                                                <label className={styles.label}>
-                                                    <p className={styles.double__container__p}>Does your song have explicit lyrics?</p>
-                                                </label>
-                                                <input type="checkbox" {...register('explicit')} />
-                                                {errors.explicit && <p className='error'>{errors.explicit.message}</p>}
-                                            </div>
-                                            <div className={styles.double__container}>
-                                                <label className={styles.label}>
-                                                    <p>Date</p>
-                                                    <p className={styles.red}>*</p>
-                                                </label>
+                                <div className={styles['songDetails__right']}>
+                                    <InputField 
+                                        label={'Song title'}
+                                        className={styles['songDetails__data']}
+                                        required={'Title is required'}
+                                        register={register}
+                                        name={'title'}
+                                        errors={errors}
+                                        />
+                                    <InputField 
+                                        label={'Song genre'}
+                                        register={register}
+                                        errors={errors}
+                                        className={styles['songDetails__data']}
+                                        component={
+                                            genresLoading ? (
+                                                <div>Genres is loading...</div>
+                                            ) : genresError ? (
+                                                <div className='error'>{genresError}</div>
+                                            ) : (
+                                                <Controller
+                                                    control={control}
+                                                    name="genre"
+                                                    rules={{ required: 'At least one genre is required' }}
+                                                    render={({ field }) => (
+                                                        <Select
+                                                            {...field}
+                                                            isMulti
+                                                            theme={customTheme}
+                                                            options={genres}
+                                                            onChange={(selectedOptions) => {
+                                                                const MAX_GENRES = 4;
+                                                                const limitedOptions = selectedOptions.slice(0, MAX_GENRES);
+                                                                field.onChange(limitedOptions);
+                                                            }}
+                                                            value={field.value || []}
+                                                            getOptionLabel={(option) => option.name}
+                                                            getOptionValue={(option) => option.id}
+    
+                                                            components={{
+                                                                Option: customOptionGenre,
+                                                                MultiValueLabel: customSingleValueGenre,
+                                                            }}
+                                                            placeholder="Select up to 4 genres"
+                                                            isSearchable={false}
+                                                            styles={customSelectStyles}/>
+                                                    )}
+                                                />
+                                            )
+                                        }/>
+                                    <div className={styles['songDetails__data']}>
+                                        <div className={styles.double__container}>
+                                            <label className={styles.label}>
+                                                <p className={styles.double__container__p}>Does your song have explicit lyrics?</p>
+                                            </label>
+                                            <input type="checkbox" {...register('explicit')} />
+                                            {errors.explicit && <p className='error'>{errors.explicit.message}</p>}
+                                        </div>
+                                        <InputField 
+                                            label={'Choose date'}
+                                            className={styles['songDetails__data']}
+                                            register={register}
+                                            required={'Choose date'}
+                                            name={'date'}
+                                            component={
                                                 <Controller
                                                     name="date"
                                                     control={control}
@@ -145,7 +173,7 @@ export default function SongPageCreate () {
                                                                 showMonthDropdown
                                                                 showYearDropdown
                                                                 maxDate={new Date()}
-
+            
                                                                 onChange={(date) => {
                                                                     const iso = date?.toISOString() || "";
                                                                     setValue("date", iso, { shouldValidate: true });
@@ -158,10 +186,10 @@ export default function SongPageCreate () {
                                                         </>
                                                     )}
                                                 />
-                                            </div>
-                                        </div>
+                                            }
+                                            errors={errors} />
                                     </div>
-                                    <div className={styles.songDetails__rightContainer__data}>
+                                    <div className={styles['songDetails__data']}>
                                         <label>
                                             <p>Choose your song's type</p>
                                         </label>
@@ -174,7 +202,7 @@ export default function SongPageCreate () {
                                             <option value="radio">Radio Edition</option>
                                         </select>
                                     </div>
-                                    <div className={styles.songDetails__rightContainer__data}>
+                                    <div className={styles['songDetails__data']}>
                                         <label>
                                             <p>Add artists on feat</p>
                                             <p className={styles.red}>*</p>
@@ -211,7 +239,7 @@ export default function SongPageCreate () {
                                             <option value="producer">Producer</option>
                                         </select>
                                     </div>
-                                    <div className={styles.songDetails__rightContainer__data}>
+                                    <div className={styles['songDetails__data']}>
                                         <label>
                                             <p>Preview</p>
                                         </label>
@@ -238,7 +266,7 @@ export default function SongPageCreate () {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className={styles.songDetails__rightContainer__data}>
+                                    <div className={styles['songDetails__data']}>
                                         <button type="submit">Create Song</button>
                                     </div>
                                 </div>

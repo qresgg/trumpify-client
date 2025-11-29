@@ -1,4 +1,4 @@
-@use '../global/collection.module.scss' as global;
+@use '../global/variables' as global;
 
 $arrow-bg: rgba(255, 255, 255, 0.3);
 $arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
@@ -12,9 +12,11 @@ $select-bg: rgba(255, 255, 255, 0.2);
     border: none;
     border-left: 2px solid global.$second-color;
     border-right: 2px solid global.$second-color;
+    padding: 8px;
+    height: 100px;
     border-radius: 5px;
-    padding: 16px;
-    max-width: 100%;
+    width: 100%;
+    font-size: 13px;
 
     &:hover {
         outline: none;
@@ -28,13 +30,16 @@ $select-bg: rgba(255, 255, 255, 0.2);
     }
 }
 input{
-    height: 25px;
+    height: global.$input-height;
     width: 100%;
+    font-size: 13px;
     background-color: black;
+    color: white;
     border: none;
     border-bottom: 2px solid global.$second-color;
     transition: 0.3s all;
     cursor: pointer;
+    padding: 8px;
 
     &:hover {
         outline: none;

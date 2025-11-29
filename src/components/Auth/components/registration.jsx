@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 export default function Registration () {
     const dispatch = useDispatch();
-    const { register: hookRegister, handleSubmit, formState: { errors }, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const { message, handleRegistration } = useAuth();
     const [passwordValidation, setPasswordValidation] = useState({});
     const [isAdClosed, setIsAdClosed] = useState(false);
@@ -52,13 +52,13 @@ export default function Registration () {
 
                             <div className={styles.inputData}>
                                 <label>Email</label>
-                                <input {...hookRegister('email', { required: "email is required"})}/>
+                                <input {...register('email', { required: "email is required"})}/>
                                 {errors.email && <p>{errors.email.message}</p>}
                             </div>
 
                             <div className={styles.inputData}>
                                 <label>Username</label>
-                                <input {...hookRegister('userName', { required: "user name is required"})}/>
+                                <input {...register('userName', { required: "user name is required"})}/>
                                 {errors.userName && <p>{errors.userName.message}</p>}
                             </div>
 
@@ -100,7 +100,7 @@ export default function Registration () {
                                         transition={{ duration: 0.4 }}>
                                         <div className={styles.inputData}>
                                             <label>Password Confirmation</label>
-                                            <input {...hookRegister('passwordConfirm', { required: "confirmation is required"})} type={visibility.input2 ? "text" : "password"} id="input2"/>
+                                            <input {...register('passwordConfirm', { required: "confirmation is required"})} type={visibility.input2 ? "text" : "password"} id="input2"/>
                                             <div className={styles.showButton} 
                                                 onMouseDown={() => toggleVisibility('input2')} 
                                                 onMouseUp={() => toggleVisibility('input2')}>{visibility.input2 ? 'Hide' : 'Show'}</div>

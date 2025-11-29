@@ -6,7 +6,7 @@ const findData = async (type, id) => {
     const token = getAccessToken();
     
     try{
-        const response = await axios.get(`${SERVER_API_URL}/find/${type}/${id}`, {
+        const response = await axios.get(`${SERVER_API_URL}/search/${type}/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ const searchData = async (type, name) => {
     const token = getAccessToken();
     
     try{
-        const response = await axios.get(`${SERVER_API_URL}/find/${type}`, 
+        const response = await axios.get(`${SERVER_API_URL}/search/${type}`, 
             { params: { name: name },
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -42,4 +42,4 @@ const searchData = async (type, name) => {
 const findContent = async (type, id) => findData(type, id);
 const searchContent = async (type, name) => searchData(type, name);
 
-export { findContent, searchContent }
+export { findContent, searchContent }   

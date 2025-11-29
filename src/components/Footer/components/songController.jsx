@@ -1,4 +1,4 @@
-import styles from './songController.module.scss'
+import styles from '../footer.module.scss'
 import { ProgressBar } from '../snippets/progressBar-snippet'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,36 +49,30 @@ export function SongController({
     } : {}
 
     return (
-        <div className={styles.main}>
-            
-            <div className={styles.songController}>
-                <div className={styles.upper}>
-                    <div className={styles.panel}>
-                        <div className={styles.panel__shuffle} title='shuffle'>
-                            <div></div>
-                        </div>
-                        <div className={styles.panel__prevSong} title='previous song'>
-                            <div onClick={() => (dispatch(setPrevSong()))}></div>
-                        </div>
-                        <div onClick={handlePause}>
-                            {isMusicPlaying
-                            ? <div className={styles.panel__pause} title='pause'></div>
-                            : <div className={styles.panel__play} title='play'></div>
-                            }
-                        </div>
-                        <div className={styles.panel__nextSong} title='next song'>
-                            <div onClick={() => (dispatch(setNextSong()))}></div>
-                        </div>
-                        <div className={styles.panel__loop} title='loop' style={pressedTemplate} onClick={handleLoop}>
-                            <div></div>
-                        </div>
-                    </div>
+        <div className={styles.songController__container}>
+            <div className={styles.songController__buttons}>
+                <div className={styles.button__shuffle} title='shuffle'>
+                    <div></div>
                 </div>
-                <div className={styles.lower}>
-                    <ProgressBar audioRef={audioRef} />
+                <div className={styles.button__prevSong} title='previous song'>
+                    <div onClick={() => (dispatch(setPrevSong()))}></div>
+                </div>
+                <div onClick={handlePause}>
+                    {isMusicPlaying
+                        ? <div className={styles.button__pause} title='pause'></div>
+                        : <div className={styles.button__play} title='play'></div>
+                    }
+                </div>
+                <div className={styles.button__nextSong} title='next song'>
+                    <div onClick={() => (dispatch(setNextSong()))}></div>
+                </div>
+                <div className={styles.button__loop} title='loop' style={pressedTemplate} onClick={handleLoop}>
+                    <div></div>
                 </div>
             </div>
-            
+            <div className={styles.songController__bar}>
+                <ProgressBar audioRef={audioRef} />
+            </div>
         </div>
     );
 }

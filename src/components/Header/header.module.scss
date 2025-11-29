@@ -1,4 +1,4 @@
-@use '../../style/global/variables.module.scss' as global;
+@use '../../style/global/variables' as global;
 
 $height: 64px;
 $width: 100%;
@@ -20,6 +20,7 @@ $width: 100%;
     }
 }
 
+// PC
 .header{
     position: relative;
     width: $width;
@@ -29,8 +30,9 @@ $width: 100%;
 
     background-color: black;
     display: flex;
+    overflow: hidden;
 
-    .black-screen{
+    .blackScreen{
         color: white;
         background-color: black;
         position: absolute;
@@ -41,9 +43,8 @@ $width: 100%;
         height: 100vh;
         opacity: 0.3;
     }
-
     
-    .nav-bar{
+    .navBar{
         width: 100%;
         display: flex;
         gap: 15px;
@@ -54,11 +55,6 @@ $width: 100%;
             width: 150px;
             height: 100%;
         }
-        &__logotype{
-            background: url('../../../public/logomain.png') center/contain no-repeat;
-            width: 100%;
-            height: 100%;
-        }
         align-items: center;
 
         &__home{
@@ -67,7 +63,7 @@ $width: 100%;
             justify-content: center;
             align-items: center;
 
-            &-icon{
+            &--icon{
                 background: url('../../../public/staff/home.png') center/contain no-repeat;
                 width: 25px;
                 height: 25px
@@ -83,7 +79,7 @@ $width: 100%;
             width: 150px;
             height: 100%;
 
-            &-icon{
+            &--icon{
                 background: url('../../../public/logomain.png') center/contain no-repeat;
                 width: 100%;
                 height: 100%;
@@ -101,7 +97,7 @@ $width: 100%;
         }
     }
 
-    .user-bar{
+    .userBar{
         display: flex;
         justify-content: end;
         gap: 10px;
@@ -133,7 +129,7 @@ $width: 100%;
                 filter: none;
             }
 
-            &-icon{
+            &--icon{
                 background-size: cover;
                 background-color: white;
                 background-repeat: no-repeat;
@@ -149,4 +145,9 @@ $width: 100%;
             position: relative;
         }
     }
+}
+
+.header{
+  @media(max-width: 768px) {
+  }
 }

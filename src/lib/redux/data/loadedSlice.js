@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  albums: [],
-  users: [],
-  artists: [],
+  clearableData: {
+    albums: [],
+    users: [],
+    artists: [],
+  },
+  nonClearableData: {
+    regions: [],
+    genres: [],
+    languages: []
+  }
 };
 
 const loadedSlice = createSlice({
@@ -12,35 +19,70 @@ const loadedSlice = createSlice({
   reducers: {
     addToLoadedOne: (state, action) => {
       const { type, value } = action.payload;
-      const targetArray = state[`${type}s`];
-      if (!targetArray) return;
 
-      const alreadyExists = targetArray.some(item => item._id === value._id);
+      const clearableTypes = ['album', 'user', 'artist'];
+      const nonClearableTypes = ['region', 'genre', 'language'];
+
+      let targetArray;
+
+      if (clearableTypes.includes(type)) {
+        targetArray = state.clearableData[`${type}s`];
+      } else if (nonClearableTypes.includes(type)) {
+        targetArray = state.nonClearableData[`${type}s`];
+      } else {
+        return;
+      }
+
+      if (!targetArray) return;
+      const alreadyExists = targetArray.some(item => {
+        if (item.data && value._id) {
+          return item.data._id === value._id;
+        }
+        return item._id === value._id;
+      });
+
       if (!alreadyExists) {
-        targetArray.push({ data: value, lastUpdated: Date.now()});
+        targetArray.push({ data: value, lastUpdated: Date.now() });
       }
     },
     clearOldData: (state) => {
       const FIVE_MIN = 15 * 1000;
       const now = Date.now();
 
-      for (const key of Object.keys(state)) {
-        const arr = state[key];
-        if (!Array.isArray(arr)) continue;
-
-        state[key] = arr.filter(item => {
+      Object.keys(state.clearableData).forEach(key => {
+        state.clearableData[key] = state.clearableData[key].filter(item => {
           if (!item.lastUpdated) return true;
           return now - item.lastUpdated <= FIVE_MIN;
         });
-      }
+      });
     },
     addToLoadedMany: (state, action) => {
       const { type, values } = action.payload;
-      const targetArray = state[`${type}s`];
+
+      const clearableTypes = ['album', 'user', 'artist'];
+      const nonClearableTypes = ['region', 'genre', 'language'];
+
+      let targetArray;
+
+      if (clearableTypes.includes(type)) {
+        targetArray = state.clearableData[`${type}s`];
+      } else if (nonClearableTypes.includes(type)) {
+        targetArray = state.nonClearableData[`${type}s`];
+      } else {
+        return;
+      }
+
       if (!targetArray) return;
 
       values.forEach(item => {
-        const alreadyExists = targetArray.some(i => i.data._id === item._id);
+        const alreadyExists = targetArray.some(existing => {
+          if (existing.data && item._id) {
+            return existing.data._id === item._id;
+          } else if (existing.data.id && item.id) {
+            return existing.data.id === item.id;
+          }
+          return existing._id === item._id;
+        });
         if (!alreadyExists) {
           targetArray.push({ data: item, lastUpdated: Date.now() });
         }

@@ -17,7 +17,7 @@ export function InfoChange() {
     const {register, handleSubmit, formState: { errors }, setValue} = useForm();
     const {message, setMessage} = useMessage();
     const modal = useModal();
-    const [mod, setMod] = useState({ avatar: true });
+    const [mod, setMod] = useState({ type: 'avatar' });
 
     const modalStateShowCropperUserPage = useSelector((state) => state.view.modal.modalStateShowCropperUserPage)
 
@@ -59,7 +59,10 @@ export function InfoChange() {
                             <div className={styles.button}>
                                 <button type="submit">Save</button>
                             </div>
-                            {message.error && <div className='error'>{message.error}</div>}
+                            <div className={styles.status}>
+                                {message.error && <div className='error'>{message.error}</div>}
+                                {message.success && <div className='success'>{message.success}</div>}
+                            </div>
                         </div>
                     </div>
                     <div className={styles.attentions}>
@@ -69,7 +72,7 @@ export function InfoChange() {
                 {modalStateShowCropperUserPage && (
                     <>
                         <div className={styles.modal}>
-                            <AvatarCropper onSave={handleSave} mod={mod}/>
+                            <AvatarCropper onSave={handleSave} mod={mod} type="avatar"/>
                             <button onClick={() => modal.closeModal('showCropperUserPage')} className={styles.cancelbutton}>Cancel</button>
                         </div>
                     </>

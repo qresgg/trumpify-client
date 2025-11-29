@@ -4,7 +4,7 @@ import { UserImage } from '../../hooks/UserImage';
 import { setView } from '../../lib/redux/pages/viewSlice';
 // import { isOriginPage } from '../../../../../services/auth/isOriginPage';
 import fetchColors from '../../utils/custom/colorPalette';
-import { MainContainerSkeleton } from '../../components/Main/Loadings/mainContainer-skeleton';
+import { MainContainerSkeleton } from '../../components/Main/loadings/mainContainer-skeleton';
 import { addToLoadedOne } from '../../lib/redux/data/loadedSlice';
 
 import { useModal } from '../../hooks/global/useModal';
@@ -12,8 +12,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { getUserData } from '../../services/user/queries/fetchUserData';
-import getUserById from '../../services/user/queries/getUserData';
+import { fetchUserDataById } from '../../services/user.service';
 
 export default function UserProfilePage() {
     const dispatch = useDispatch();
@@ -27,14 +26,14 @@ export default function UserProfilePage() {
 
     const user = useSelector((state) => state.data.user)
     const [updateInfo, setUpdateInfo] = useState(false);
-    const [originUser, setOriginUser] = useState(false);
+    const [originUser, setOriginUser] = useState(true);
     const [gradient, setGradient] = useState(null);
 
     const fetchUserData = async () => {
         if (!id) return;
         setLoading(true);
         try{
-            const res = await getUserById(id);
+            const res = await fetchUserDataById(id);
             dispatch(setView({ view: 'currentUserPage', value: res}));
             dispatch(addToLoadedOne({ type: "user", value: res}));
         } catch (error) {
@@ -54,10 +53,6 @@ export default function UserProfilePage() {
         }
     }, [id, dispatch]);
 
-    // useEffect(() => {
-    //     setOriginUser(isOriginPage(user, currentUserPage));
-    // }, [currentUserPage, user])
-
     useEffect(() => {      
         const getColors = async () => {
             setGradient(await fetchColors(currentUserPage));
@@ -75,7 +70,7 @@ export default function UserProfilePage() {
                 <div className={styles['profile']}>
                     <div className={styles['profile__title']} style={gradient}>
                         <div className={styles['profile__addiction']} onClick={() => modal.openModal('userPage')}>
-                            <div className={styles['profile__user-image']}>
+                            <div className={styles['profile__userImage']}>
                                 {user?.user_avatar_url !== 'none' ? (
                                     <UserImage width={'210px'} height={'210px'} avatar={currentUserPage.user_avatar_url}/>
                                 ):(
@@ -83,16 +78,16 @@ export default function UserProfilePage() {
                                 )}
                             </div>
                             <div className={styles['profile__info']}>
-                                <div className={styles['profile__info-label']}>Profile</div>
-                                <div className={styles['profile__info-name']}>{currentUserPage.user_name}</div>
-                                <div className={styles['profile__playlist-count']}>0 Playlist is public</div>
+                                <div className={styles['profile__infoLabel']}>Profile</div>
+                                <div className={styles['profile__infoName']}>{currentUserPage.user_name}</div>
+                                <div className={styles['profile__infoPlaylistsCount']}>0 Playlist is public</div>
                             </div>
                         </div>
                     </div>
                     <div className={styles['profile__statistic']}>
 
                     </div>
-                    { (modalStateUserPage && originUser)&& <InfoChange /> }
+                    { (modalStateUserPage && currentUserPage.edit_permission)&& <InfoChange /> }
                 </div>
             )}
         </>

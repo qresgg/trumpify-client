@@ -1,10 +1,11 @@
 import styles from './main.module.scss';
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import Library from './component/Library';
-import Info from './component/Info';
-import ForYou from './component/ForYou';
+import Library from './components/library/Library';
+import Info from './components/info/Info';
+import ForYou from './components/foryou/ForYou';
 import { useResizable } from '../../hooks/useResizable';
+
 
 export default function Main() {
     const library = useResizable(370);
@@ -16,7 +17,7 @@ export default function Main() {
             <Library 
                 width={library.width} 
                 onResize={library.handleMouseDown}/>
-            <ForYou />
+            <ForYou />  
             <Info 
                 width={info.width} 
                 onResize={info.handleMouseDown}/>

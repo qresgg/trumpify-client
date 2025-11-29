@@ -1,3 +1,5 @@
+import styles from "./Layout.module.scss";
+
 import Auth from "./Auth/Auth";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
@@ -13,7 +15,7 @@ import _ from 'lodash';
 import { useNavigate } from "react-router-dom";
 import { useClearCachedData } from '../hooks/global/useClearCachedData'
 
-import { fetchUserData } from "../services/user/queries/fetchUserData";
+import { fetchUserDataMy } from "../services/user.service";
 
 export function Layout() {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ export function Layout() {
         if (token) {
           console.log('authed')
           setAuthed(true);
-          const userData = await fetchUserData();
+          const userData = await fetchUserDataMy();
           dispatch(setReduxData(userData));
         } else {
           console.log('not authed')
@@ -47,18 +49,20 @@ export function Layout() {
   }, [dispatch, isAuthenticated]);
 
   return (
-    <>
+    <div className={styles['layout']}>
       {isAuthed ? (
-        <>
-          <Header />
-          <Main />
-          <Footer />
-        </>
+        <div className={styles['layout__logisty-sosut']}>
+          <>
+            <Header />
+            <Main />
+            <Footer />
+          </>
+        </div>
       ) : (
         <>
           <Auth success={message.success} error={message.error} />
         </>
       )}
-    </>
+    </div>
   );
 }

@@ -10,7 +10,7 @@ export function usePreviewImage({ setValue }) {
     const user = useSelector((state) => state.data.user)
 
     useEffect(() => {
-        if (user) {
+        if (user || artist) {
             setPreviewImage((prev) => ({
                 ...prev,
                 avatar: `url(${user.user_avatar_url})`,
@@ -18,10 +18,11 @@ export function usePreviewImage({ setValue }) {
                 artistAvatar: `url(${artist.artist_avatar})`,
             }));
         }
-    }, []);
+    }, [user]);
 
     const handleSave = (file, mode, type = null) => {
         type && modal.closeModal(type)
+        console.log(mode)
 
         const reader = new FileReader();
         reader.onloadend = () => {

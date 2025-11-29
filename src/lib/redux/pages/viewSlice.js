@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentView: "home",
-  settingsView: "account",
   currentUserPage: null,
   currentArtistPage: null,
   currentPlaylistPage: null,
@@ -17,9 +15,10 @@ const initialState = {
     modalStateDropDownMenu: false,
     modalStateSearchMenu: false
   },
-  auth: {
-    currentView: "login",
-  },
+  globalMessage: {
+    error: [],
+    success: []
+  }
 };
 
 const viewSlice = createSlice({
@@ -30,35 +29,33 @@ const viewSlice = createSlice({
       const { view, value } = action.payload;
       state[view] = value;
     },
-
     setModalView: (state, action) => {
       const { view, value } = action.payload;
       state.modal[view] = value;
     },
-
     setAuthView: (state, action) => {
       state.auth.currentView = action.payload;
     },
-
-    
+    setGlobalMessage: (state, action) => {
+      const { type, message } = action.payload;
+      if (type === "error") {
+        state.globalMessage.error.push(message);
+      } else if (type === "success") {
+        state.globalMessage.success.push(message);
+      }
+    },
+    clearGlobalMessage: (state) => {
+      state.globalMessage.error = [];
+      state.globalMessage.success = [];
+    }
   },
 });
 
 export const {
-  setSettingsView,
-  setSelectedArtistPage,
-  setSelectedPlaylistPage,
-  setSelectedUserPage,
-
-  setModalStateSongCreate,
-  setModalStateHomePage,
-  setModalStateUserPage,
-  setModalStateShowCropperUserPage,
-  setModalStateShowCropperCover,
-  setModalStateShowCropperArtistConfig,
-
   setView,
   setModalView,
   setAuthView,
+  setGlobalMessage,
+  clearGlobalMessage
 } = viewSlice.actions;
 export default viewSlice.reducer;

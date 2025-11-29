@@ -1,47 +1,8 @@
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
+import { getCroppedImg4X3 } from "../helpful/getCroppedImg";
 
-function getCroppedImg(imageSrc, croppedAreaPixels) {
-    const createImage = (url) =>
-        new Promise((resolve, reject) => {
-            const image = new Image();
-            image.addEventListener("load", () => resolve(image));
-            image.addEventListener("error", (error) => reject(error));
-            image.src = url;
-        });
-
-    return new Promise(async (resolve, reject) => {
-        const image = await createImage(imageSrc);
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = 500;
-        canvas.height = 500;
-
-        ctx.drawImage(
-            image,
-            croppedAreaPixels.x,
-            croppedAreaPixels.y,
-            croppedAreaPixels.width,
-            croppedAreaPixels.height,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        canvas.toBlob((blob) => {
-            if (!blob) {
-                reject(new Error("Canvas is empty"));
-                return;
-            }
-            blob.name = "avatar.png";
-            resolve(blob);
-        }, "image/png");
-    });
-}
-
-export default function AvatarCropper({ onSave, mod, type }) {
+export default function AvatarCropper({ onSave, mod, type = null}) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -64,9 +25,9 @@ export default function AvatarCropper({ onSave, mod, type }) {
 
     const handleSave = async () => {
         try {
-            const blob = await getCroppedImg(imageSrc, croppedAreaPixels);
+            const blob = await getCroppedImg4X3(imageSrc, croppedAreaPixels);
             const file = new File([blob], "avatar.png", { type: "image/png" });
-            onSave(file, mod, type);
+            onSave(file, mod);
         } catch (e) {
             console.error(e);
         }

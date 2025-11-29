@@ -6,12 +6,15 @@ const createRecord = async (type, data, songs = []) => {
     const token = getAccessToken();
     try {
         const formData = new FormData();
+        console.log('data nad songs', data, songs)
         
         Object.entries(data).forEach(([key, value]) => {
-            if (key === ('cover') && value instanceof FileList) {
+            if (key === 'cover' && value instanceof FileList) {
                 formData.append('cover', value[0]);
-            } else if (key === ("audio") && value instanceof FileList) {
-                formData.append('audio', value[0])
+            } else if (key === 'audio' && value instanceof File) {
+                formData.append('audio', value);
+            } else if (key === 'audio' && value instanceof FileList) {
+                formData.append('audio', value[0]);
             } else {
                 formData.append(key, value);
             }
@@ -21,6 +24,7 @@ const createRecord = async (type, data, songs = []) => {
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}:`, pair[1]);
         }
+
 
         songs.forEach((song, index) => {
             const { audio, ...textData } = song;
@@ -48,8 +52,6 @@ const createRecord = async (type, data, songs = []) => {
         throw error;
     }
 };
-
-const createSong = (data) => createRecord('create-song', data)
 const createAlbum = (data, songs) => createRecord('create-album', data, songs)
 
 const createArtist = async (data) => {
@@ -71,4 +73,4 @@ const createArtist = async (data) => {
     }
 } 
 
-export { createSong, createAlbum, createArtist};
+export { createAlbum, createArtist};
