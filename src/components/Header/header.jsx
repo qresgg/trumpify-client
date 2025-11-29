@@ -34,10 +34,10 @@ export default function Header () {
                     </div>
                 </Link>
                 <SearchBar/>
-                <Link to="create/song" className='link-reset'>
+                <Link to="create/song" className='link-reset' id={styles.admin}>
                     <button className={artist._id ? 'bg-prodGreenColor' : 'bg-errorColor'}>New Song</button>
                 </Link>
-                <Link to="create/album" className='link-reset'>
+                <Link to="create/album" className='link-reset' id={styles.admin}>
                     <button className={artist._id ? 'bg-prodGreenColor' : 'bg-errorColor'}>New Album</button>
                 </Link>
             </div>
@@ -51,7 +51,6 @@ export default function Header () {
                             <div className={styles['userBar__profile--icon']} style={{ backgroundImage: `url('https://placehold.co/100x100/1F1F1F/FFFFFF?text=?')`}}></div>
                         )}
                     </div>
-                    {modalStateDropDownMenu && <DropdownMenu onLogout={handleLogout}/>}
                 </div>
             </div>
         </div>

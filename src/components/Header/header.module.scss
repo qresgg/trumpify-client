@@ -22,6 +22,7 @@ $width: 100%;
 
 // PC
 .header{
+
     position: relative;
     width: $width;
     height: $height;
@@ -50,6 +51,9 @@ $width: 100%;
         gap: 15px;
         overflow: visible;
         position: relative;
+
+
+
 
         &__logo{
             width: 150px;
@@ -148,6 +152,9 @@ $width: 100%;
 }
 
 .header{
-  @media(max-width: 768px) {
+  @media(max-width: global.$mobile_width) {
+    #admin{
+      display: none;
+    }
   }
 }
