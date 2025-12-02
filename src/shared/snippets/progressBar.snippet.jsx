@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import styles from '../footer.module.scss';
-import { useProgressBar } from '../../../hooks/global/useProgressBar';
+import styles from './styles/progressBar.snippet.module.scss';
+import { useProgressBar } from '../../hooks/global/useProgressBar';
 
 export function ProgressBar({
-    audioRef
+    audioRef,
 }) {
     const {
         handleMouseDown,
@@ -15,7 +15,7 @@ export function ProgressBar({
     } = useProgressBar({ audioRef, mode: 'progressBar' })
 
     return (
-        <>
+        <div className={styles.progress}>
             <div className={styles.currentTime}>
                 {new Date(currentTime * 1000).toISOString().substr(14, 5)}
             </div>
@@ -26,6 +26,6 @@ export function ProgressBar({
             <div className={styles.durationTime}>
                 {duration ? new Date(duration * 1000).toISOString().substr(14, 5) : '00:00'}
             </div>
-        </>
+        </div>
     );
 }

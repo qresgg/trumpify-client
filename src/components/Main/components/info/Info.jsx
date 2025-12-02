@@ -1,4 +1,5 @@
 import styles from './info.module.scss';
+import footerStyle from '../../../Footer/footer.module.scss';
 import NextSong from '../../shared/NextSong-snippet';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,10 +14,12 @@ import { useNavigate } from 'react-router-dom';
 
 import OnLikeSong from '../../../../services/handlers/handleLikeSong';
 import { findContent } from '../../../../services/search/searchService';
+import {SongController} from "../../../../shared/controllers/song.controller";
 
 export default function Info({ 
     width, 
-    onResize 
+    onResize,
+    audioRef
 }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -93,6 +96,17 @@ export default function Info({
                                     ? <div className={styles['song__liked']} title='Unlike song'></div>
                                     : <div className={styles['song__notLiked']} title='Like song'></div>}
                                 </div>
+                            </div>
+                            <div className={styles['songController']}>
+                                <SongController
+                                    audioRef={audioRef}
+                                    styles={footerStyle}
+                                    config={
+                                        {
+                                            type: "mobile",
+                                            extraButtons: "true"
+                                        }
+                                    }/>
                             </div>
                             <div className={styles['song__artist']}>
                                 <div

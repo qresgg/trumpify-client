@@ -5,7 +5,7 @@ import Header from "./Header/Header";
 import Main from "./Main/Main";
 import { Footer } from "./Footer/footer";
 
-import { useState, useEffect } from "react";
+import {useState, useEffect, useRef} from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { setData as setReduxData } from "../lib/redux/data/dataSlice";
@@ -21,7 +21,7 @@ export function Layout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useClearCachedData();
-
+  const audioRef = useRef(null);
   const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
 
@@ -53,9 +53,10 @@ export function Layout() {
       {isAuthed ? (
         <div className={styles['layout__logisty-sosut']}>
           <>
-            <Header />
-            <Main />
-            <Footer />
+              <audio ref={audioRef} />
+                <Header />
+                <Main audioRef={audioRef} />
+                <Footer audioRef={audioRef} />
           </>
         </div>
       ) : (

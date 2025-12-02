@@ -1,5 +1,5 @@
 import styles from './main.module.scss';
-import { useState, useEffect } from "react";
+import {useState, useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import Library from './components/library/Library';
 import Info from './components/info/Info';
@@ -7,9 +7,11 @@ import ForYou from './components/foryou/ForYou';
 import { useResizable } from '../../hooks/useResizable';
 import {useAuth} from "../../hooks/useAuth";
 import {DropdownMenu} from "../Header/snippet/dropdownmenu-snippet";
+import {setNextSong, setSelectedSong, stopMusic} from "../../lib/redux/music/musicState";
 
 
-export default function Main() {
+export default function Main({ audioRef }) {
+
     const library = useResizable(370);
     const info = useResizable(370);
     const isResizing = useSelector((state) => state.isResizing);
@@ -26,7 +28,9 @@ export default function Main() {
             <ForYou />  
             <Info 
                 width={info.width} 
-                onResize={info.handleMouseDown}/>
+                onResize={info.handleMouseDown}
+                audioRef={audioRef}
+            />
         </div>
     );
 }

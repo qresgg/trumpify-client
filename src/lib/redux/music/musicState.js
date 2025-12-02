@@ -53,6 +53,9 @@ const musicSlice = createSlice({
         },
         togglePlayback: (state) => {
             state.isMusicPlaying = !state.isMusicPlaying;
+            if(state.isMusicPlaying && !state.song.activeSong) {
+                state.song.activeSong = state.song.selectedSong;
+            }
         },
         stopMusic: (state) => {
             state.isMusicPlaying = false;

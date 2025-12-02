@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
   const initialState = {
     isAuthenticated: false,
+    device: {
+        type: 'desktop'
+    },
     user: {
       _id: null,
       definition: null,
@@ -43,8 +46,16 @@ const dataSlice = createSlice({
     setAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
     },
+      setDeviceType: (state, action) => {
+        state.device.type = action.payload;
+      }
   },
 });
 
-export const { setData, setUserName, setAvatarUrl, setAuthenticated } = dataSlice.actions;
+export const { setData,
+    setUserName,
+    setAvatarUrl,
+    setAuthenticated,
+    setDeviceType,
+} = dataSlice.actions;
 export default dataSlice.reducer;

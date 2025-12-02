@@ -12,9 +12,8 @@
   border-radius: 5px;
   position: relative;
 
-  @media(max-width: $mobile_width) {
-    display: block;
-    position: absolute;
+  .songController{
+    display: flex;
     width: 100%;
   }
 
@@ -30,10 +29,17 @@
     display: flex;
     justify-content: space-between;
 
+    .song__albumName{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
     .song__closeInfo {
       display: flex;
       justify-content: flex-end;
       transition: .5s all;
+      position: absolute;
+      right: 16px;
 
       &:hover{
         transform: scale(1.2);
@@ -48,6 +54,8 @@
   &__background {
     border-radius: 5px;
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 1;
     width: 100%;
     height: 100%;
@@ -133,8 +141,8 @@
 
         @mixin like($type) {
           background: url("../../../../assets/icons/#{$type}.png") center/contain no-repeat;
-          width: 16px;
-          height: 16px;
+          width: 100%;
+          aspect-ratio: 1 / 1;
           cursor: pointer;
         }
 
@@ -251,6 +259,32 @@
     }
   }
 }
+
+// MOBILE
+@media(max-width: $mobile_width) {
+  .song{
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100vh;
+
+    &__content{
+      max-height: 100%;
+
+      .song__title{
+
+        .song__likeButton{
+          width: 26px;
+          height: 26px;
+        }
+      }
+    }
+  }
+}
+
+
 
 .resizer {
   min-width: 8px;

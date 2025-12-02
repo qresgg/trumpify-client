@@ -1,14 +1,13 @@
 import styles from './footer.module.scss';
 import { ActiveSong } from './components/activeSong';
-import { SongController } from './components/songController';
+import { SongController } from '../../shared/controllers/song.controller';
 import { AudioController } from './components/audioController';
 import { useState, useRef, useEffect, act} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveSong, setNextSong, setSelectedSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState'
+import { setActiveSong, setNextSong, setSelectedSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState';
 
-export function Footer () {
+export function Footer ({ audioRef }) {
     const dispatch = useDispatch()
-    const audioRef = useRef(null);
     const { isMusicPlaying } = useSelector((state) => state.music)
     const { activeSong, nextSong } = useSelector((state) => state.music.song)
     const song = useSelector((state) => state.music.song)
@@ -39,7 +38,7 @@ export function Footer () {
 
     useEffect(() => {
         const audio = audioRef.current;
-    
+
         const handleAudioEnded = () => {
             if (activeSong && audioRef.current.ended) {
                 dispatch(setNextSong());
@@ -47,11 +46,11 @@ export function Footer () {
                 dispatch(stopMusic());
             }
         };
-    
+
         if (audio) {
             audio.addEventListener('ended', handleAudioEnded);
         }
-    
+
         return () => {
             if (audio) {
                 audio.removeEventListener('ended', handleAudioEnded);
@@ -78,24 +77,20 @@ export function Footer () {
         }
     }, [activeSong]);
 
+
+
     return (
         <div className={styles.footer}>
-            <audio ref={audioRef}>
-                {activeSong?.song_file ? (
-                    <>
-                        <source src={currentSong?.song_file} type="audio/ogg" />
-                        Your browser does not support the audio element.
-                    </>
-                ) : (
-                    <p>No audio source available</p>
-                )}
-            </audio>
-
             <div className={styles.activeSong}>
                 <ActiveSong />
             </div>
             <div className={styles.songController}>
-                <SongController audioRef={audioRef}/>
+                <SongController audioRef={audioRef} styles={styles} config={
+                    {
+                        type: "pc",
+                        extraButtons: true,
+                    }
+                }/>
             </div>
             <div className={styles.audioMixer}>
                 <AudioController audioRef={audioRef}/>
