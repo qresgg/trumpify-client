@@ -1,0 +1,183 @@
+@use '../../style/addictions/previewFeature.module.scss';
+@use '../../style/global/collection.module.scss' as global;
+@import '../../style/mixins/scrollbar.module.scss';
+@import '../../style/addictions/select.module.scss';
+
+.createSong__modal{
+    color: white;
+    width: 550px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    @include scrollbar();
+
+    &Container{
+        margin: 0 auto;
+        padding: 16px;
+        box-sizing: border-box;
+        background-color: #121212;
+        border-radius: 5px;
+        width: 100%;
+        
+        form{
+            .songFile{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+                
+                &__title{
+                    font-size: 32px;
+                    width: 80%;
+                }
+                &__description{
+                    opacity: 0.9;
+                    font-weight: normal;
+                }
+                &__container{
+                    width: 100%;
+                    height: 400px;
+                    border: 2px dashed global.$second-color;
+                    border-radius: 10px;
+                    transition: 0.3s all;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    &__button{
+                        color: black;
+                        padding: 10px 16px;
+                        border-radius: 50px;
+                        background-color: global.$special-color;
+                        width: fit-content;
+                        height: fit-content;
+                        transition: 0.3s all;
+                        cursor: pointer;
+
+                        &:hover{
+                            background-color: rgba(255, 255, 255, 0.692);
+                        }
+                    }
+
+                    &:hover{
+                        border: 2px dashed global.$bright-selected-color
+                    }
+                }
+
+                &__item{
+                    margin-top: 16px;
+                    display: flex;
+                    flex-direction: column;
+
+                    &__double{
+                        display: flex;
+
+                        .double__container{
+                            width: 100%;
+
+                            .label{
+                                width: 100%;
+                            }
+                        }
+                    }
+
+                    label{
+                        p{
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+
+            .songDetails{
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+
+                &__container{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                &__genres{
+                    display: flex;
+                    gap: 8px;
+
+                    p:nth-of-type(1) {
+                        background-color: #15e65e;
+                    }
+
+                    p:nth-of-type(2) {
+                        background-color: #20c55a;
+                    }
+
+                    p:nth-of-type(3) {
+                        background-color: #0c642b;
+                        color: white;
+                    }
+                    p:nth-of-type(4) {
+                        background-color: #07491e;
+                        color: white;
+                    }
+                }
+
+                &__genre{
+                    padding: 2px 10px;
+                    border-radius: 10px;
+                    color: black;
+                    font-weight: bold;
+                    width: 100%;
+                    text-align: center;
+                    position: relative;
+                    transition: 0.2s all;
+
+                    svg{
+                        position: absolute;
+                        top: 0;
+                        right: 2px;
+                        cursor: pointer;
+
+                        &:hover{
+                            color: red;
+                        }
+                    }
+                }
+
+                &__item{
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    font-size: 12px;
+
+                    label{
+                        p{
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &Header{
+        display: flex;
+        justify-content: space-between;
+        p{
+            font-style: italic;
+            opacity: 0.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+        svg{
+            cursor: pointer;
+        }
+    }
+}

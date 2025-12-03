@@ -1,0 +1,6 @@
+@use '../../mixins/scrollbar.module.scss';
+
+.customSelect__menu-list{
+    color: red;
+    @include scrollbar.scrollbar;
+}

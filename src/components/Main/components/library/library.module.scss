@@ -1,0 +1,57 @@
+@use '../../../../style/mixins/scrollbar.module.scss';
+@import '../../../../style/global/_variables';
+
+.library{
+  background: linear-gradient(-45deg, #0a0a0a, #131313, #272626);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  min-width: 340px;
+
+  @media (max-width: $mobile_width) {
+    display: none;
+  }
+
+  &__title{
+
+  }
+
+  &__media{
+    box-sizing: border-box;
+    padding: 8px 16px;
+    height: 40px + (2 * 8px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &-icon{
+      filter: brightness(0) saturate(100%) invert(82%) sepia(0%) saturate(90%) hue-rotate(137deg) brightness(91%) contrast(83%);
+      background: url('/assets/photos/library.png') center/contain no-repeat;
+      width: 24px;
+      height: 24px;
+    }
+    &-title{
+      color: #B3B3B3;
+      font-weight: bold;
+    }
+  }
+  
+  &__playlists{
+    // overflow-y: scroll;
+    padding: 0 8px;
+    
+    @include scrollbar.scrollbar;
+  }
+}
+.resizer {
+  min-width: 8px;
+  cursor: grab;
+  transition: background 0.3s ease;
+  transition: border-right 0.3s ease-in-out; 
+  
+  &:hover{
+      border-right: white solid 1px;
+  }
+}
+
+

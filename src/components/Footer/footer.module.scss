@@ -1,0 +1,94 @@
+@import "../../style/global/variables";
+
+// PC
+.footer{
+    background-color: black;
+    min-height: 72px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    position: relative;
+    
+    .activeSong{
+      width: 100%;
+
+      &__container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      &__cover {
+        .coverImage {
+          background: center/contain no-repeat;
+          width: 56px;
+          height: 56px;
+          border-radius: 5px;
+        }
+      }
+
+      &__info {
+
+      }
+
+      &__feature {
+        color: white;
+        opacity: 0.7;
+        font-size: 11px;
+        cursor: pointer;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+
+      &__likeState{
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+
+        @mixin like($type) {
+          background: url("../../assets/icons/#{$type}.png") center/contain no-repeat;
+          height: inherit;
+          width: inherit;
+        }
+        .liked{
+          @include like("liked");
+          filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+        }
+        .notLiked{
+          @include like("notliked");
+          filter: brightness(0.7);
+        }
+      }
+    }
+
+    .audioMixer{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+}
+
+// Mobile
+@media(max-width: $mobile_width) {
+  .footer{
+    position: relative;
+    z-index: 99;
+
+    .audioMixer{
+      display: none;
+    }
+    .songController{
+      &__bar{
+        .currentTime, .durationTime{
+          display: none;
+        }
+      }
+    }
+  }
+}

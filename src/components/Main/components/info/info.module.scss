@@ -1,0 +1,297 @@
+@use '../../../../style/mixins/scrollbar.module.scss';
+@import '../../../../style/global/_variables';
+
+// PC
+.song {
+  user-select: none;
+  width: 370px;
+  min-width: 300px;
+  background-color: #121212;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  position: relative;
+
+  .songController{
+    display: flex;
+    width: 100%;
+  }
+
+  &__header {
+    border-radius: 5px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+
+    .song__albumName{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .song__closeInfo {
+      display: flex;
+      justify-content: flex-end;
+      transition: .5s all;
+      position: absolute;
+      right: 16px;
+
+      &:hover{
+        transform: scale(1.2);
+      }
+
+      svg {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__background {
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+  }
+
+  &__content {
+    overflow-y: scroll;
+    color: white;
+    position: relative;
+    z-index: 2;
+    max-height: 79vh;
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include scrollbar.scrollbar;
+
+    .song__imageWrapper {
+      border-radius: 5px;
+
+      img {
+        width: 100%;
+        border-radius: 10px;
+        background: center/contain no-repeat;
+        aspect-ratio: 1 / 1;
+      }
+    }
+
+    .song__title {
+      display: flex;
+      justify-content: space-between;
+
+      &Content {
+        .song__name {
+          font-size: 20px;
+          font-weight: bold;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-wrap: break-word;
+          overflow-wrap: anywhere;
+          white-space: normal;
+
+          a {
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        .song__artists {
+          font-size: 16px;
+          opacity: 0.7;
+
+          span {
+            display: inline;
+            cursor: pointer;
+            
+            &:hover {
+              text-decoration: underline;
+            }
+
+            a {
+              color: white;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+
+      .song__likeButton {
+        height: 100%;
+        width: 16px;
+        display: flex;
+        align-items: center;
+
+        @mixin like($type) {
+          background: url("../../../../assets/icons/#{$type}.png") center/contain no-repeat;
+          width: 100%;
+          aspect-ratio: 1 / 1;
+          cursor: pointer;
+        }
+
+        .song__liked {
+          @include like("liked");
+          filter: brightness(0) saturate(100%) invert(77%) sepia(21%) saturate(4764%) hue-rotate(84deg) brightness(93%) contrast(83%);
+        }
+
+        .song__notLiked {
+          @include like("notliked");
+          filter: brightness(0.7);
+        }
+      }
+    }
+
+    .song__artist {
+      background-color: #181818;
+      border-radius: 10px;
+
+        &Preview {
+          height: 260px;
+          width: 100%;
+          background-image: url('../../../../assets/photos/artistPlaceholder.png');
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+        } 
+
+        &Details {
+            padding: 16px;
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .song__artistName {
+                font-weight: bold;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            .song__artistBio {
+                font-weight: normal;
+                font-size: 13px;
+                opacity: 0.6;
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                word-wrap: break-word;
+                overflow-wrap: anywhere;
+                white-space: normal;
+            }
+        }
+    }
+
+    .song__details {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 16px;
+      background-color: #181818;
+      border-radius: 10px;
+
+      &Content {
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .song__creditsHeader {
+          display: flex;
+          justify-content: space-between;
+          font-weight: bold;
+
+          &Title {}
+
+          &Button {
+            font-size: 13px;
+            opacity: 0.6;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+              font-size: 13.5px;
+            }
+          }
+        }
+
+        .song__feature {
+          .song__featureName {
+            font-weight: bold;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          .song__featureRoles {
+            font-weight: bold;
+            text-transform: capitalize;
+            font-size: 11px;
+            opacity: 0.6;
+
+            .song__role {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// MOBILE
+@media(max-width: $mobile_width) {
+  .song{
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100vh;
+
+    &__content{
+      max-height: 92%;
+
+      .song__title{
+
+        .song__likeButton{
+          width: 26px;
+          height: 26px;
+        }
+      }
+    }
+  }
+}
+
+
+
+.resizer {
+  min-width: 8px;
+  cursor: grab;
+  transition: background 0.3s ease, border-right 0.3s ease-in-out;
+
+  &:hover {
+    border-right: white solid 1px;
+  }
+}

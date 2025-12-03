@@ -1,0 +1,59 @@
+@use "../../../style/mixins/scrollbar.module.scss";
+
+.bar{
+    color: white;
+    position: relative;
+    z-index: 99;
+    
+    &__container{
+        height: 100%;
+
+        input{
+            position: relative;
+            cursor: pointer;
+            flex: 1;
+
+            background-color: #121212;
+            border: none;
+            border-radius: 500px;
+            box-sizing: border-box;
+            max-width: 474px;
+            min-width: 300px;
+            flex-grow: 1;
+            height: 100%;
+            transition: 0.3s all;
+
+            padding: 12px 64px 12px 48px;
+
+            &:hover{
+                filter: brightness(2.5);
+                transform: scale(1.02);
+            }
+        }
+
+        .results{
+            position: absolute;
+            z-index: 99;
+            height: fit-content;
+            width: 300px;
+            background-color: #272727;
+            overflow-y: scroll;
+            border-radius: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: 0.5s ease;
+
+            @include scrollbar.scrollbar($track-color: #272727);
+
+            box-shadow: -2px 8px 19px 0px rgba(0,0,0,0.75);
+            -webkit-box-shadow: -2px 8px 19px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: -2px 8px 19px 0px rgba(0,0,0,0.75);
+        }
+    }
+}
+
+.bar{
+  @media(max-width: 768px) {
+    display: none;
+  }
+}

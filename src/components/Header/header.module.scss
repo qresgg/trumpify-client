@@ -1,0 +1,160 @@
+@use '../../style/global/variables' as global;
+
+$height: 64px;
+$width: 100%;
+%header_container{
+    background-color: global.$second-color;
+    border-radius: 50%;
+    $measure: 48px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    min-width: $measure;
+    cursor: pointer;
+    transition: all 0.1s;
+
+    width: $measure;
+    height: $measure;
+    &:hover{
+        filter: brightness(1.5);
+        transform: scale(1.1);
+    }
+}
+
+// PC
+.header{
+
+    position: relative;
+    width: $width;
+    height: $height;
+    padding: 8px 16px;
+    box-sizing: border-box;
+
+    background-color: black;
+    display: flex;
+    overflow: hidden;
+
+    .blackScreen{
+        color: white;
+        background-color: black;
+        position: absolute;
+        z-index: 98;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        opacity: 0.3;
+    }
+    
+    .navBar{
+        width: 100%;
+        display: flex;
+        gap: 15px;
+        overflow: visible;
+        position: relative;
+
+
+
+
+        &__logo{
+            width: 150px;
+            height: 100%;
+        }
+        align-items: center;
+
+        &__home{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &--icon{
+                background: url('../../../public/staff/home.png') center/contain no-repeat;
+                width: 25px;
+                height: 25px
+            }
+            @extend %header_container;
+
+            button{
+                margin: 0;
+            }
+        }
+
+        &__logo{
+            width: 150px;
+            height: 100%;
+
+            &--icon{
+                background: url('../../../public/logomain.png') center/contain no-repeat;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        button{
+            background-color: #1ED760;
+            border: none;
+            color: black;
+            font-weight: bold;
+            border-radius: 10px;
+            padding: 8px 18px;
+            margin: auto 0;
+        }
+    }
+
+    .userBar{
+        display: flex;
+        justify-content: end;
+        gap: 10px;
+        padding-right: 10%;
+
+        &__subscription{
+            padding: 4px 16px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+
+            height: 32px;
+            margin: auto 0;
+            width: 100%;
+            max-width: fit-content;
+            font-size: 13px;
+            font-weight: bold;
+            background-color: global.$special-color;
+            border-radius: 500px;
+        }
+        &__settings{
+            @extend %header_container;
+            color: white;
+        }
+        &__profile{
+            @extend %header_container;
+            background: transparent;
+            &:hover{
+                filter: none;
+            }
+
+            &--icon{
+                background-size: cover;
+                background-color: white;
+                background-repeat: no-repeat;
+                border-radius: 50%;
+                height: 100%;
+                width: 100%;
+                &:hover{
+                    border: none;
+                }
+            }
+        }
+        &__drop-menu{
+            position: relative;
+        }
+    }
+}
+
+.header{
+  @media(max-width: global.$mobile_width) {
+    #admin{
+      display: none;
+    }
+  }
+}

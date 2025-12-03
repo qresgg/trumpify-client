@@ -1,0 +1,1 @@
+export const SERVER_API_URL = process.env.NODE_ENV === 'production' ? 'https://trumpify-api.onrender.com' : 'http://localhost:8080';
