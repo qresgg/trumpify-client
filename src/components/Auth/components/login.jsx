@@ -1,4 +1,4 @@
-import styles from './Login.module.scss'
+import styles from './login.module.scss'
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
