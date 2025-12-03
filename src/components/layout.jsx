@@ -1,6 +1,6 @@
 import styles from "./Layout.module.scss";
 
-import Auth from "./Auth/Auth.jsx";
+import { Auth } from "./Auth/Auth.jsx";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import { Footer } from "./Footer/footer";

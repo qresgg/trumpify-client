@@ -4,7 +4,7 @@ import { useState, useEffect, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-export default function Auth () {
+export function Auth () {
     const auth = useSelector((state) => state.view.auth);
     
     return (
