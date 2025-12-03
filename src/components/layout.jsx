@@ -54,7 +54,7 @@ export function Layout() {
   return (
     <div className={styles['layout']}>
       {isAuthed ? (
-        <div className={styles['layout__logisty-sosut']}>
+        <div className={styles['layout__container']}>
           <>
               <audio ref={audioRef} />
                 <Header />
