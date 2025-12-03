@@ -52,10 +52,10 @@ const musicSlice = createSlice({
             state.isMusicPlaying = !state.isMusicPlaying;
         },
         togglePlayback: (state) => {
-            state.isMusicPlaying = !state.isMusicPlaying;
-            if(state.isMusicPlaying && !state.song.activeSong) {
+            if(state.isMusicPlaying && !state.song.activeSong || state.song.activeSong !== state.song.selectedSong && state.song.selectedSong) {
                 state.song.activeSong = state.song.selectedSong;
             }
+            state.isMusicPlaying = !state.isMusicPlaying;
         },
         stopMusic: (state) => {
             state.isMusicPlaying = false;

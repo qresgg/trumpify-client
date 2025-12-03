@@ -1,16 +1,18 @@
 import styles from './footer.module.scss';
 import { ActiveSong } from './components/activeSong';
 import { SongController } from '../../shared/controllers/song.controller';
-import { AudioController } from './components/audioController';
+import { AudioController } from '../../shared/controllers/audio.controller';
 import { useState, useRef, useEffect, act} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveSong, setNextSong, setSelectedSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState';
+import {isMobileDevice} from "../../utils/global/getDeviceType";
 
 export function Footer ({ audioRef }) {
     const dispatch = useDispatch()
     const { isMusicPlaying } = useSelector((state) => state.music)
     const { activeSong, nextSong } = useSelector((state) => state.music.song)
     const song = useSelector((state) => state.music.song)
+    const device = useSelector((state) => state.device)
 
     const [currentSong, setCurrentSong] = useState(null)
 
@@ -80,21 +82,26 @@ export function Footer ({ audioRef }) {
 
 
     return (
-        <div className={styles.footer}>
-            <div className={styles.activeSong}>
-                <ActiveSong />
-            </div>
-            <div className={styles.songController}>
-                <SongController audioRef={audioRef} styles={styles} config={
-                    {
-                        type: "pc",
-                        extraButtons: true,
-                    }
-                }/>
-            </div>
-            <div className={styles.audioMixer}>
-                <AudioController audioRef={audioRef}/>
-            </div>
+        <div className={`${styles.footer}`}>
+            {!isMobileDevice(device?.type) && (
+                <>
+                    <div className={styles.activeSong} onClick={() => dispatch(setSelectedSong(activeSong))}>
+                        <ActiveSong />
+                    </div>
+                    <div className={styles.songController}>
+                        <SongController audioRef={audioRef} styles={styles} config={
+                            {
+                                type: "pc",
+                                extraButtons: true,
+                                floatingBar: true
+                            }
+                        }/>
+                    </div>
+                    <div className={styles.audioMixer}>
+                        <AudioController audioRef={audioRef}/>
+                    </div>
+                </>
+            )}
         </div>
     )
 }

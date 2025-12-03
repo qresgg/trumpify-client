@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ExtraButton} from "../snippets/extraButton.snippet";
 import { setActiveSong, setPrevSong, togglePlayback, setNextSong } from '../../lib/redux/music/musicState'
 import {FloatingProgressBar} from "../snippets/floatingProgressBar.snippet";
+import styles from "./styles/song.controller.module.scss"
+import {isMobileDevice} from "../../utils/global/getDeviceType";
 
 export function SongController({
     audioRef,
-    styles,
     config = {
         type: "pc",
         extraButtons: true,
+        floatingBar: false,
+        centered: true
     }
 }) {
     const [pause, setPause] = useState(false)
@@ -40,17 +43,6 @@ export function SongController({
             }
         }
     }
-
-    const isMobileDevice = (() => {
-        if (typeof device === 'string') {
-            const d = device.toLowerCase();
-            return d === 'mobile' || d === 'phone' || d === 'mob';
-        }
-        if (typeof window !== 'undefined') {
-            return window.innerWidth <= 480;
-        }
-        return false;
-    })();
 
     const handlePause = () => {
         setPause(!pause)
@@ -86,7 +78,7 @@ export function SongController({
     } : {}
 
     return (
-        <div className={styles.songController__container}>
+        <div className={`${styles.songController__container} ${config.centered && 'w-full'}`}>
             <div className={styles.songController__buttons}>
                 <ExtraButton
                     hidden={!config.extraButtons}
@@ -121,7 +113,7 @@ export function SongController({
                 />
             </div>
             <div className={styles.songController__bar}>
-                {isMobileDevice
+                {isMobileDevice(device.type) && config.floatingBar
                     ? <FloatingProgressBar audioRef={audioRef} />
                     : <ProgressBar audioRef={audioRef} />
                 }

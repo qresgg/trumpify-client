@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './styles/progressBar.snippet.module.scss';
 import { useProgressBar } from '../../hooks/global/useProgressBar';
+import {useSelector} from "react-redux";
 
 export function ProgressBar({
     audioRef,
@@ -13,6 +14,12 @@ export function ProgressBar({
         currentTime,
         progress
     } = useProgressBar({ audioRef, mode: 'progressBar' })
+    const [durationSave, setDurationSave] = useState(0);
+    const music = useSelector(state => state.music);
+
+    useEffect(() => {
+        setDurationSave(music.song?.activeSong?.duration);
+    }, [duration, music.song.selectedSong, music.song.activeSong])
 
     return (
         <div className={styles.progress}>
@@ -24,7 +31,7 @@ export function ProgressBar({
                 <div className={styles.progressContainer__slider} style={{ left: `calc(${progress}% - 5px)`, display: isDragging && "block" }}></div>
             </div>
             <div className={styles.durationTime}>
-                {duration ? new Date(duration * 1000).toISOString().substr(14, 5) : '00:00'}
+                {durationSave ? durationSave : '00:00'}
             </div>
         </div>
     );

@@ -52,7 +52,7 @@ export default function Info({
         selectedSong && fetchArtist();
     }, [selectedSong])
 
-    useEffect(() => {      
+    useEffect(() => {
         const getColors = async () => {
             setGradient(await fetchColors(selectedSong));
         }
@@ -104,7 +104,9 @@ export default function Info({
                                     config={
                                         {
                                             type: "mobile",
-                                            extraButtons: "true"
+                                            extraButtons: "true",
+                                            floatingBar: false,
+                                            centered: true
                                         }
                                     }/>
                             </div>

@@ -1,5 +1,5 @@
-import styles from './audioController.module.scss'
-import { AudioBar } from '../snippets/audioBar-snippet'
+import styles from './styles/audio.controller.module.scss'
+import { AudioBar } from '../../components/Footer/snippets/audioBar-snippet'
 
 export function AudioController({
     audioRef

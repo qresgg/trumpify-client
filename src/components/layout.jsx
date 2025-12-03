@@ -1,6 +1,6 @@
 import styles from "./Layout.module.scss";
 
-import Auth from "./Auth/Auth";
+import Auth from "./Auth/Auth.jsx";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import { Footer } from "./Footer/footer";
@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { useClearCachedData } from '../hooks/global/useClearCachedData'
 
 import { fetchUserDataMy } from "../services/user.service";
+import { PlayingNowBar } from "../shared/components/playingNowBar";
+import {isMobileDevice} from "../utils/global/getDeviceType";
 
 export function Layout() {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ export function Layout() {
   const audioRef = useRef(null);
   const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
+  const device = useSelector(state => state.data.device.type);
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -56,6 +59,7 @@ export function Layout() {
               <audio ref={audioRef} />
                 <Header />
                 <Main audioRef={audioRef} />
+                {isMobileDevice(device?.type) && ( <PlayingNowBar audioRef={audioRef} />)}
                 <Footer audioRef={audioRef} />
           </>
         </div>
