@@ -1,9 +1,9 @@
 import styles from './main.module.scss';
 import {useState, useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import Library from './components/library/Library';
-import Info from './components/info/Info';
-import ForYou from './components/foryou/ForYou';
+import Library from './components/library/library';
+import Info from './components/info/info';
+import ForYou from './components/foryou/forYou';
 import { useResizable } from '../../hooks/useResizable';
 import {useAuth} from "../../hooks/useAuth";
 import {DropdownMenu} from "../Header/snippet/dropdownmenu-snippet";

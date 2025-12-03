@@ -1,4 +1,4 @@
-import styles from "./Layout.module.scss";
+import styles from "./layout.module.scss";
 
 import {useState, useEffect, useRef} from "react";
 import { useAuth } from "../hooks/useAuth";

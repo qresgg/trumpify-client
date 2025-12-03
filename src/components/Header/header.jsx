@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import styles from './Header.module.scss';
+import styles from './header.module.scss';
 import { setModalView, setView } from '../../lib/redux/pages/viewSlice';
 import { DropdownMenu } from './snippet/dropdownmenu-snippet';
 import { UserImage } from '../../hooks/UserImage';
