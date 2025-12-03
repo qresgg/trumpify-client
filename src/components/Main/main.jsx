@@ -10,7 +10,7 @@ import {DropdownMenu} from "../Header/snippet/dropdownmenu-snippet";
 import {setNextSong, setSelectedSong, stopMusic} from "../../lib/redux/music/musicState";
 
 
-export default function Main({ audioRef }) {
+export function Main({ audioRef }) {
 
     const library = useResizable(370);
     const info = useResizable(370);

@@ -12,7 +12,7 @@ import { setSelectedPlaylist } from '../../lib/redux/music/musicState';
 
 import ModalOverlay from '../../shared/ModalOverlay';
 
-export default function Header () {
+export function Header () {
     const dispatch = useDispatch();
     const { handleLogout } = useAuth();
     const user = useSelector((state) => state.data.user);
