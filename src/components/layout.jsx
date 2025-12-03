@@ -1,6 +1,5 @@
 import styles from "./Layout.module.scss";
 
-import { Auth } from "./Auth/Auth.jsx";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import { Footer } from "./Footer/footer";
@@ -18,6 +17,7 @@ import { useClearCachedData } from '../hooks/global/useClearCachedData'
 import { fetchUserDataMy } from "../services/user.service";
 import { PlayingNowBar } from "../shared/components/playingNowBar";
 import {isMobileDevice} from "../utils/global/getDeviceType";
+import {Auth} from "./Auth/Auth";
 
 export function Layout() {
   const dispatch = useDispatch();
