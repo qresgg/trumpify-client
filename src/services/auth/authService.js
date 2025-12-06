@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getAccessToken } from '../../utils/helpful/getGlobalItems';
 import { SERVER_API_URL } from '../../lib/constants';
+import {basicRequest} from "../shared/request.pattern";
 
 const apiClient = axios.create({
     baseURL: SERVER_API_URL,
@@ -20,6 +21,7 @@ apiClient.interceptors.request.use(
     }
 );
 
+// TODO: переробити логіку бо на телефоні чомусь не працює при цьому є RT і AT
 apiClient.interceptors.response.use(
   response => {
     const newToken = response.headers['new-access-token'];
@@ -82,15 +84,19 @@ const checkAuth = async () => {
 };
 
 const login = async (email, password) => {
-    try {
-        const response = await apiClient.post('/auth/login', { email, password });
-        localStorage.setItem('accessToken', response.data.access_token);
-        return response.data;
-    } catch (error) {
-        console.error('Login failed:', error);
-        throw error;
+    try{
+        const result = await basicRequest({
+            method: 'post',
+            route: "auth",
+            endpoint: "login",
+            data: { email, password }
+        })
+        localStorage.setItem('accessToken', result.access_token);
+        return result;
+    } catch (error){
+        throw new Error(error?.response?.data?.message || 'Failed to login');
     }
-};
+}
 
 const logout = async () => {
     try {

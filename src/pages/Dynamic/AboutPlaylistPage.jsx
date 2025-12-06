@@ -98,7 +98,7 @@ export default function AboutPlaylistPage() {
                                 <div className={styles['playlist__info-meta']}>
                                     <Link to={`/page/artist/${selectedPlaylist.artist}`} className="link-reset">
                                       <p className={styles['playlist__artist']}>
-                                        {originArtist ? "(You) " : ""}
+                                        {/*{originArtist ? "(You) " : ""}*/}
                                         {selectedPlaylist.artist_name}
                                       </p>
                                     </Link>

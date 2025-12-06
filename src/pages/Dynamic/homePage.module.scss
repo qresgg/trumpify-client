@@ -1,6 +1,7 @@
 @use '../../style/mixins/scrollbar.module.scss';
+@import '../../style/global/collection.module';
 
-.home-page{
+.homePage{
     border-radius: 5px;
     background: linear-gradient(85deg, #080808, #121212, #161616);
     max-width: 100%;
@@ -39,4 +40,10 @@
         padding: 24px 24px;
         box-sizing: border-box;
     }
+}
+
+@media(max-width: $mobile_width){
+  .homePage{
+    height: 100%;
+  }
 }

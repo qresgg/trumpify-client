@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { login, logout, checkAuth, register } from "../services/auth/authService";
+import { login, logout, checkAuth, register } from "../services/auth.service"
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthenticated } from "../lib/redux/data/dataSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "../lib/regexp";

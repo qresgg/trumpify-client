@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccessToken } from "../../utils/helpful/getGlobalItems";
 import { SERVER_API_URL } from "../../lib/constants";
 
-export const basicRequest = async ({ method, route, endpoint, id = null, data = null }) => {
+export const basicRequest = async ({ method, route, endpoint, id = null, data = {} }) => {
     const token = getAccessToken();
     if (!token) throw new Error('Access token is missing');
 
@@ -23,13 +23,36 @@ export const basicRequest = async ({ method, route, endpoint, id = null, data = 
     if (!['get', 'delete'].includes(method.toLowerCase()) && data) {
         config.data = data;
     }
-    // console.log(config)
 
     try {
+        console.log(config)
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch user data');
+        throw new Error(error?.response?.data?.message || 'Failed to fetch');
+    }
+}
+
+export const basicRequestUnsecured = async ({ method, route, endpoint, id = null, data = {} }) => {
+
+    const url = `${SERVER_API_URL}/${route}/${endpoint}`
+
+    const config = {
+        method,
+        url,
+        withCredentials: true,
+    };
+
+    if (!['get', 'delete'].includes(method.toLowerCase()) && data) {
+        config.data = data;
+    }
+
+    try {
+        console.log(config)
+        const response = await axios.request(config);
+        return response.data;
+    } catch (error) {
+        throw new Error(error?.response?.data?.message || 'Failed to fetch');
     }
 }
 

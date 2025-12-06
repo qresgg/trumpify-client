@@ -2,21 +2,15 @@ import { basicRequest } from "./shared/request.pattern";
 
 const route = 'search';
 
-const searchData = async (id) => {
+export const searchData = async (id) => {
   try {
-    const response = await basicRequest({
-        method: 'get',
-        route,
-        endpoint: 'search',
-        id
-    })
-    
-    return response;
+      return await basicRequest({
+          method: 'get',
+          route,
+          endpoint: 'search',
+          id
+      });
   } catch (error) {
     throw new Error(error?.response?.data?.message || 'Failed to fetch searched data');
   }
 };
-
-export {
-    searchData
-}

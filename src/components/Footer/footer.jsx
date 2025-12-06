@@ -82,26 +82,26 @@ export function Footer ({ audioRef }) {
 
 
     return (
-        <div className={`${styles.footer}`}>
-            {!isMobileDevice(device?.type) && (
-                <>
-                    <div className={styles.activeSong} onClick={() => dispatch(setSelectedSong(activeSong))}>
-                        <ActiveSong />
-                    </div>
-                    <div className={styles.songController}>
-                        <SongController audioRef={audioRef} styles={styles} config={
-                            {
-                                type: "pc",
-                                extraButtons: true,
-                                floatingBar: true
-                            }
-                        }/>
-                    </div>
-                    <div className={styles.audioMixer}>
-                        <AudioController audioRef={audioRef}/>
-                    </div>
-                </>
-            )}
-        </div>
+        <>
+            {/*{!isMobileDevice(device?.type) && (*/}
+            {/*    <div className={`${styles.footer}`}>*/}
+            {/*        <div className={styles.activeSong} onClick={() => dispatch(setSelectedSong(activeSong))}>*/}
+            {/*            <ActiveSong />*/}
+            {/*        </div>*/}
+            {/*        <div className={styles.songController}>*/}
+            {/*            <SongController audioRef={audioRef} styles={styles} config={*/}
+            {/*                {*/}
+            {/*                    type: "pc",*/}
+            {/*                    extraButtons: true,*/}
+            {/*                    floatingBar: true*/}
+            {/*                }*/}
+            {/*            }/>*/}
+            {/*        </div>*/}
+            {/*        <div className={styles.audioMixer}>*/}
+            {/*            <AudioController audioRef={audioRef}/>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*)}*/}
+        </>
     )
 }

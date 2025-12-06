@@ -1,12 +1,17 @@
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import { getCroppedImg4X3 } from "../helpful/getCroppedImg";
+import {setModalView} from "../../lib/redux/pages/viewSlice";
+import {useDispatch, useSelector} from "react-redux";
+import { useModal } from "../../hooks/global/useModal"
 
-export default function AvatarCropper({ onSave, mod, type = null}) {
+export default function AvatarCropper({ onSave, mod, type = null, modalWindow = null}) {
+    const dispatch = useDispatch();
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const modal = useModal();
 
     const onFileChange = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -28,6 +33,7 @@ export default function AvatarCropper({ onSave, mod, type = null}) {
             const blob = await getCroppedImg4X3(imageSrc, croppedAreaPixels);
             const file = new File([blob], "avatar.png", { type: "image/png" });
             onSave(file, mod);
+            modal.closeModal(modalWindow);
         } catch (e) {
             console.error(e);
         }

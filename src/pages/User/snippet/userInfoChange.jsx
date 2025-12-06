@@ -29,7 +29,10 @@ export function InfoChange() {
     const [isHover, setIsHover] = useState(false)
 
     return (
-        <div className={styles.modalOverlay} onClick={() => modal.closeModal('userPage')} >
+        <div className={styles.modalOverlay} onClick={() => {
+            modal.closeModal('userPage')
+            modal.closeModal("showCropperUserPage")
+        }} >
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <form onSubmit={handleSubmit((data) => changeAvaUserName(data, dataRedux, dispatch, setMessage ))}>
                     <div className={styles.title}>
@@ -71,8 +74,8 @@ export function InfoChange() {
                 </form>
                 {modalStateShowCropperUserPage && (
                     <>
-                        <div className={styles.modal}>
-                            <AvatarCropper onSave={handleSave} mod={mod} type="avatar"/>
+                        <div className={styles.extraModal}>
+                            <AvatarCropper onSave={handleSave} mod={mod} type="avatar" modalWindow={"showCropperUserPage"} />
                             <button onClick={() => modal.closeModal('showCropperUserPage')} className={styles.cancelbutton}>Cancel</button>
                         </div>
                     </>

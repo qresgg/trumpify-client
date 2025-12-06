@@ -151,8 +151,11 @@ $width: 100%;
     }
 }
 
-.header{
-  @media(max-width: global.$mobile_width) {
+// Mobile
+@media(max-width: global.$mobile_width) {
+  .header{
+    min-height: $height;
+
     #admin{
       display: none;
     }

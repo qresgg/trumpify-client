@@ -1,7 +1,7 @@
 @import '../../../style/global/collection.module';
 
 // PC
-.login {
+.register {
   width: 100%;
   height: 100%;
   background-color: #121212;
@@ -75,7 +75,7 @@
 
     }
 
-    .toRegister{
+    .toLogin{
       display: flex;
       justify-content: center;
       gap: 16px;
@@ -127,6 +127,22 @@
   }
 }
 
+.password__checker{
+  height: fit-content;
+  padding: 8px;
+  width: 100%;
+  font-size: 13px;
+
+  p:nth-child(1){
+    font-weight: bold;
+  }
+
+  p{
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+}
 .password__showButton {
   cursor: pointer;
   position: absolute;
@@ -148,9 +164,10 @@
   }
 }
 
+
 // Mobile
 @media (max-width: $mobile_width){
-  .login{
+  .register{
     height: 100dvh;
 
     &__container{

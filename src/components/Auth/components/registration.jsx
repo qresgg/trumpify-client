@@ -1,4 +1,4 @@
-import styles from '../auth.module.scss'
+import styles from './registration.module.scss'
 import { useEffect, useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -41,56 +41,55 @@ export default function Registration () {
 
     return (
         <>
-            <div className={styles.auth}>
-                <div className={styles.auth__container}>
-                    <div className={styles.contik}>
-                        <div className={styles.auth__container__logo}></div>
+            <div className={styles['register']}>
+                <div className={styles['register__container']}>
+                    <div className={styles['register__logo']}></div>
+                    <div className={styles['register__upperContainer']}>
                         <form onSubmit={handleSubmit(handleRegistration)}>
                             {message?.error && <p className='error'>{message?.error}</p>}
                             {message?.success && <p className='success'>{message?.success}</p>}
-                            <div className={styles.section}>Sign up</div>
+                            <div className={styles["register__section"]}>Sign up</div>
 
-                            <div className={styles.inputData}>
+                            <div className={styles['register__input']}>
                                 <label>Email</label>
                                 <input {...register('email', { required: "email is required"})}/>
                                 {errors.email && <p>{errors.email.message}</p>}
                             </div>
 
-                            <div className={styles.inputData}>
+                            <div className={styles['register__input']}>
                                 <label>Username</label>
                                 <input {...register('userName', { required: "user name is required"})}/>
                                 {errors.userName && <p>{errors.userName.message}</p>}
                             </div>
 
-                            <div className={styles.inputData} onFocus={handlePasswordCheck}>
+                            <div className={styles['register__input']} onFocus={handlePasswordCheck}>
                                 <label>Password</label>
                                 <input onChange={handlePasswordChange} type={visibility.input1 ? "text" : "password"} required id='input1'/>
-                                <div className={styles.showButton} 
-                                    onMouseDown={() => toggleVisibility('input1')} 
-                                    onMouseUp={() => toggleVisibility('input1')}>{visibility.input1 ? 'Hide' : 'Show'}</div>
+                                <div className={styles['password__showButton']}
+                                     onMouseEnter={() => toggleVisibility('input1')}
+                                     onMouseLeave={() => toggleVisibility('input1')}
+                                     onTouchStart={() => toggleVisibility('input1')}
+                                     onTouchEnd={() => toggleVisibility('input1')}
+                                >{visibility.input1 ? 'Hide' : 'Show'}</div>
                                 {errors.password && <p>{errors.password.message}</p>}
                             </div>
 
                             <AnimatePresence>
                                 {isOpen && (
                                     <motion.div key="passwordCheck"
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.4 }}>
-                                        <div className={styles.passwordChecker}>
-                                            <div className={styles.passwordChecker__container}>
-                                                <div className={styles.passwordChecker__container__text}>
-                                                <p>Password must contain:</p>
-                                                    <p>{passwordValidation.minLength ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 8 characters</p>
-                                                    <p>{passwordValidation.hasUpperCase ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 1 uppercase letter</p>
-                                                    <p>{passwordValidation.hasNumber ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 1 number </p>
-                                                    <p>{passwordValidation.hasSpecialChar ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 1 special character </p>
-                                                </div>
-                                            </div>
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: "auto", opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.4 }}>
+                                        <div className={styles['password__checker']}>
+                                            <p>Password must contain:</p>
+                                            <p>{passwordValidation.minLength ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 8 characters</p>
+                                            <p>{passwordValidation.hasUpperCase ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 1 uppercase letter</p>
+                                            <p>{passwordValidation.hasNumber ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 1 number </p>
+                                            <p>{passwordValidation.hasSpecialChar ? <Check color="green" size={16} /> : <X color="red" size={16} />} At least 1 special character </p>
                                         </div>
                                     </motion.div>
-                                    )}
+                                )}
                                 {passwordValidation.minLength && passwordValidation.hasUpperCase && passwordValidation.hasNumber && passwordValidation.hasSpecialChar && (
                                     <motion.div
                                         key="confirmationInput"
@@ -98,39 +97,44 @@ export default function Registration () {
                                         animate={{ height: "auto", opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
                                         transition={{ duration: 0.4 }}>
-                                        <div className={styles.inputData}>
+                                        <div className={styles['register__input']}>
                                             <label>Password Confirmation</label>
                                             <input {...register('passwordConfirm', { required: "confirmation is required"})} type={visibility.input2 ? "text" : "password"} id="input2"/>
-                                            <div className={styles.showButton} 
-                                                onMouseDown={() => toggleVisibility('input2')} 
-                                                onMouseUp={() => toggleVisibility('input2')}>{visibility.input2 ? 'Hide' : 'Show'}</div>
+                                            <div className={styles['password__showButton']}
+                                                 onMouseEnter={() => toggleVisibility('input2')}
+                                                 onMouseLeave={() => toggleVisibility('input2')}
+                                                 onTouchStart={() => toggleVisibility('input2')}
+                                                 onTouchEnd={() => toggleVisibility('input2')}
+                                            >{visibility.input2 ? 'Hide' : 'Show'}</div>
                                         </div>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
 
-                            <div className={styles.authButton}>
+                            <div className={styles['register__submitButton']}>
                                 <button type="submit">Register</button>
                             </div>
                         </form>
-                        <div className={styles.another_type_register}></div>
-                        <div className={styles.breakLine}></div>
-                        <div className={styles.loginButton}>
-                            <div className={styles.loginButton__text}>Already have an account?</div>
+                    </div>
+                    <div className={styles["register__middleContainer"]}>
+                        {/*<div className={styles['links']}></div>*/}
+                        {/*<div className={styles['breakLine']}></div>*/}
+                        <div className={styles['toLogin']}>
+                            <div className={styles['toLogin__text']}>Already have an account?</div>
                             <Link to="/login" className="link-reset">
-                                <div className={styles.loginButton__button}>Log in here</div>
+                                <div className={styles['toLogin__button']}>Log in here</div>
                             </Link>
                         </div>
-                        <div className={styles.footer}>
-                            {!isAdClosed && (
-                                <div className={styles.footer__ad}>
-                                    <div className={styles.footer__floatingtext}>
-                                        <div className={styles.footer__floatingtext__attention}>advertisement</div>
-                                        <div className={styles.footer__floatingtext__cancel} onClick={() => setIsAdClosed(!isAdClosed)}>X</div>
-                                    </div>
+                    </div>
+                    <div className={styles["register__lowerContainer"]}>
+                        {!isAdClosed && (
+                            <div className={styles['ad']}>
+                                <div className={styles['ad__container']}>
+                                    <div className={styles['ad__header']}>advertisement</div>
+                                    <div className={styles['ad__remove']} onClick={() => setIsAdClosed(!isAdClosed)}>X</div>
                                 </div>
-                            ) }
-                        </div>
+                            </div>
+                        ) }
                     </div>
                 </div>
             </div>

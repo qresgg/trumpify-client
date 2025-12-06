@@ -69,10 +69,10 @@ export default function UserProfilePage() {
             {!loading && (
                 <div className={styles['profile']}>
                     <div className={styles['profile__title']} style={gradient}>
-                        <div className={styles['profile__addiction']} onClick={() => modal.openModal('userPage')}>
+                        <div className={styles['profile__addition']} onClick={() => modal.openModal('userPage')}>
                             <div className={styles['profile__userImage']}>
                                 {user?.user_avatar_url !== 'none' ? (
-                                    <UserImage width={'210px'} height={'210px'} avatar={currentUserPage.user_avatar_url}/>
+                                    <UserImage avatar={currentUserPage.user_avatar_url}/>
                                 ):(
                                     <div className={styles['profile__icon']} style={{ backgroundImage: `url('https://placehold.co/100x100/1F1F1F/FFFFFF?text=?')`}}></div>
                                 )}

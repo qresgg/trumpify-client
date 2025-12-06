@@ -1,4 +1,5 @@
 @use '../../style/mixins/scrollbar.module.scss';
+@import '../../style/global/variables.scss';
 
 .settings-page{
     display: flex;
@@ -68,7 +69,17 @@
         border-radius: 5px;
         height: 70vh;
         overflow-y: scroll;
-
-        @include scrollbar.scrollbar;
     }
+}
+
+@media(max-width: $mobile_width){
+  .settings-page{
+    height: 100dvh;
+    &__header{
+      min-width: 0;
+    }
+    &__info{
+      display: none;
+    }
+  }
 }

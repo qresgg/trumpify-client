@@ -30,7 +30,7 @@ export function useSlider(){
       arrows: false,
       draggable: true,
       swipe: true,
-      dots: true,
+      dots: false,
       customPaging: i => (
         <div style={{
             width: "8px",

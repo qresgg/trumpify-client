@@ -6,8 +6,8 @@ import getSongData from "../../services/artist/queries/getSongData";
 
 export default function HomePage() {
   return (
-    <div className={styles['home-page']}>
-      <div className={styles['home-page__container']}>
+    <div className={styles['homePage']}>
+      <div className={styles['homePage__container']}>
         <Selection title="Latest albums" fetchFunction={getAlbumData}/>
         <Selection title="Latest songs" fetchFunction={getSongData}/>
       </div>

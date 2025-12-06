@@ -11,6 +11,7 @@
   flex-direction: column;
   border-radius: 5px;
   position: relative;
+  z-index: 99;
 
   .songController{
     display: flex;
@@ -268,7 +269,6 @@
     top: 0;
     z-index: 100;
     width: 100%;
-    height: 100vh;
 
     &__content{
       max-height: 92%;
