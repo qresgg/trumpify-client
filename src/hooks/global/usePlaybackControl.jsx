@@ -1,17 +1,13 @@
 import { useEffect, useState, useCallback, use } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  togglePlayback,
-  setActivePlaylist,
-  setActiveSong,
-  setSelectedPlaylist,
-} from "../../lib/redux/music/musicState";
 import { setPrevSong, setNextSong } from "../../lib/redux/music/musicState";
+import {useMusicActions} from "./useMusicActions";
 
 export const usePlaybackControl = (entity, type, index = null, isSingle) => {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const musicPlayer = useMusicActions()
 
   const { isMusicPlaying, currentIndex } = useSelector((state) => state.music);
   const { activePlaylist, selectedPlaylist } = useSelector((state) => state.music.playlist);
@@ -43,26 +39,26 @@ export const usePlaybackControl = (entity, type, index = null, isSingle) => {
       if (!entity?.songs?.length) return;
 
       if (activePlaylist?._id === entity?._id) {
-        dispatch(togglePlayback());
+          musicPlayer.togglePlayback();
       } else {
-        dispatch(setActivePlaylist(entity));
-        dispatch(setSelectedPlaylist(entity));
-        dispatch(setActiveSong({ song: entity.songs[0], index: 0 }));
+            musicPlayer.setActiveSong(entity);
+            musicPlayer.selectPlaylist(entity);
+            musicPlayer.setActiveSong({ song: entity.songs[0], index: 0 });
       }
     } else {
       if (activeSong?._id === entity?._id) {
-        dispatch(togglePlayback());
+            musicPlayer.togglePlayback();
       } else {
-        const i = index ?? 0;
-        dispatch(setActiveSong({ song: entity, index: i }));
+            const i = index ?? 0;
+            musicPlayer.setActiveSong({ song: entity.songs[0], index: i });
         
         if (isSingle) {
-          dispatch(setActivePlaylist(null))
-          dispatch(setSelectedPlaylist(null))
+            musicPlayer.closeActivePlaylist();
+            musicPlayer.closeActiveSong();
         }
 
         if (activePlaylist !== selectedPlaylist) {
-          dispatch(setActivePlaylist(selectedPlaylist));
+            musicPlayer.setActivePlaylist(selectedPlaylist);
         }
       }
     }

@@ -1,6 +1,6 @@
 @use '../../style/global/variables' as global;
 
-$height: 64px;
+$height: global.$header_height;
 $width: 100%;
 %header_container{
     background-color: global.$second-color;
@@ -22,7 +22,6 @@ $width: 100%;
 
 // PC
 .header{
-
     position: relative;
     width: $width;
     height: $height;
@@ -51,9 +50,6 @@ $width: 100%;
         gap: 15px;
         overflow: visible;
         position: relative;
-
-
-
 
         &__logo{
             width: 150px;
@@ -155,6 +151,22 @@ $width: 100%;
 @media(max-width: global.$mobile_width) {
   .header{
     min-height: $height;
+    position: fixed;
+    z-index: 999;
+
+    .navBar{
+      &__home{
+        display: none;
+      }
+
+      &__logo{
+        display: none;
+      }
+    }
+
+    .userBar{
+      padding: 0;
+    }
 
     #admin{
       display: none;

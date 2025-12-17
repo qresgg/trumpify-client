@@ -1,22 +1,18 @@
 import styles from './relocateFromSearchBar.module.scss'
-import { setActiveSong, setSelectedPlaylist, setSelectedSong } from '../../../../lib/redux/music/musicState'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { setView } from '../../../../lib/redux/pages/viewSlice'
+import {useMusicActions} from "../../../../hooks/global/useMusicActions";
 
 export function RelocateFromSearchBar({ result, index }) {
     const dispatch = useDispatch()
-
-    const playMusic = async (song) => {
-        dispatch(setActiveSong({ song: song, index: 0}))
-        dispatch(setSelectedSong(song))
-    }
+    const musicPlayer = useMusicActions();
 
     const handleClick = () => {
         switch (result.definition) {
             case 'Album': 
-                dispatch(setSelectedPlaylist(result));
+                musicPlayer.selectedPlaylist(result);
                 break;
             case 'Artist':
                 dispatch(setView({ view: "currentArtistPage", value: result }));

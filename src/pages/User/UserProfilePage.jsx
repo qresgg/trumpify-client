@@ -53,12 +53,13 @@ export default function UserProfilePage() {
         }
     }, [id, dispatch]);
 
-    useEffect(() => {      
-        const getColors = async () => {
-            setGradient(await fetchColors(currentUserPage));
-        }
-        getColors();
-    }, [currentUserPage]);
+
+    // useEffect(() => {
+    //     const getColors = async () => {
+    //         setGradient(await fetchColors(currentUserPage));
+    //     }
+    //     getColors();
+    // }, [currentUserPage]);
 
     if (loading) {
         return <MainContainerSkeleton>Album Loading</MainContainerSkeleton>;
@@ -69,6 +70,7 @@ export default function UserProfilePage() {
             {!loading && (
                 <div className={styles['profile']}>
                     <div className={styles['profile__title']} style={gradient}>
+                    {/*<div className={styles['profile__title']} style={gradient}>*/}
                         <div className={styles['profile__addition']} onClick={() => modal.openModal('userPage')}>
                             <div className={styles['profile__userImage']}>
                                 {user?.user_avatar_url !== 'none' ? (

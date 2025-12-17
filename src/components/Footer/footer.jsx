@@ -4,22 +4,27 @@ import { SongController } from '../../shared/controllers/song.controller';
 import { AudioController } from '../../shared/controllers/audio.controller';
 import { useState, useRef, useEffect, act} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveSong, setNextSong, setSelectedSong, stopMusic, togglePlayback } from '../../lib/redux/music/musicState';
+import { musicPlayer } from '../../lib/redux/music/musicState';
 import {isMobileDevice} from "../../utils/global/getDeviceType";
+import {useMusicActions} from "../../hooks/global/useMusicActions";
+import {useDeviceDetect} from "../../hooks/global/useDeviceDetect";
+import {AudioPanelFooter} from "../Header/components/audioPanel.footer";
+import {NavPanelFooter} from "../Header/components/navPanel.footer";
 
 export function Footer ({ audioRef }) {
     const dispatch = useDispatch()
     const { isMusicPlaying } = useSelector((state) => state.music)
     const { activeSong, nextSong } = useSelector((state) => state.music.song)
     const song = useSelector((state) => state.music.song)
-    const device = useSelector((state) => state.device)
+    const deviceType = useDeviceDetect();
+    const musicPlayer = useMusicActions();
 
     const [currentSong, setCurrentSong] = useState(null)
 
     useEffect(() => {
         if (activeSong) {
             setCurrentSong(activeSong);
-            dispatch(setSelectedSong(activeSong));
+            dispatch(musicPlayer.selectSong(activeSong));
 
             let audio = audioRef.current;
 
@@ -43,9 +48,9 @@ export function Footer ({ audioRef }) {
 
         const handleAudioEnded = () => {
             if (activeSong && audioRef.current.ended) {
-                dispatch(setNextSong());
+                dispatch(musicPlayer.nextSong());
             } else {
-                dispatch(stopMusic());
+                dispatch(musicPlayer.stop());
             }
         };
 
@@ -82,26 +87,10 @@ export function Footer ({ audioRef }) {
 
 
     return (
-        <>
-            {/*{!isMobileDevice(device?.type) && (*/}
-            {/*    <div className={`${styles.footer}`}>*/}
-            {/*        <div className={styles.activeSong} onClick={() => dispatch(setSelectedSong(activeSong))}>*/}
-            {/*            <ActiveSong />*/}
-            {/*        </div>*/}
-            {/*        <div className={styles.songController}>*/}
-            {/*            <SongController audioRef={audioRef} styles={styles} config={*/}
-            {/*                {*/}
-            {/*                    type: "pc",*/}
-            {/*                    extraButtons: true,*/}
-            {/*                    floatingBar: true*/}
-            {/*                }*/}
-            {/*            }/>*/}
-            {/*        </div>*/}
-            {/*        <div className={styles.audioMixer}>*/}
-            {/*            <AudioController audioRef={audioRef}/>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*)}*/}
-        </>
+        <div className={`${styles.footer}`}>
+            {deviceType === "desktop"
+                ? <AudioPanelFooter audioRef={audioRef}/>
+                : <NavPanelFooter />}
+        </div>
     )
 }

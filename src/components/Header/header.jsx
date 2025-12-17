@@ -2,15 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import styles from './header.module.scss';
 import { setModalView, setView } from '../../lib/redux/pages/viewSlice';
-import { DropdownMenu } from './snippet/dropdownmenu-snippet';
+import { DropdownMenu } from './snippet/dropdownmenu.snippet';
 import { UserImage } from '../../hooks/UserImage';
-import { SearchBar } from './snippet/searchBar-snippet';
+import { SearchBar } from './snippet/searchBar.snippet';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { useModal } from '../../hooks/global/useModal';
-import { setSelectedPlaylist } from '../../lib/redux/music/musicState';
 
-import ModalOverlay from '../../shared/ModalOverlay';
+import {useMusicActions} from "../../hooks/global/useMusicActions";
 
 export function Header () {
     const dispatch = useDispatch();
@@ -19,17 +18,18 @@ export function Header () {
     const artist = useSelector((state) => state.data.artist);
     const { modalStateDropDownMenu, modalStateSearchMenu } = useSelector((state) => state.view.modal);
     const modal = useModal()
+    const musicPlayer = useMusicActions();
 
     return (
         <div className={styles['header']}>
-            {modalStateDropDownMenu && <div className={styles['blackScreen']} onClick={() => modal.closeModal('dropDownMenu')}></div>}
+            {modalStateDropDownMenu && <DropdownMenu />}
             {modalStateSearchMenu && <div className={styles['blackScreen']} onClick={() => modal.closeModal('searchMenu')}></div>}
             <div className={styles['navBar']}>
                 <div className={styles['navBar__logo']}>
                     <div className={styles['navBar__logo--icon']}></div>
                 </div>
                 <Link to="/" className='link-reset'>
-                    <div className={styles['navBar__home']} onClick={() => dispatch(setSelectedPlaylist(null))}>
+                    <div className={styles['navBar__home']} onClick={() => musicPlayer.closeSelectedPlaylist()}>
                         <div className={styles['navBar__home--icon']}></div>
                     </div>
                 </Link>

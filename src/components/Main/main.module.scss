@@ -1,5 +1,14 @@
+@import "../../style/global/variables";
+
 .main{
-    height: 100%;
+    height: calc(100dvh - ($header_height + $footer_height));
     width: 100%;
     display: flex;
+    position: relative;
+}
+
+@media(max-width: $mobile_width) {
+  .main{
+    margin-top: 64px;
+  }
 }

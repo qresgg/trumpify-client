@@ -1,8 +1,7 @@
 import styles from './aboutPlaylistPage.module.scss';
-import Song from '../../components/Main/shared/Song-snippet';
+import Song from '../../shared/fragments/song.fragment';
 
 import { Play, Pause } from 'lucide-react';
-import { setSelectedSong, setSelectedPlaylist } from '../../lib/redux/music/musicState'
 import { fetchLikedCollectionMy } from '../../services/user.service';
 import fetchColors from '../../utils/custom/colorPalette';
 import Skeleton from 'react-loading-skeleton';
@@ -12,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { usePlaybackControl } from '../../hooks/global/usePlaybackControl';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import {useMusicActions} from "../../hooks/global/useMusicActions";
 
 export default function LikedSongsPage() {
     const { id } = useParams();
@@ -22,10 +22,8 @@ export default function LikedSongsPage() {
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
     const { isPlaying, togglePlay, isSelected } = usePlaybackControl(selectedPlaylist, 'album');
     const [ likedSongs, setLikedSongs ] = useState([]);
+    const musicPlayer = useMusicActions();
 
-    const selectSong = (song) => {
-        dispatch(setSelectedSong(song));
-    };
 
     useEffect(() => {
         const fetchLiked = async () => {
@@ -34,7 +32,7 @@ export default function LikedSongsPage() {
             try{
                 const response = await fetchLikedCollectionMy();
                 setLikedSongs(response.songs);
-                dispatch(setSelectedPlaylist(response));
+                musicPlayer.selectPlaylist(response);
             } catch (error) {
                 console.error(error);
                 setLikedSongs([]);
@@ -85,7 +83,7 @@ export default function LikedSongsPage() {
                             <div className={styles['playlist__track-plate']}>
                                 {likedSongs.length > 0 ? (
                                     likedSongs.map((song, index) => (
-                                        <div key={index} onClick={() => selectSong(song)}>
+                                        <div key={index} onClick={() => musicPlayer.selectPlaylist(song)}>
                                             <Song song={song} index={index} cover={true}/>
                                         </div>
                                     ))

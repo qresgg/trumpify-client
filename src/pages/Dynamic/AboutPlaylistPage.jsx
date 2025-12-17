@@ -1,8 +1,7 @@
 import styles from "./aboutPlaylistPage.module.scss";
-import Song from "../../components/Main/shared/Song-snippet";
+import Song from "../../shared/fragments/song.fragment";
 
 import { Play, Pause, Album } from "lucide-react";
-import { setSelectedPlaylist } from "../../lib/redux/music/musicState";
 import OnLikeAlbum from "../../services/handlers/handleLikeAlbum";
 import { isOriginArtistPage } from "../../utils/helpful/getOriginPage";
 import { Link } from "react-router-dom";
@@ -21,16 +20,21 @@ import { usePlaylistDuration } from "../../hooks/album/usePlaylistDuration";
 import { usePlaybackControl } from "../../hooks/global/usePlaybackControl";
 import { useTimeStamp } from "../../hooks/album/useTimeStamp";
 import { addToLoadedOne } from "../../lib/redux/data/loadedSlice";
+import {useColorGrade} from "../../hooks/album/useColorGrade";
+import {useMusicActions} from "../../hooks/global/useMusicActions";
+import {useDeviceDetect} from "../../hooks/global/useDeviceDetect";
 
 export default function AboutPlaylistPage() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const albums = useSelector((state) => state.loaded.clearableData.albums);
+    const musicPlayer = useMusicActions();
 
     const dataRedux = useSelector((state) => state.data);
     const artist = useSelector((state) => state.data.artist);
     const selectedPlaylist = useSelector((state) => state.music.playlist.selectedPlaylist);
+    const selectedSong = useSelector((state) => state.music.song.selectedSong);
 
     const timerRef = useRef(null);
     const [originArtist, setOriginArtist] = useState(false);
@@ -39,14 +43,15 @@ export default function AboutPlaylistPage() {
     const { isPlaying, togglePlay } = usePlaybackControl(selectedPlaylist, "album");
     const { day, month, year, fullDate } = useTimeStamp(selectedPlaylist?.created_at);
     const totalDuration = usePlaylistDuration();
-    const gradient = useGradient();
+    const { colorGrade, getLightColor } = useColorGrade();
+    const deviceType = useDeviceDetect();
 
     const fetchAlbum = async () => {
       if (!id) return;
       setLoading(true);
       try {
         const res = await findContent("Album", id);
-        dispatch(setSelectedPlaylist(res));
+        musicPlayer.selectPlaylist(res);
         dispatch(addToLoadedOne({ type: "album", value: res}));
       } catch (err) {
         console.error("Album fetch failed", err);
@@ -56,9 +61,16 @@ export default function AboutPlaylistPage() {
     };
 
     useEffect(() => {
+        const bill = async () => {
+            const bg = await getLightColor()
+            console.log(bg)
+        }
+        bill()
+    }, [])
+
+    useEffect(() => {
       const album = albums?.find(album => album.data._id === id);
-      if (album) {
-        dispatch(setSelectedPlaylist(album.data));
+      if (album) {musicPlayer.selectPlaylist(album.data);
         setLoading(false);
       } else {
         fetchAlbum();
@@ -79,11 +91,12 @@ export default function AboutPlaylistPage() {
         return <MainContainerSkeleton />;
     }
 
+
     return (
         <div className={styles['foryou']}>
             {!loading ? (
-                <div className={styles['playlist']}>
-                    <div className={styles['playlist__title']} style={gradient}>
+                <div className={styles['playlist']} style={deviceType === "mobile" && selectedSong ? {overflow: "hidden"} : {overflow: "scroll"}}>
+                    <div className={styles['playlist__title']} style={colorGrade}>
                         <div className={styles['playlist__title-container']}>
                             <div className={styles['playlist__image']}
                                 style={{

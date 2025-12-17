@@ -1,12 +1,14 @@
+@import "../../../style/global/variables";
+
 .dropdownMenu{
     z-index: 100;
-    position: absolute;
+    position: fixed;
     color: white;
     background-color: #1F1F1F;
-    top: 65px;
+    top: 64px;
     right: 100px;
     width: 200px;
-    padding: 8px;
+    padding: 0 8px;
     box-sizing: border-box;
     border-radius: 5px;
 
@@ -27,4 +29,11 @@
             border-top: 1px solid #282828;
         }
     }
+}
+
+@media(max-width: $mobile_width) {
+  .dropdownMenu{
+    width: 100%;
+    left: 0;
+  }
 }

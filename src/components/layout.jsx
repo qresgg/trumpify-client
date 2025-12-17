@@ -56,7 +56,7 @@ export function Layout() {
       {isAuthed ? (
         <div className={styles['layout__container']}>
           <>
-              <audio ref={audioRef} />
+                <audio ref={audioRef} />
                 <Header />
                 <Main audioRef={audioRef} />
                 {isMobileDevice(device?.type) && ( <PlayingNowBar audioRef={audioRef} />)}

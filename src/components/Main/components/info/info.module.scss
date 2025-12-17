@@ -1,4 +1,4 @@
-@use '../../../../style/mixins/scrollbar.module.scss';
+@import '../../../../style/mixins/scrollbar.module';
 @import '../../../../style/global/_variables';
 
 // PC
@@ -68,13 +68,13 @@
     color: white;
     position: relative;
     z-index: 2;
-    max-height: 79vh;
+    //max-height: 79vh;
     padding: 0 16px 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 
-    @include scrollbar.scrollbar;
+    @include scrollbar();
 
     .song__imageWrapper {
       border-radius: 5px;
@@ -264,16 +264,20 @@
 // MOBILE
 @media(max-width: $mobile_width) {
   .song{
+    height: 100%;
     display: block;
     position: absolute;
     top: 0;
     z-index: 100;
     width: 100%;
+    overflow-y: scroll;
 
     &__content{
-      max-height: 92%;
+      min-height: 100%;
+      overflow-y: hidden;
 
       .song__title{
+
 
         .song__likeButton{
           width: 26px;

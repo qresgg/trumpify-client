@@ -72,13 +72,26 @@
         align-items: center;
         justify-content: end;
     }
+
+    .audioPanel{
+
+    }
+
+    .navPanel{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
 }
 
 // Mobile
 @media(max-width: $mobile_width) {
   .footer{
+    position: fixed;
     position: relative;
-    z-index: 99;
+    bottom: 0;
+    z-index: 1500;
+    height: $footer_height;
 
     .audioMixer{
       display: none;

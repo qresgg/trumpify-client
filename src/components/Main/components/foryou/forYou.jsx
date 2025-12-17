@@ -36,5 +36,6 @@ export default function ForYou() {
                 <Route path="artist/:id" element={<ArtistProfilePage />} />
             </Route>
         </Routes>
+        // TODO: зробити сторінку для соло пісні і інтегрувати її замість логіки INFO на телефоні
     );
 }

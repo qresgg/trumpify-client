@@ -2,10 +2,10 @@ import { ProgressBar } from '../snippets/progressBar.snippet'
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExtraButton} from "../snippets/extraButton.snippet";
-import { setActiveSong, setPrevSong, togglePlayback, setNextSong } from '../../lib/redux/music/musicState'
 import {FloatingProgressBar} from "../snippets/floatingProgressBar.snippet";
 import styles from "./styles/song.controller.module.scss"
 import {isMobileDevice} from "../../utils/global/getDeviceType";
+import {useMusicActions} from "../../hooks/global/useMusicActions";
 
 export function SongController({
     audioRef,
@@ -20,6 +20,7 @@ export function SongController({
     const { isMusicPlaying } = useSelector((state) => state.music)
     const dispatch = useDispatch()
     const device = useSelector((state) => state.data.device);
+    const musicPlayer = useMusicActions();
 
     const [loopPressed, setLoopPressed] = useState(false)
     const [shufflePressed, setShufflePressed] = useState(false)
@@ -44,11 +45,6 @@ export function SongController({
         }
     }
 
-    const handlePause = () => {
-        setPause(!pause)
-        dispatch(togglePlayback())
-    }
-
     const handleLoop = () => {
         setLoopPressed(prevState => {
             const newState = !prevState;
@@ -60,7 +56,7 @@ export function SongController({
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.code === "Space") {
-                handlePause();
+                musicPlayer.togglePlay();
             } else if (event.code === "KeyL") {
                 handleLoop();
             }
@@ -90,9 +86,9 @@ export function SongController({
                     hidden={!config.extraButtons}
                     className={`${styles.button__prevSong} ${getComputedStyle(config, "extra")}`}
                     title={"prev song"}
-                    onClick={() => (dispatch(setPrevSong()))}
+                    onClick={() => musicPlayer.prevSong()}
                 />
-                <div onClick={handlePause} className={getComputedStyle(config, "main")}>
+                <div onClick={() => musicPlayer.togglePlayback()} className={getComputedStyle(config, "main")}>
                     {isMusicPlaying
                         ? <div className={styles.button__pause} title='pause' ></div>
                         : <div className={styles.button__play} title='play' ></div>
@@ -102,7 +98,7 @@ export function SongController({
                     hidden={!config.extraButtons}
                     className={`${styles.button__nextSong} ${getComputedStyle(config, "extra")}`}
                     title={"next song"}
-                    onClick={() => (dispatch(setNextSong()))}
+                    onClick={() => musicPlayer.nextSong()}
                 />
                 <ExtraButton
                     hidden={!config.extraButtons}

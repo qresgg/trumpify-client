@@ -3,7 +3,6 @@ import footerStyle from '../../../Footer/footer.module.scss';
 import NextSong from '../../shared/NextSong-snippet';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedSong } from '../../../../lib/redux/music/musicState';
 import { X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import fetchColors from '../../../../utils/custom/colorPalette';
@@ -15,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import OnLikeSong from '../../../../services/handlers/handleLikeSong';
 import { findContent } from '../../../../services/search/searchService';
 import {SongController} from "../../../../shared/controllers/song.controller";
+import {useGradient} from "../../../../hooks/album/useGradient";
+import {useMusicActions} from "../../../../hooks/global/useMusicActions";
 
 export default function Info({ 
     width, 
@@ -23,11 +24,12 @@ export default function Info({
 }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const musicPlayer = useMusicActions();
 
     const { selectedSong } = useSelector((state) => state.music.song);
     const { selectedPlaylist } = useSelector((state) => state.music.playlist);
     const song = useSelector((state) => state.music.song);
-    const [ gradient, setGradient ] = useState(null)
+    const gradient = useGradient();
     const { liked, setLiked } = useLikeChecker({ song: selectedSong });
 
     const [albumName, setAlbumName] = useState(null);
@@ -51,13 +53,6 @@ export default function Info({
         }
         selectedSong && fetchArtist();
     }, [selectedSong])
-
-    useEffect(() => {
-        const getColors = async () => {
-            setGradient(await fetchColors(selectedSong));
-        }
-        getColors();
-    }, [selectedSong]);
     
     return (
         <>
@@ -69,10 +64,11 @@ export default function Info({
                         <div className={styles['song__header']}>
                             <div className={styles['song__albumName']}>{albumName}</div>
                             <div className={styles['song__closeInfo']}>
-                                <X onClick={() => dispatch(setSelectedSong(null))}/>
+                                <X onClick={() => musicPlayer.closeSelectedSong()}/>
                             </div>
                         </div>
-                        <div className={styles['song__background']} style={gradient}></div>
+                        <div className={styles['song__background']}></div>
+                        {/*<div className={styles['song__background']} style={gradient}></div>*/}
                         <div className={styles['song__content']}>
                             <div className={styles['song__imageWrapper']}>
                                 <img src={selectedSong.song_cover}/>

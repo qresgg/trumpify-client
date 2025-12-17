@@ -1,9 +1,8 @@
 import styles from './ArtistProfilePage.module.scss'
-import Song from '../../components/Main/shared/Song-snippet';
+import Song from '../../shared/fragments/song.fragment';
 import { Play, Pause } from 'lucide-react'
 import { addToLoadedOne } from '../../lib/redux/data/loadedSlice';
 
-import { setActivePlaylist, setSelectedPlaylist } from '../../lib/redux/music/musicState';
 import { Selection } from '../../shared/SelectionSlider';
 
 import getPopularSongsArtistPage from '../../services/artist/queries/getPopularSongs';
@@ -20,6 +19,7 @@ import { usePlaybackControl } from '../../hooks/global/usePlaybackControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import {useMusicActions} from "../../hooks/global/useMusicActions";
 
 export default function ArtistProfilePage() {
     const { id } = useParams();
@@ -28,6 +28,7 @@ export default function ArtistProfilePage() {
     const selectedPlaylist = useSelector((state) => state.music.playlist.selectedPlaylist);
     const [ loading, setLoading ] = useState(true);
     const { isPlaying, togglePlay } = usePlaybackControl(selectedPlaylist, "album");
+    const musicPlayer = useMusicActions();
 
     const { currentArtistPage } = useSelector((state) => state.view)
     const { artists } = useSelector((state) => state.loaded)
@@ -58,7 +59,7 @@ export default function ArtistProfilePage() {
                 ]);
 
                 setSongs(songsRes ?? null);
-                dispatch(setSelectedPlaylist({ _id: artistData._id, songs: songsRes ?? [] }));
+                musicPlayer.selectPlaylist({ _id: artistData._id, songs: songsRes ?? [] });
 
             } catch (error) {
                 console.error(error);

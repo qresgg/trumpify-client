@@ -37,13 +37,18 @@
         position: relative;
         overflow-x: hidden;
         @include scrollbar.scrollbar;
-        padding: 24px 24px;
+        padding: 0 24px;
         box-sizing: border-box;
     }
 }
 
+// MOBILE
 @media(max-width: $mobile_width){
   .homePage{
     height: 100%;
+
+    &__container{
+      padding: 0 12px;
+    }
   }
 }

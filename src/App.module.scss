@@ -1,6 +1,7 @@
+@import './style/global/variables';
 .app{
     background-color: black;
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     position: relative;

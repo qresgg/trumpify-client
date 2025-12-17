@@ -6,10 +6,7 @@
   min-width: 200px;
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
   background: linear-gradient(45deg, #080808, #121212, #161616);
-
-  @include scrollbar.scrollbar;
 }
 
 .playlist {
@@ -25,7 +22,6 @@
     width: 100%;
     margin: auto 0;
     padding: 16px;
-    padding-bottom: 50px;
     box-sizing: border-box;
   }
 
@@ -253,7 +249,7 @@
 @media(max-width: $mobile_width) {
   .playlist{
     &__title{
-      height: 550px;
+      height: fit-content;
     }
 
     &__title-container{
@@ -262,16 +258,31 @@
     }
 
     &__info{
+      position: relative;
+      z-index: -2;
       &-album-name{
         font-size: 3rem;
+        -webkit-line-clamp: none;
+        line-clamp: none;
       }
     }
 
     &__tracks{
-      top: -100px;
-      box-shadow: -3px 5px 41px 56px rgba(0,0,0,0.31);
-      -webkit-box-shadow: -3px 5px 41px 56px rgba(0,0,0,0.31);
-      -moz-box-shadow: -3px 5px 41px 56px rgba(0,0,0,0.31);
+      background: none;
+      position: relative;
+      top: 0;
+      box-shadow: -3px 5px 41px 56px linear-gradient(45deg, #080808, #121212, #161616);
+      -webkit-box-shadow: -3px 5px 41px 56px linear-gradient(45deg, #080808, #121212, #161616);
+      -moz-box-shadow: -3px 5px 41px 56px linear-gradient(45deg, #080808, #121212, #161616);
+    }
+    &__tracks::before {
+      content: "";
+      position: absolute;
+      inset: -40px 0 -40px -40px;
+      background: linear-gradient(45deg, #080808, #121212, #161616);
+      filter: blur(40px);
+      z-index: -1;
+      border-radius: inherit;
     }
   }
 }

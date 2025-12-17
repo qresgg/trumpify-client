@@ -7,10 +7,14 @@ export const useGradient = () => {
   const { selectedPlaylist } = useSelector((state) => state.music.playlist);
 
   useEffect(() => {
-    const getColors = async () => {
-      setGradient(await fetchColors(selectedPlaylist));
-    };
-    getColors();
+      const getColors = async () => {
+          const extractor = new fetchColors(selectedPlaylist);
+          const gradient = await extractor.getGradient();
+          setGradient({
+              background: gradient,
+          });
+      }
+      getColors();
   }, [selectedPlaylist]);
 
   return gradient;
