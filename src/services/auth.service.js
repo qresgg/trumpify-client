@@ -1,4 +1,4 @@
-import {basicRequestUnsecured} from "./shared/request.pattern.js";
+import {basicRequest, basicRequestUnsecured} from "./shared/request.pattern.js";
 
 const route = 'auth';
 
@@ -13,7 +13,7 @@ export const login = async (email, password) => {
         localStorage.setItem('accessToken', result.access_token);
         return result;
     } catch (error){
-        throw new Error(error?.response?.data?.message || 'Failed to login');
+        throw new Error(error);
     }
 }
 
@@ -26,7 +26,7 @@ export const register = async (username, email, password) => {
             data: { username, email, password }
         })
     } catch (error){
-        throw new Error(error?.response?.data?.message || 'Failed to fetch searched data');
+        throw new Error(error);
     }
 }
 
@@ -40,6 +40,6 @@ export const logout = async () => {
         });
         window.location.reload();
     } catch (error){
-        throw new Error(error?.response?.data?.message || 'Failed to fetch searched data');
+        throw new Error(error);
     }
 }

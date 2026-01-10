@@ -22,7 +22,7 @@ export function Header () {
 
     return (
         <div className={styles['header']}>
-            {modalStateDropDownMenu && <DropdownMenu />}
+            {modalStateDropDownMenu && <DropdownMenu onLogout={handleLogout} />}
             {modalStateSearchMenu && <div className={styles['blackScreen']} onClick={() => modal.closeModal('searchMenu')}></div>}
             <div className={styles['navBar']}>
                 <div className={styles['navBar__logo']}>

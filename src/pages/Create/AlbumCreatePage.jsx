@@ -2,7 +2,7 @@ import styles from './AlbumCreatePage.module.scss'
 import CreateSongAlbum from './CreateSongAlbum';
 import { X } from 'lucide-react'
 import CoverCropper from '../../utils/custom/coverCropper';
-import ModalOverlay from '../../shared/ModalOverlay';
+import ModalOverlay from '../../shared/wrappers/ModalOverlay';
 import createAlbum from '../../services/artist/actions/createAlbum';
 import InputField from './shared/inputField';
 import DatePicker from "react-datepicker";
@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { albumHandler } from './utils/albumHandler';
 
 
-import useRegions from '../../hooks/global/useRegions';
+import useRegions from '../../hooks/global/meta/useRegions';
 import { useModal } from '../../hooks/global/useModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMessage } from '../../hooks/global/useMessage'

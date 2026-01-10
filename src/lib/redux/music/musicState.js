@@ -27,10 +27,18 @@ const musicSlice = createSlice({
             state.song.activeSong = action.payload.song;
             state.currentIndex = action.payload.index;
             state.isMusicPlaying = true;
+
+            if(state.playlist.selectedPlaylist && !state.song.selectedSong){
+                state.song.activeSong = action.payload.song;
+                state.currentIndex = action.payload.index;
+                state.playlist.activePlaylist = state.playlist.selectedPlaylist;
+            }
         },
         selectSong: (state, action ) => {
             state.song.selectedSong = action.payload;
-            state.song.nextSong = state.playlist.activePlaylist?.songs[state.currentIndex + 1];
+            if(state.playlist.activePlaylist && state.playlist.activePlaylist.songs.length > 1){
+                state.song.nextSong = state.playlist.activePlaylist?.songs[state.currentIndex + 1];
+            }
         },
         selectPlaylist: (state, action ) => {
             state.playlist.selectedPlaylist = action.payload;

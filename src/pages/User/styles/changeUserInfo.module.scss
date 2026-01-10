@@ -1,0 +1,254 @@
+@import "../../../style/global/variables";
+.modalOverlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: black;
+    background: rgba(0, 0, 0, 0.5);
+    left: 0;
+    top: 0;
+    z-index: 98;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal{
+        position: relative;
+        z-index: 99;
+        background: #272727;
+        width: 600px;
+        height: fit-content;
+        color: white;
+        box-sizing: border-box;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        form{
+            .title{
+                padding: 24px;
+                font-size: 20px;
+                display: flex;
+                justify-content: space-between;
+                p{
+                    margin: 0;
+                }
+        
+                button{
+                    margin: 0;
+                    padding: 0;
+                    height: fit-content;
+                    background: none !important;
+                    border: none;
+                    opacity: 0.6;
+                    
+                    svg{
+                        cursor: pointer;
+                    }
+                }
+            }
+            .container{
+                height: 180px;
+                display: flex;
+                padding: 0 24px;
+                gap: 16px;
+
+                &__change{
+                    height: 180px;
+                    width: 180px;
+                    min-width: 180px;
+                    border-radius: 50%;
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                }
+                &__image{
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    border-radius: 50%;
+                    height: 100%;
+                    width: 100%;
+                }
+                &__upload {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%;
+                    width: 100%;
+                    position: relative;
+
+                    .blackScreen{
+                      position: absolute;
+                      border-radius: 50%;
+                      opacity: 0.5;
+                      background-color: black;
+                      width: 100%;
+                      height: 100%;
+                    }
+
+                    .chooseImg{
+                      position: absolute;
+                      width: 90%;
+                      text-align: center;
+                    }
+                }
+                p{
+                    margin: 0;
+                    cursor: pointer;
+
+                    &:hover{
+                      text-decoration: underline;
+                    }
+                }
+                .name{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    font-weight: bold;
+                    margin: auto 0 ;
+                    
+                    p{
+                        margin: 0;
+                    }
+                    p.rules{
+                        font-size: 12px;
+                        opacity: 0.6;
+                        text-align: center;
+                    }
+                    input{
+                        width: 100%;
+                        background-color: #3E3E3E;
+                        height: 40px;
+                        border: 0;
+                        border-radius: 5px;
+                        font-size: 15px;
+        
+                        &:focus{
+                            background-color: #2e2e2e;
+                            outline: 1px #3E3E3E solid;
+                        }
+                    }
+                    .button{
+                        display: flex;
+                        justify-content: end;
+                        transition: 0.3s all;
+
+                        button{
+                            background-color: #1ED760;
+                            color: black;
+                            font-weight: bold;
+                            border-radius: 25px;
+                            padding: 8px 32px;
+                            font-size: 16px;
+                            border: 0;
+                            transition: all 0.3s ease;
+                            cursor: pointer;
+
+                            &:hover{
+                                transform: scale(1.05);
+                            }
+                        }
+                    }
+                    .status{
+                        min-height: 24px;
+                    }
+                }
+            }
+            .attention{
+                padding: 24px;
+                font-size: 12px;
+                strong{
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+            }
+        }
+        .error{
+            color: red;
+            font-size: 12px;
+        }
+    }
+  .extraModal{
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #272727;
+    height: fit-content;
+    color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+}
+
+// MOBILE
+@media(max-width: $mobile_width){
+  .modalOverlay {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+
+    .modal {
+      display: flex;
+      flex-direction: column;
+      width: max-content;
+      margin-top: 64px;
+      height: calc(100% - $header_height - $footer_height);
+
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        .container {
+          height: fit-content;
+          flex-direction: column;
+          align-items: center;
+
+          &__change {
+          }
+
+          .name {
+            .button {
+              button {
+                width: 100%;
+
+                &:hover {
+                  transform: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .extraModal{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .cancelButton{
+        width: 100%;
+        background-color: #1ED760;
+        color: black;
+        font-weight: bold;
+        border-radius: 25px;
+        padding: 8px 32px;
+        font-size: 16px;
+        border: 0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -7,9 +7,9 @@ import {useEffect, useState} from "react";
 import fetchColors from "../../utils/custom/colorPalette";
 import {useGradient} from "../../hooks/album/useGradient";
 import {useMusicActions} from "../../hooks/global/useMusicActions";
-import AutoMarquee from "../../utils/wrappers/AutoMarquee";
+import AutoMarquee from "../wrappers/AutoMarquee";
 
-export function PlayingNowBar ({ audioRef }) {
+export function PlayingNowBar () {
     const music = useSelector((state) => state.music);
     const gradient = useGradient();
     const dispatch = useDispatch();
@@ -19,6 +19,8 @@ export function PlayingNowBar ({ audioRef }) {
     const songCover = music.song?.activeSong ? {
         backgroundImage: `url('${music.song?.activeSong.song_cover}')`
     } : [];
+
+    console.log(music.song.activeSong);
 
   return (
       <>
@@ -30,11 +32,11 @@ export function PlayingNowBar ({ audioRef }) {
                       <div className={styles.song__control}>
                           <div className={styles.song__title} onClick={() => musicPlayer.selectSong(activeSong)}>
                               <div className={styles.label}>
-                                  <AutoMarquee>
+                                  <AutoMarquee ctWidth={"400"}>
                                       {music.song?.activeSong?.title}
                                   </AutoMarquee>
                               </div>
-                              <div className={styles.author}>{music.song?.activeSong?.features.map((item) => item.name)}</div>
+                              <div className={styles.author}>{music.song?.activeSong?.features.map((item) => item?.name).join(', ')}</div>
                           </div>
                           <div className={styles.song__button} onClick={() => musicPlayer.togglePlayback()}>
                               {music.isMusicPlaying

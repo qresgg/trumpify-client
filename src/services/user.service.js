@@ -3,156 +3,44 @@ import { basicRequestImage } from "./shared/request.pattern";
 
 const route = 'user';
 
-const fetchLikedCollectionMy = async () => {
-    try {
-        const response = await basicRequest({
-            method: 'get',
+const userPreset = async ({
+      method,
+      endpoint,
+      id = null,
+      err = null,
+      type = null,
+    data = null
+  }) => {
+    try{
+        return await basicRequest({
+            method,
             route,
-            endpoint: 'getLikedCollection'
-        });
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch user data');
-    }
-}
-const fetchLikedCollectionById = async (id) => {
-    try {
-        const response = await basicRequest({
-            method: 'get', 
-            route, 
-            endpoint: 'getLikedCollection', 
-            id
-        });
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch user data');
-    }
-}
-const fetchUserDataMy = async () => {
-    try {
-        const response = await basicRequest({
-            method: 'get',
-            route,
-            endpoint: 'getUser'
-        });
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch user data');
-    }
-}
-const fetchUserDataById = async (id) => {
-    try {
-        const response = await basicRequest({
-            method: 'get',
-            route,
-            endpoint: 'getUser',
-            id
-        });
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch user data');
+            endpoint,
+            id,
+            data
+        })
+    } catch(error) {
+        throw new Error(error?.message?.data?.message || err);
     }
 }
 
-const handleLikeSong = async (id) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'likeSong',
-            id
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to like a song');
-    }
-}
-const handleUnLikeSong = async (id) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'unLikeSong',
-            id
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to like a song');
-    }
-}
-const handleLikeAlbum = async (id) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'likeAlbum',
-            id
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to like an album');
-    }
-}
-const handleUnLikeAlbum = async (id) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'unLikeAlbum',
-            id
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to unlike an album ');
-    }
-}
+// GET
+// export const fetchLikedCollectionMy = async () => userPreset("get", "getLibraryCollection");
+export const fetchUserDataMy = async () => userPreset({ method: "get", endpoint: "getUser" });
+export const fetchUserDataById = async (id) => userPreset({ method: 'get', endpoint: "getUser", id: id });
 
-const changePassword = async (data) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'changePassword',
-            data: {
-                password: data
-            }
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to change user data');
-    }
-}
-const changeEmail = async (data) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'changeEmail',
-            data: {
-                email: data
-            }
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to change user data');
-    }
-}
-const changeUserName = async (data) => {
-    try {
-        const response = await basicRequest({
-            method: 'put',
-            route,
-            endpoint: 'changeUserName',
-            data: {
-                userName: data
-            }
-        })
-        return response;
-    } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to change user data');
-    }
-}
-const changeAvatar = async (file) => {
+// PUT
+export const likeSong = async (id) => userPreset({ method: 'put', endpoint: "likeSong", id: id });
+export const unLikeSong = async (id) => userPreset({ method: 'put', endpoint: "unLikeSong", id: id });
+export const likeAlbum = async (id) => userPreset({ method: 'put', endpoint: "likeAlbum", id: id });
+export const unLikeAlbum = async (id) => userPreset({ method: 'put', endpoint: "unLikeAlbum", id: id });
+
+// ACTIONS
+export const changePassword = async (data) => userPreset({ method: 'put', endpoint: "changePassword", data });
+export const changeEmail = async (data) => userPreset({ method: 'put', endpoint: 'changeEmail', data });
+export const changeUserName = async (data) => userPreset({ method: 'put', endpoint: 'changeUserName', data });
+
+export const changeAvatar = async (file) => {
     try {
         const response = await basicRequestImage({
             method: 'put',
@@ -166,20 +54,3 @@ const changeAvatar = async (file) => {
         throw new Error(error?.response?.data?.message || 'Failed to change user data');
     }
 }
-
-export { 
-    fetchLikedCollectionById, 
-    fetchLikedCollectionMy,
-    fetchUserDataMy,
-    fetchUserDataById,
-
-    handleLikeSong,
-    handleUnLikeSong,
-    handleLikeAlbum,
-    handleUnLikeAlbum,
-
-    changePassword,
-    changeEmail,
-    changeUserName,
-    changeAvatar,
-};

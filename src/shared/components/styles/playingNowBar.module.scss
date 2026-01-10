@@ -1,11 +1,12 @@
+@import '../../../style/global/variables';
 .bar{
-  padding: 8px 8px 12px 8px;
+  padding: 8px;
   width: calc(100% - 16px);
   max-width: calc(100% - 16px);
   border-radius: 10px;
   margin: 0 8px;
   position: fixed;
-  bottom: 8px;
+  bottom: calc(8px + $footer_height);
   backdrop-filter: blur(25px) saturate(180%);
   -webkit-backdrop-filter: blur(25px) saturate(180%);
   box-shadow:
@@ -28,8 +29,9 @@
       &__title{
         display: flex;
         flex-direction: column;
-        gap: 4px;
         color: white;
+        font-size: 13px;
+        line-height: 17px;
 
         .label{
           font-weight: bold;
@@ -38,6 +40,7 @@
         }
         .author{
           opacity: 0.7;
+          font-size: inherit;
         }
       }
       &__control{

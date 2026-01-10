@@ -1,4 +1,4 @@
-import useRegions from "../../../hooks/global/useRegions";
+import useRegions from "../../../hooks/global/meta/useRegions";
 import InputField from "./inputField";
 import { customOptionCountry, customSingleValueCountry, customTheme } from './func/customRenderItem';
 import { customSelectStyles } from "./func/customStyles";

@@ -1,0 +1,46 @@
+.container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    &__left{
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+    &__cover{
+        &-image{
+            background: center/contain no-repeat;
+            width: 56px;
+            height: 56px;
+            border-radius: 5px;
+        }
+    }
+    &__info{
+        &-title{
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            font-size: 15px;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+        &-features{
+            color: white;
+            opacity: 0.7;
+            font-size: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+    }
+}

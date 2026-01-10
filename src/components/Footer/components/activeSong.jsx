@@ -1,7 +1,6 @@
 import styles from '../footer.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import OnLikeSong from '../../../services/handlers/handleLikeSong'
 import { redirectFromFeature } from '../../../utils/helpful/getRedirection'
 import { useLikeChecker } from '../../../hooks/song/useLikeChecker'
 
@@ -11,6 +10,7 @@ export function ActiveSong() {
     const timerRef = useRef(null);
     const data = useSelector((state) => state.data)
     const { liked, setLiked } = useLikeChecker({ song: activeSong});
+    const musicPlayer = useSelector((state) => state.data.music)
 
     const songCover = activeSong ? {
         backgroundImage: `url('${activeSong.song_cover}')`
@@ -37,8 +37,8 @@ export function ActiveSong() {
                             }
                         </div>
                     </div>
-                    <div className={styles.activeSong__likeState} onClick={() => OnLikeSong(activeSong, liked, setLiked, dispatch, data, timerRef)}>
-                        {liked
+                    <div className={styles.activeSong__likeState} onClick={() => musicPlayer.togglePlayback()}>
+                        {musicPlayer.isMusicPlaying
                             ? <div className={styles.liked}></div>
                             : <div className={styles.notLiked}></div>}
                     </div>

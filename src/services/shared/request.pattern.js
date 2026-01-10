@@ -2,13 +2,16 @@ import axios from "axios";
 import { getAccessToken } from "../../utils/helpful/getGlobalItems";
 import { SERVER_API_URL } from "../../lib/constants";
 
-export const basicRequest = async ({ method, route, endpoint, id = null, data = {} }) => {
+export const basicRequest = async ({ method, route, endpoint, id = null, data = {}, global = false }) => {
     const token = getAccessToken();
     if (!token) throw new Error('Access token is missing');
 
     const url = id
         ? `${SERVER_API_URL}/${route}/${endpoint}ById/${id}`
-        : `${SERVER_API_URL}/${route}/${endpoint}My`;
+        : ( global
+            ? `${SERVER_API_URL}/${route}/${endpoint}Global`
+            : `${SERVER_API_URL}/${route}/${endpoint}My`
+        );
     
     const config = {
         method,
@@ -52,7 +55,7 @@ export const basicRequestUnsecured = async ({ method, route, endpoint, id = null
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch');
+        throw new Error(error?.response?.data?.error || 'Failed to fetch');
     }
 }
 
@@ -60,28 +63,87 @@ export const basicRequestImage = async ({ method, route, endpoint, file, type })
     const token = getAccessToken();
     if (!token) throw new Error('Access token is missing');
 
-    // console.log({ method, route, endpoint, file, type })
+    console.log('perevirka', { method, route, endpoint, file, type })
 
     const formData = new FormData();
-    formData.append(type, file);
+    formData.append('avatar', file instanceof File ? file : file[0]);
+    for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+    }
 
     const url = `${SERVER_API_URL}/${route}/${endpoint}My`;
 
     const config = {
         method,
         url,
+        data: formData,
         headers: {
             Authorization: `Bearer ${token}`
         },
-        data: formData,
         withCredentials: true,
     };
 
     try {
+        console.log(config)
         const response = await axios.request(config);
     
         return response.data;
     } catch (error) {
-        throw new Error(error?.response?.data?.message || 'Failed to fetch user data');
+        throw new Error(error?.response?.data?.message || 'Failed to fetch');
+    }
+}
+
+// need to rework
+export const basicRequestRecord = async ({
+    type,
+    data,
+    songs = []
+}) => {
+    const token = getAccessToken();
+    try {
+        const formData = new FormData();
+        console.log('data nad songs', data, songs)
+
+        Object.entries(data).forEach(([key, value]) => {
+            if (key === 'cover' && value instanceof FileList) {
+                formData.append('cover', value[0]);
+            } else if (key === 'audio' && value instanceof File) {
+                formData.append('audio', value);
+            } else if (key === 'audio' && value instanceof FileList) {
+                formData.append('audio', value[0]);
+            } else {
+                formData.append(key, value);
+            }
+        });
+
+        console.log('FormData entries:');
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}:`, pair[1]);
+        }
+
+
+        songs.forEach((song, index) => {
+            const { audio, ...textData } = song;
+            formData.append(`songs[${index}]`, JSON.stringify(textData));
+
+            if (audio && audio instanceof File) {
+                formData.append(`songs[${index}][audio]`, audio);
+            }
+        });
+
+        const response = await axios.post(
+            `${SERVER_API_URL}/artist/${type}`,
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                withCredentials: true,
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        throw new Error(error?.response?.data?.message || 'Failed to fetch');
     }
 }

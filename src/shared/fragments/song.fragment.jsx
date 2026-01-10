@@ -1,5 +1,4 @@
 import styles from './styles/song.fragment.module.scss';
-import OnLikeSong from '../../services/handlers/handleLikeSong';
 
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +6,10 @@ import { Pause, Play} from 'lucide-react';
 import { usePlaybackControl } from '../../hooks/global/usePlaybackControl';
 import { useSingleSong } from '../../hooks/song/useSingleSong';
 import { useLikeChecker } from '../../hooks/song/useLikeChecker';
-import AutoMarquee from "../../utils/wrappers/AutoMarquee";
+import AutoMarquee from "../wrappers/AutoMarquee";
 import {useMusicActions} from "../../hooks/global/useMusicActions";
+import {useDeviceDetect} from "../../hooks/global/useDeviceDetect";
+import {useLikeSong} from "../../hooks/global/actions/useLikeSong";
 
 export default function Song({
     song,
@@ -21,12 +22,15 @@ export default function Song({
     const { activeSong } = useSelector((state) => state.music.song);
     const { isPlaying, togglePlay, isSelected } = usePlaybackControl(song, 'song', index);
     const { setActiveSingleSong, setSelectedSingleSong } = useSingleSong();
-    const { liked, setLiked } = useLikeChecker({ song: song });
+    // const { liked, setLiked } = useLikeChecker({ song: song });
     const musicPlayer = useMusicActions();
+    const deviceType = useDeviceDetect();
     
     const [isHover, setIsHover] = useState(false);
     const data = useSelector((state) => state.data)
     const timerRef = useRef(null);
+
+    const { isLiked, isLoading, toggleLike } = useLikeSong(song._id, song.is_liked);
     
     const selectedTemplate = isSelected ? {
         backgroundColor: '#2A2A2A',
@@ -39,8 +43,8 @@ export default function Song({
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
             style={selectedTemplate}
-            onClick={() => musicPlayer.selectSong(song)}>
-            <div className={styles['song__state-button']} onClick={togglePlay}>
+            onClick={deviceType === "mobile" ? togglePlay : () => musicPlayer.selectSong(song)}>
+            <div className={styles['song__state-button']}>
                 {isHover || (setSelectedSingleSong?._id === song?._id) 
                     ? (isPlaying ? <Pause size={16}/> : <Play size={16}/>) 
                     : (isPlaying ? <Pause size={16}/> : <div>{index + 1}</div>) }
@@ -67,9 +71,8 @@ export default function Song({
             </div>
             <div className={styles['song__right-panel']}>
                 <div 
-                    className={styles['song__state-like']} 
-                    onClick={() => OnLikeSong(song, liked, setLiked, dispatch, data, timerRef)}>
-                    {liked
+                    className={styles['song__state-like']} onClick={toggleLike}>
+                    {isLiked
                         ? <div className={styles['song__state-like--liked']}></div> 
                         : <div className={styles['song__state-like--notliked']}></div>}
                 </div>

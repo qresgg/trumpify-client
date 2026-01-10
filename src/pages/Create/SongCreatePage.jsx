@@ -11,14 +11,14 @@ import CoverCropper from '../../utils/custom/coverCropper';
 import { useModal } from '../../hooks/global/useModal';
 
 import createSong from '../../services/artist/actions/createSong';
-import ModalOverlay from '../../shared/ModalOverlay';
+import ModalOverlay from '../../shared/wrappers/ModalOverlay';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Select from 'react-select'
 import InputField from './shared/inputField';
 import { customTheme, customOptionGenre, customSingleValueGenre } from './shared/func/customRenderItem';
-import useGenres from '../../hooks/global/useGenres';
+import useGenres from '../../hooks/global/meta/useGenres';
 import { customSelectStyles } from './shared/func/customStyles';
 
 import FileDropPreview from './shared/fileDropzone';

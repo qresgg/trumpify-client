@@ -15,10 +15,15 @@ const initialState = {
     modalStateDropDownMenu: false,
     modalStateSearchMenu: false
   },
+  //   заготовка для глобальних меседжів (не юзається)
   globalMessage: {
     error: [],
     success: []
-  }
+  },
+    mobileStates: {
+        library: false,
+        songInfo: false
+    }
 };
 
 const viewSlice = createSlice({
@@ -47,7 +52,23 @@ const viewSlice = createSlice({
     clearGlobalMessage: (state) => {
       state.globalMessage.error = [];
       state.globalMessage.success = [];
-    }
+    },
+
+    // MOBILE STATES
+      toggleLibraryState(state, action) {
+        if(typeof action.payload === "boolean") {
+            state.mobileStates.library = action.payload;
+        } else {
+            state.mobileStates.library = !state.mobileStates.library
+        }
+      },
+      toggleSongInfoState(state, action) {
+        if (typeof action.payload === "boolean") {
+            state.mobileStates.songInfo = action.payload;
+        } else {
+            state.mobileStates.songInfo = !state.mobileStates.songInfo;
+        }
+      }
   },
 });
 
@@ -56,6 +77,9 @@ export const {
   setModalView,
   setAuthView,
   setGlobalMessage,
-  clearGlobalMessage
+  clearGlobalMessage,
+
+    toggleLibraryState,
+    toggleSongInfoState,
 } = viewSlice.actions;
 export default viewSlice.reducer;

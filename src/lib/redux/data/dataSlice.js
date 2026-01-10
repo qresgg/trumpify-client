@@ -12,7 +12,6 @@ import { createSlice } from "@reduxjs/toolkit";
       user_name: null,
       user_email: null,
       user_likedSongsCount: null,
-      user_likedSongsList: null,
       user_library: null
     },
     artist: {

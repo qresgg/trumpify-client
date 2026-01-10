@@ -32,37 +32,38 @@ export const usePlaybackControl = (entity, type, index = null, isSingle) => {
     }
   }, [selectedPlaylist, selectedSong]);
 
-  const togglePlay = () => {
-    if (!entity) return;
+    const togglePlay = () => {
+        if (!entity) return;
 
-    if (isPlaylist) {
-      if (!entity?.songs?.length) return;
+        if (isPlaylist) {
+            if (!entity.songs?.length) return;
 
-      if (activePlaylist?._id === entity?._id) {
-          musicPlayer.togglePlayback();
-      } else {
-            musicPlayer.setActiveSong(entity);
-            musicPlayer.selectPlaylist(entity);
-            musicPlayer.setActiveSong({ song: entity.songs[0], index: 0 });
-      }
-    } else {
-      if (activeSong?._id === entity?._id) {
-            musicPlayer.togglePlayback();
-      } else {
-            const i = index ?? 0;
-            musicPlayer.setActiveSong({ song: entity.songs[0], index: i });
-        
-        if (isSingle) {
-            musicPlayer.closeActivePlaylist();
-            musicPlayer.closeActiveSong();
+            if (activePlaylist?._id === entity._id) {
+                musicPlayer.togglePlayback();
+            } else {
+                musicPlayer.selectPlaylist(entity);
+                musicPlayer.setActiveSong({
+                    song: entity.songs[0],
+                    index: 0,
+                });
+            }
+        } else {
+            if (activeSong?._id === entity._id) {
+                musicPlayer.togglePlayback();
+            } else {
+                const i = index ?? 0;
+
+                if(activePlaylist){
+                    musicPlayer.setActivePlaylist(null)
+                }
+                musicPlayer.setActiveSong({
+                    song: entity,
+                    index: i,
+                });
+            }
         }
+    };
 
-        if (activePlaylist !== selectedPlaylist) {
-            musicPlayer.setActivePlaylist(selectedPlaylist);
-        }
-      }
-    }
-  };
 
-  return { isPlaying, togglePlay, isSelected };
+    return { isPlaying, togglePlay, isSelected };
 };

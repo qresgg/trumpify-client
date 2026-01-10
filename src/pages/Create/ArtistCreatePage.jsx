@@ -9,7 +9,7 @@ import { customOptionCountry, customSingleValueCountry, customTheme } from './sh
 import InputField from './shared/inputField';
 import SelectField from './shared/selectField';
 
-import useRegions from '../../hooks/global/useRegions';
+import useRegions from '../../hooks/global/meta/useRegions';
 import { artistHandler } from './utils/artistHandler';
 
 export default function ArtistPageCreate () {

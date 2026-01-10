@@ -1,0 +1,38 @@
+@import "../../../style/global/variables";
+.cropper{
+  width: 100%;
+  margin: 0 auto;
+  font-family: sans-serif;
+
+  &__container{
+
+  }
+
+  .main{
+
+    &__container{
+      position: relative;
+      width: 100%;
+      height: 360px;
+      background: '#333';
+      margin-bottom: 10%;
+    }
+
+    input{
+      width: 100%;
+      margin-bottom: 10%;
+    }
+
+    button{
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+  }
+}
+
+// MOBILE
+@media(max-width: $mobile_width){
+  .cropper{
+    height: 50%;
+  }
+}

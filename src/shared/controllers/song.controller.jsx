@@ -21,6 +21,7 @@ export function SongController({
     const dispatch = useDispatch()
     const device = useSelector((state) => state.data.device);
     const musicPlayer = useMusicActions();
+    const { activeSong, selectedSong } = useSelector((state) => state.music.song);
 
     const [loopPressed, setLoopPressed] = useState(false)
     const [shufflePressed, setShufflePressed] = useState(false)
@@ -89,7 +90,7 @@ export function SongController({
                     onClick={() => musicPlayer.prevSong()}
                 />
                 <div onClick={() => musicPlayer.togglePlayback()} className={getComputedStyle(config, "main")}>
-                    {isMusicPlaying
+                    {isMusicPlaying && selectedSong == activeSong
                         ? <div className={styles.button__pause} title='pause' ></div>
                         : <div className={styles.button__play} title='play' ></div>
                     }

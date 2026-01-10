@@ -8,8 +8,8 @@ import { musicPlayer } from '../../lib/redux/music/musicState';
 import {isMobileDevice} from "../../utils/global/getDeviceType";
 import {useMusicActions} from "../../hooks/global/useMusicActions";
 import {useDeviceDetect} from "../../hooks/global/useDeviceDetect";
-import {AudioPanelFooter} from "../Header/components/audioPanel.footer";
-import {NavPanelFooter} from "../Header/components/navPanel.footer";
+import {AudioPanelFooter} from "./components/audioPanel.footer";
+import {NavPanelFooter} from "./components/navPanel.footer";
 
 export function Footer ({ audioRef }) {
     const dispatch = useDispatch()
@@ -24,7 +24,6 @@ export function Footer ({ audioRef }) {
     useEffect(() => {
         if (activeSong) {
             setCurrentSong(activeSong);
-            dispatch(musicPlayer.selectSong(activeSong));
 
             let audio = audioRef.current;
 
@@ -45,25 +44,17 @@ export function Footer ({ audioRef }) {
 
     useEffect(() => {
         const audio = audioRef.current;
+        if (!audio) return;
 
-        const handleAudioEnded = () => {
-            if (activeSong && audioRef.current.ended) {
-                dispatch(musicPlayer.nextSong());
-            } else {
-                dispatch(musicPlayer.stop());
-            }
-        };
+        const handleEnded = () =>
+            activeSong
+                ? dispatch(musicPlayer.nextSong())
+                : dispatch(musicPlayer.stop());
 
-        if (audio) {
-            audio.addEventListener('ended', handleAudioEnded);
-        }
+        audio.addEventListener("ended", handleEnded);
 
-        return () => {
-            if (audio) {
-                audio.removeEventListener('ended', handleAudioEnded);
-            }
-        };
-    }, [audioRef, activeSong, nextSong, dispatch]);
+        return () => audio.removeEventListener("ended", handleEnded);
+    }, [activeSong, dispatch]);
 
     useEffect(() => {
         if (audioRef.current) {

@@ -8,7 +8,6 @@ import { checkAuth } from "../services/auth/authService";
 import { setAuthenticated } from "../lib/redux/data/dataSlice";
 import _ from 'lodash';
 import { useNavigate } from "react-router-dom";
-import { useClearCachedData } from '../hooks/global/useClearCachedData'
 
 import { fetchUserDataMy } from "../services/user.service";
 import { PlayingNowBar } from "../shared/components/playingNowBar";
@@ -18,15 +17,15 @@ import {Auth} from "./Auth/auth";
 import { Header } from "./Header/header";
 import { Main } from "./Main/main";
 import {Footer} from "./Footer/footer";
+import {useDeviceDetect} from "../hooks/global/useDeviceDetect";
 
 export function Layout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useClearCachedData();
   const audioRef = useRef(null);
   const { isAuthenticated, message } = useAuth();
   const [isAuthed, setAuthed] = useState(false);
-  const device = useSelector(state => state.data.device.type);
+  const deviceType = useDeviceDetect();
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -59,7 +58,7 @@ export function Layout() {
                 <audio ref={audioRef} />
                 <Header />
                 <Main audioRef={audioRef} />
-                {isMobileDevice(device?.type) && ( <PlayingNowBar audioRef={audioRef} />)}
+                {deviceType === "mobile" && ( <PlayingNowBar audioRef={audioRef} />)}
                 <Footer audioRef={audioRef} />
           </>
         </div>

@@ -9,7 +9,7 @@ import { useModal } from '../../hooks/global/useModal';
 import { useMessage } from '../../hooks/global/useMessage';
 import { useArtistsRoleActions } from '../../hooks/album/useArtistsRoleActions';
 
-import useGenres from '../../hooks/global/useGenres';
+import useGenres from '../../hooks/global/meta/useGenres';
 import { customTheme, customOptionGenre, customSingleValueGenre } from './shared/func/customRenderItem';
 
 import InputField from './shared/inputField';

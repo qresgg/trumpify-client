@@ -16,9 +16,18 @@ export function ProgressBar({
     } = useProgressBar({ audioRef, mode: 'progressBar' })
     const [durationSave, setDurationSave] = useState(0);
     const music = useSelector(state => state.music);
+    const { selectedSong, activeSong } = useSelector(state => state.music.song);
+    const [sameSong, setSameSong] = useState(null);
 
     useEffect(() => {
-        setDurationSave(music.song?.activeSong?.duration);
+        setSameSong(music.song.selectedSong === music.song.activeSong);
+    }, [])
+
+
+    useEffect(() => {
+        if(selectedSong === activeSong){
+            setDurationSave(music.song?.activeSong?.duration);
+        }
     }, [duration, music.song.selectedSong, music.song.activeSong])
 
     return (
@@ -31,7 +40,7 @@ export function ProgressBar({
                 <div className={styles.progressContainer__slider} style={{ left: `calc(${progress}% - 5px)`, display: isDragging && "block" }}></div>
             </div>
             <div className={styles.durationTime}>
-                {durationSave ? durationSave : '00:00'}
+                {sameSong ? durationSave : '00:00'}
             </div>
         </div>
     );

@@ -37,7 +37,7 @@ export function useAuth() {
       setMessage({ success: response?.message || "Login successful!" });
       navigate('/')
     } catch (error) {
-      setMessage({ error: "Error during login" });
+      setMessage({ error: error.message });
       console.error(error.response?.data || error);
     }
   };

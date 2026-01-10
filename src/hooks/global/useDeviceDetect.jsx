@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setDeviceType} from "../../lib/redux/data/dataSlice";
 
-export function useDeviceDetect({ breakpoint = 480, debounceMs = 1000 } = {}) {
+export function useDeviceDetect({ breakpoint = 480, debounceMs = 50 } = {}) {
     const dispatch = useDispatch();
     const [deviceType, setDeviceTypeLocal] = useState(() => {
         if (typeof window === 'undefined') return 'desktop';

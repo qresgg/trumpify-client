@@ -1,9 +1,9 @@
 import styles from './main.module.scss';
 import {useState, useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import Library from './components/library/library';
-import Info from './components/info/info';
-import ForYou from './components/foryou/forYou';
+import Library from './components/library';
+import Info from './components/info';
+import ForYou from './components/forYou';
 import { useResizable } from '../../hooks/useResizable';
 import {useAuth} from "../../hooks/useAuth";
 import {DropdownMenu} from "../Header/snippet/dropdownmenu.snippet";
@@ -14,6 +14,11 @@ export function Main({ audioRef }) {
     const library = useResizable(370);
     const info = useResizable(370);
     const isResizing = useSelector((state) => state.isResizing);
+
+    const states = useSelector((state) => state);
+    useEffect(() => {
+        console.log(states);
+    }, [states])
 
     return (
         <div className={styles.main} style={{ userSelect: isResizing ? 'none' : 'auto' }}>

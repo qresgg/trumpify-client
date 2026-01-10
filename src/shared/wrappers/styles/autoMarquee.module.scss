@@ -1,0 +1,31 @@
+.features{
+  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+
+  &__marquee{
+    display: inline-block;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: transform 0.3s;
+  }
+}
+.active {
+  animation: scroll-text 10s linear infinite;
+  text-overflow: clip;
+}
+.right{
+  animation: scroll-text 10s linear infinite;
+  text-overflow: clip;
+}
+@keyframes scroll-text{
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(calc(-100%));
+  }
+}
