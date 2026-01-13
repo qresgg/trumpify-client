@@ -1,6 +1,6 @@
 import style from './App.module.scss';
-import { Layout } from './components/layout';
-import {useDeviceDetect} from "./hooks/global/useDeviceDetect";
+import { Layout } from '../components/layout';
+import {useDeviceDetect} from "../hooks/global/useDeviceDetect";
 
 export default function App() {
     const deviceType = useDeviceDetect({ breakpoint: 480, debounceMs: 50 });

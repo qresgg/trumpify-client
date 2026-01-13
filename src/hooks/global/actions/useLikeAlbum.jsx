@@ -1,27 +1,31 @@
-import {useCallback, useState, useRef} from "react";
+import {useCallback, useState, useRef, useEffect} from "react";
 import {likeAlbum, unLikeAlbum} from "../../../services/user.service";
 import {useDispatch, useSelector} from "react-redux";
 
 const COOLDOWN_MS = 800;
 const REQUEST_TIMEOUT_MS = 5000;
 
-export function useLikeAlbum() {
+export function useLikeAlbum(albumId, initLike) {
     const dispatch = useDispatch();
-    const [albumId, setAlbumId] = useState(null);
-    const [isLiked, setIsLiked] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const lastActionTimeRef = useRef(0);
     const inFlightRef = useRef(false);
 
+    useEffect(() => {
+        if (typeof initLike === 'boolean') {
+            setIsLiked(initLike);
+        }
+    }, [albumId]);
+
     const toggleLike = useCallback(async () => {
+        if (!albumId) return;
+
         const now = Date.now();
-        if (now - lastActionTimeRef.current < COOLDOWN_MS) {
-            return;
-        }
-        if (inFlightRef.current) {
-            return;
-        }
+        if (inFlightRef.current) return;
+        if (now - lastActionTimeRef.current < COOLDOWN_MS) return;
+
         lastActionTimeRef.current = now;
         inFlightRef.current = now;
         setIsLoading(true);
@@ -50,11 +54,6 @@ export function useLikeAlbum() {
             setIsLoading(false);
         }
     }, [albumId, isLiked, setIsLoading]);
-
-    const updateAlbum = (newAlbum) => {
-        setAlbumId(newAlbum.id);
-        setAlbumId(newAlbum.is_liked);
-    }
 
     return {
         isLiked,

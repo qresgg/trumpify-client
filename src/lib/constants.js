@@ -1,1 +1,1 @@
-export const SERVER_API_URL = process.env.NODE_ENV === 'production' ? 'https://trumpify-api.onrender.com' : 'http://10.0.0.236:8080';
+export const SERVER_API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;

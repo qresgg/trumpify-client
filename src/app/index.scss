@@ -1,5 +1,5 @@
-@use './style/global/collection.module' as *;
-@import './style/mixins/scrollbar.module.scss';
+@use '../style/global/collection.module' as *;
+@import '../style/mixins/scrollbar.module';
 
 body {
   margin: 0;

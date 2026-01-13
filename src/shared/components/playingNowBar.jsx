@@ -11,8 +11,6 @@ import AutoMarquee from "../wrappers/AutoMarquee";
 
 export function PlayingNowBar () {
     const music = useSelector((state) => state.music);
-    const gradient = useGradient();
-    const dispatch = useDispatch();
     const activeSong = useSelector((state) => state.music.song.activeSong);
     const musicPlayer = useMusicActions();
 
@@ -20,7 +18,9 @@ export function PlayingNowBar () {
         backgroundImage: `url('${music.song?.activeSong.song_cover}')`
     } : [];
 
-    console.log(music.song.activeSong);
+    useEffect(() => {
+        console.log('ACTIVE SONG', music.song.activeSong);
+    }, []);
 
   return (
       <>
