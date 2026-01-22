@@ -10,7 +10,7 @@
 }
 
 .playlist {
-  height: 100%;
+  height: calc(100% + $playing_music_mob_height);
 
   &__container {
     display: flex;

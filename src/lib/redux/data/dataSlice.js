@@ -22,7 +22,8 @@ import { createSlice } from "@reduxjs/toolkit";
       artist_avatar: null,
       artist_banner: null,
       artist_bio: null
-    }
+    },
+      lib: []
   };
 
 const dataSlice = createSlice({
@@ -30,10 +31,14 @@ const dataSlice = createSlice({
   initialState,
   reducers: {
     setData: (state, action) => {
-      const { user, artist } = action.payload;
+      const { user, artist, lib } = action.payload;
       state.user = user;
       state.artist = artist;
+      state.lib = lib;
     },
+      setLib: (state, action) => {
+          state.lib = action.payload;
+      },
     setUserName: (state, action) => {
       const { username } = action.payload;
       state.user_name = username;
@@ -47,7 +52,7 @@ const dataSlice = createSlice({
     },
       setDeviceType: (state, action) => {
         state.device.type = action.payload;
-      }
+      },
   },
 });
 
@@ -56,5 +61,6 @@ export const { setData,
     setAvatarUrl,
     setAuthenticated,
     setDeviceType,
+    setLib
 } = dataSlice.actions;
 export default dataSlice.reducer;

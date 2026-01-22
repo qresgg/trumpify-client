@@ -8,7 +8,7 @@ import {toggleLibraryState} from "../../../lib/redux/pages/viewSlice";
 
 export default function Library() {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.data.user);
+    const data = useSelector((state) => state.data);
     const libraryState = useSelector((state) => state.view.mobileStates.library);
 
     return (
@@ -26,16 +26,16 @@ export default function Library() {
                     <div className={styles['library__tags']}></div>
                 </div>
                 <div className={styles['library__playlists']} onClick={() => dispatch(toggleLibraryState(false))}>
-                    <Link to={`/page/collection/liked/${user.user_library}`} className="link-reset">
+                    <Link to={`/page/collection/liked/${data.user.user_library}`} className="link-reset">
                         <LikedSongsPlaylist />
                     </Link>
-                    {/*{user?.user_library?.map((playlist, index) => (*/}
-                    {/*    <div key={index}>*/}
-                    {/*        <Link to={`/page/album/${playlist._id}`} className="link-reset">*/}
-                    {/*            <Playlist playlist={playlist} />*/}
-                    {/*        </Link>*/}
-                    {/*    </div>*/}
-                    {/*))}*/}
+                    {data.lib.map((playlist, index) => (
+                        <div key={index}>
+                            <Link to={`/page/album/${playlist._id}`} className="link-reset">
+                                <Playlist playlist={playlist} />
+                            </Link>
+                        </div>
+                    ))}
                 </div>
             </div>
             {/* <div className={styles['resizer']} onMouseDown={onResize}></div> */}

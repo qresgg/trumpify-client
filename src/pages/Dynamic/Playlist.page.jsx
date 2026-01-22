@@ -21,7 +21,9 @@ export default function PlaylistPage({ type }) {
     const deviceType = useDeviceDetect();
     const timerRef = useRef(null);
     const state = useSelector((state) => state);
-    const { loading, playlist } = usePlaylistLoader(id, type);
+
+    const { loading, playlist, likeInit } = usePlaylistLoader(id, type);
+
     const dataRedux = useSelector((state) => state.data);
     const artist = useSelector((state) => state.data.artist);
     const selectedPlaylist = useSelector((state) => state.music.playlist.selectedPlaylist);
@@ -37,7 +39,7 @@ export default function PlaylistPage({ type }) {
 
     const { isLiked, isLoading, toggleLike } = useLikeAlbum(
         id,
-        selectedPlaylist?.is_liked || false
+        selectedPlaylist?.is_liked
     );
     // TODO: ТРЕБА ЗРОБИТИ ЛОГІКУ ДЛЯ ЛАЙНУТИХ АЛЬБОМІВ
 
@@ -103,11 +105,13 @@ export default function PlaylistPage({ type }) {
                             <button className={styles['playlist__button--play']} onClick={togglePlay}>
                                 {isPlaying ? <Pause size={24} /> : <Play size={24} />}
                             </button>
-                            <div className={styles['playlist__button--like']} onClick={toggleLike}>
-                                {isLiked
-                                    ? <div className={styles['playlist__button--like-icon--active']}></div>
-                                    : <div className={styles['playlist__button--like-icon--inactive']}></div>}
-                            </div>
+                            {type === "default" && (
+                                <div className={styles['playlist__button--like']} onClick={toggleLike}>
+                                    {isLiked
+                                        ? <div className={styles['playlist__button--like-icon--active']}></div>
+                                        : <div className={styles['playlist__button--like-icon--inactive']}></div>}
+                                </div>
+                            )}
                         </div>
                         <div className={styles['playlist__songList']}>
                             <div className={styles['playlist__header']}>
